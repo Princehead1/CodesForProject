@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover Reveal Effect with Lens</title>
+    <style>
+        body {
+            margin: 0;
+            height: 200vh;
+            background-color: #d8c8b8;
+        }
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 200vh;
+            overflow: hidden;
+        }
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200vh;
+            background: url('https://previews.123rf.com/images/flas100/flas1001303/flas100130300067/18560836-%EB%B2%A0%EC%9D%B4%EC%A7%80-%EC%83%89-%EC%A2%85%EC%9D%B4-%EC%A7%88%EA%B0%90-%EB%B0%9D%EC%9D%80-%EB%B0%B0%EA%B2%BD.jpg') center/cover no-repeat;
+            background-size: cover;
+        }
+        .reveal-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200vh;
+            background: url('https://collectionapi.metmuseum.org/api/collection/v1/iiif/397842/775275/main-image') center/cover no-repeat;
+            background-size: cover;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .lens {
+            position: absolute;
+            width: 120px; 
+            height: 120px; 
+            border-radius: 50%;
+            background: transparent;
+            pointer-events: none;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="background-image"></div>
+        <div class="reveal-image" id="revealImage"></div>
+        <div class="lens" id="lens"></div>
+    </div>
+    <script>
+        const lens = document.getElementById('lens');
+        const revealImage = document.getElementById('revealImage');
+        let timeout;
+
+        document.addEventListener('mousemove', (e) => {
+            lens.style.left = `${e.clientX - lens.offsetWidth / 2}px`; // 렌즈 위치 설정
+            lens.style.top = `${e.clientY - lens.offsetHeight / 2}px`; // 렌즈 위치 설정
+
+            // 렌즈 아래의 이미지 드러나게 하기
+            revealImage.style.opacity = 1; // 이미지가 나타나도록 설정
+            revealImage.style.transition = 'opacity 0.5s ease-in-out'; // 부드럽게 나타나게 설정
+
+            // 마스크 효과 적용: 렌즈 영역에만 이미지가 드러나도록
+            revealImage.style.maskImage = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 60%)`; // 페더값 줄이기
+            revealImage.style.webkitMaskImage = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 60%)`;
+
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                revealImage.style.opacity = 0; // 마우스를 떼면 이미지가 천천히 사라짐
+            }, 1000); // 1초 후에 사라짐
+        });
+    </script>
+</body>
+</html>
