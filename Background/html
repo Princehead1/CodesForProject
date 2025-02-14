@@ -36,15 +36,27 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease-in-out;
+            mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%);
+            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%);
         }
         .lens {
             position: absolute;
-            width: 120px; 
-            height: 120px; 
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
             background: transparent;
             pointer-events: none;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            mix-blend-mode: screen;
+        }
+        .lens::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,0,0,0.3) 15%, rgba(0,255,0,0.25) 17%, rgba(0,0,255,0.2) 19%, rgba(0,0,0,0) 25%);
+            filter: blur(1px);
         }
     </style>
 </head>
@@ -58,23 +70,31 @@
         const lens = document.getElementById('lens');
         const revealImage = document.getElementById('revealImage');
         let timeout;
-
+        let delayTimeout;
+        let isMouseOver = false;
+        
         document.addEventListener('mousemove', (e) => {
-            lens.style.left = `${e.clientX - lens.offsetWidth / 2}px`; // 렌즈 위치 설정
-            lens.style.top = `${e.clientY - lens.offsetHeight / 2}px`; // 렌즈 위치 설정
-
-            // 렌즈 아래의 이미지 드러나게 하기
-            revealImage.style.opacity = 1; // 이미지가 나타나도록 설정
-            revealImage.style.transition = 'opacity 0.5s ease-in-out'; // 부드럽게 나타나게 설정
-
-            // 마스크 효과 적용: 렌즈 영역에만 이미지가 드러나도록
-            revealImage.style.maskImage = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 60%)`; // 페더값 줄이기
-            revealImage.style.webkitMaskImage = `radial-gradient(circle at ${e.clientX}px ${e.clientY}px, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 60%)`;
-
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                revealImage.style.opacity = 0; // 마우스를 떼면 이미지가 천천히 사라짐
-            }, 1000); // 1초 후에 사라짐
+            isMouseOver = true;
+            const scrollY = window.scrollY;
+            lens.style.left = `${e.clientX - lens.offsetWidth / 2}px`;
+            lens.style.top = `${e.clientY + scrollY - lens.offsetHeight / 2}px`;
+            
+            clearTimeout(delayTimeout);
+            delayTimeout = setTimeout(() => {
+                revealImage.style.opacity = 1;
+                revealImage.style.transition = 'opacity 0.2s ease-in-out';
+                revealImage.style.maskImage = `radial-gradient(circle at ${e.clientX}px ${e.clientY + scrollY}px, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 25%)`;
+                revealImage.style.webkitMaskImage = `radial-gradient(circle at ${e.clientX}px ${e.clientY + scrollY}px, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 25%)`;
+            }, 10);
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            isMouseOver = false;
+            setTimeout(() => {
+                if (!isMouseOver) {
+                    revealImage.style.opacity = 0;
+                }
+            }, 500);
         });
     </script>
 </body>
