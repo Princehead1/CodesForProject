@@ -36,27 +36,32 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease-in-out;
-            mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%);
-            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 50%);
+            mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 5%);
+            -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 5%);
         }
         .lens {
             position: absolute;
-            width: 250px;
-            height: 250px;
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
             background: transparent;
             pointer-events: none;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             mix-blend-mode: screen;
+            transition: transform 0.2s ease-out;
         }
         .lens::before {
             content: "";
             position: absolute;
             width: 100%;
             height: 100%;
+            left: 0;
+            top: 0;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,0,0,0.3) 15%, rgba(0,255,0,0.25) 17%, rgba(0,0,255,0.2) 19%, rgba(0,0,0,0) 25%);
-            filter: blur(1px);
+            background: radial-gradient(circle, rgba(255,0,0,0.5) 5%, rgba(0,255,0,0.5) 50%, rgba(0,0,255,0.5) 95%, rgba(0,0,0,0) 100%);
+            filter: blur(2px); /* RGB 분열 효과를 더 진하게 */
+            mix-blend-mode: lighten;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* 반투명 테두리 범위 최소화 */
         }
     </style>
 </head>
@@ -69,32 +74,50 @@
     <script>
         const lens = document.getElementById('lens');
         const revealImage = document.getElementById('revealImage');
-        let timeout;
-        let delayTimeout;
         let isMouseOver = false;
-        
+        let targetX = 0, targetY = 0; // 목표 위치
+        let currentX = 0, currentY = 0; // 현재 위치
+        const damping = 0.1; // damping 효과 강도
+
+        // 마우스 이동 시 목표 위치 업데이트
         document.addEventListener('mousemove', (e) => {
             isMouseOver = true;
-            const scrollY = window.scrollY;
-            lens.style.left = `${e.clientX - lens.offsetWidth / 2}px`;
-            lens.style.top = `${e.clientY + scrollY - lens.offsetHeight / 2}px`;
-            
-            clearTimeout(delayTimeout);
-            delayTimeout = setTimeout(() => {
+            targetX = e.pageX - lens.offsetWidth / 2;
+            targetY = e.pageY - lens.offsetHeight / 2;
+
+            // 이미지 드러내기 (damping 효과 적용)
+            setTimeout(() => {
                 revealImage.style.opacity = 1;
-                revealImage.style.transition = 'opacity 0.2s ease-in-out';
-                revealImage.style.maskImage = `radial-gradient(circle at ${e.clientX}px ${e.clientY + scrollY}px, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 25%)`;
-                revealImage.style.webkitMaskImage = `radial-gradient(circle at ${e.clientX}px ${e.clientY + scrollY}px, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 25%)`;
-            }, 10);
+                revealImage.style.maskImage = `radial-gradient(circle at ${e.pageX}px ${e.pageY}px, rgba(0,0,0,1) 1%, rgba(0,0,0,0) 5%)`;
+                revealImage.style.webkitMaskImage = `radial-gradient(circle at ${e.pageX}px ${e.pageY}px, rgba(0,0,0,1) 1%, rgba(0,0,0,0) 5%)`;
+            }, 100); // 딜레이 추가
         });
-        
-        document.addEventListener('mouseleave', () => {
+
+        // damping 효과 적용
+        const updateLensPosition = () => {
+            // 현재 위치를 목표 위치로 부드럽게 이동
+            currentX += (targetX - currentX) * damping;
+            currentY += (targetY - currentY) * damping;
+
+            // 렌즈 위치 업데이트
+            lens.style.left = `${currentX}px`;
+            lens.style.top = `${currentY}px`;
+
+            // 애니메이션 프레임 요청
+            requestAnimationFrame(updateLensPosition);
+        };
+
+        // damping 효과 시작
+        updateLensPosition();
+
+        // 마우스가 영역을 벗어날 때
+        document.addEventListener('mouseout', () => {
             isMouseOver = false;
             setTimeout(() => {
                 if (!isMouseOver) {
                     revealImage.style.opacity = 0;
                 }
-            }, 500);
+            }, 500); // 딜레이 추가
         });
     </script>
 </body>
