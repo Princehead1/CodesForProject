@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enhanced Scroll Transition with Circle Effect</title>
+  <style>
+    :root {
+      --lens-size: 300px;
+      --content-margin: 5vw;
+    }
+
+    /* 로딩 화면 스타일 */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease-out;
+    }
+
+    #loading-progress {
+      width: 200px;
+      height: 4px;
+      background-color: rgba(255, 255, 255, 0.2);
+      margin-top: 20px;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    #loading-progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+
+    #loading-text {
+      color: white;
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+
+    /* 나머지 CSS는 이전과 동일하게 유지 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background-color: black;
+      font-family: Arial, sans-serif;
+    }
+
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+    }
+
+    .container {
+      min-height: 100vh;
+      position: relative;
+      opacity: 0;
+      transition: opacity 0.5s ease-in;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      transform: none !important;
+    }
+
+    .circle {
+      position: absolute;
+      width: var(--lens-size);
+      height: var(--lens-size);
+      background: url("images/BG_Image_01-03.png") center center no-repeat fixed;
+      background-size: cover;
+      mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+      transition: 0.4s;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .fadeOut {
+      animation: fadeOut 1s forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .scroll-content {
+      position: relative;
+      z-index: 3;
+      padding-top: 100vh;
+      height: 500vh;
+      padding-left: var(--content-margin);
+      padding-right: var(--content-margin);
+    }
+
+    .scroll-section {
+      min-height: 100vh;
+      display: flex;
+      opacity: 0;
+      transform: translateY(100px);
+      will-change: opacity, transform;
+      align-items: center;
+    }
+
+    .content-wrapper {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #section1 {
+      justify-content: center;
+    }
+
+    #section1 .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    #section2 .content-wrapper,
+    #section4 .content-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 40px;
+      align-items: center;
+    }
+
+    #section3 .content-wrapper,
+    #section5 .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    #section4 .content-wrapper {
+      flex-direction: row-reverse;
+    }
+
+    #section4 .text-content {
+      text-align: right;
+    }
+
+    .scroll-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px);
+      opacity: 0;
+      color: white;
+    }
+
+    .scroll-text {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      max-width: 700px;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px);
+      opacity: 0;
+      color: white;
+    }
+
+    .scroll-image {
+      max-width: 165%;
+      max-height: 70vh;
+      object-fit: contain;
+      transform: translateY(20px) scale(1.1);
+      opacity: 0;
+      will-change: transform, opacity, filter;
+      filter: blur(2px);
+      transition: all 0.6s ease-out;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+
+    .text-content {
+      flex: 1;
+    }
+
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 1rem;
+      z-index: 10;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-10px) translateX(-50%); }
+      60% { transform: translateY(-5px) translateX(-50%); }
+    }
+
+    .logo {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      z-index: 20;
+      width: 120px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    #webgl-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #model-container {
+      width: 100%;
+      height: 60vh;
+      position: relative;
+      transform: translateY(20px);
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    #model-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    @media (max-width: 768px) {
+      #section2 .content-wrapper,
+      #section4 .content-wrapper {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .text-content,
+      .image-container {
+        max-width: 100%;
+      }
+
+      #section4 .text-content {
+        text-align: center;
+      }
+
+      .logo {
+        width: 90px;
+        top: 20px;
+        left: 20px;
+      }
+
+      #model-container {
+        height: 40vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 로딩 화면 추가 -->
+  <div id="loading-screen">
+    <div id="loading-text">Loading...</div>
+    <div id="loading-progress">
+      <div id="loading-progress-bar"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <img src="images/Logo.png" class="logo" alt="Logo" onclick="window.location.reload()" />
+
+    <video class="video-background" autoplay muted loop>
+      <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <canvas id="webgl-canvas"></canvas>
+    <div class="circle"></div>
+
+    <div class="scroll-content">
+      <!-- 기존 4개 섹션은 동일하게 유지 -->
+      <div class="scroll-section" id="section1">
+        <div class="content-wrapper">
+          <h2 class="scroll-title">First Section</h2>
+          <p class="scroll-text">Experience smooth scroll animations with a circular lens effect<br>that responds to your mouse movements.</p>
+          <div class="image-container">
+            <img src="images/Image01-02.png" class="scroll-image" alt="Nature" />
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-section" id="section2">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <h2 class="scroll-title">Second Section</h2>
+            <p class="scroll-text">Premium transition effects where transparency<br>and position change naturally with scrolling</p>
+          </div>
+          <div class="image-container">
+            <img src="images/Image02-02.png" class="scroll-image" alt="City" />
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-section" id="section3">
+        <div class="content-wrapper">
+          <h2 class="scroll-title">Third Section</h2>
+          <div class="image-container">
+            <img src="images/Image03.png" class="scroll-image" alt="Technology" />
+          </div>
+          <p class="scroll-text">All elements appear and disappear at optimal timing<br>using GSAP's ScrollTrigger.</p>
+        </div>
+      </div>
+
+      <div class="scroll-section" id="section4">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image04.png" class="scroll-image" alt="Art" />
+          </div>
+          <div class="text-content">
+            <h2 class="scroll-title">Fourth Section</h2>
+            <p class="scroll-text">The same effects apply in reverse<br>when you scroll upwards.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5번째 섹션 (3D 모델) -->
+      <div class="scroll-section" id="section5">
+        <div class="content-wrapper">
+          <h2 class="scroll-title">iPhone 8 3D Model</h2>
+          <p class="scroll-text">Move your cursor to see the model slightly follow your movement</p>
+          <div id="model-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">Scroll Down</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.min.js"></script>
+  <script>
+    (function () {
+      // 로딩 화면 요소
+      const loadingScreen = document.getElementById('loading-screen');
+      const loadingProgress = document.getElementById('loading-progress-bar');
+      const loadingText = document.getElementById('loading-text');
+      const container = document.querySelector(".container");
+
+      // 초기 로딩 상태 설정
+      let loadedResources = 0;
+      const totalResources = 5; // 로드해야 할 리소스 수 (비디오, 이미지 3개, 3D 모델)
+
+      // 로딩 진행률 업데이트 함수
+      function updateProgress() {
+        loadedResources++;
+        const progress = Math.min((loadedResources / totalResources) * 100, 100);
+        loadingProgress.style.width = `${progress}%`;
+        loadingText.textContent = `Loading... ${Math.round(progress)}%`;
+
+        if (loadedResources >= totalResources) {
+          setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+              loadingScreen.style.display = 'none';
+              container.style.opacity = '1';
+            }, 500);
+          }, 1000);
+        }
+      }
+
+      // 비디오 로드 확인
+      const video = document.querySelector('.video-background');
+      video.oncanplay = updateProgress;
+
+      // 이미지 로드 확인
+      const images = document.querySelectorAll('.scroll-image');
+      images.forEach(img => {
+        if (img.complete) {
+          updateProgress();
+        } else {
+          img.onload = updateProgress;
+          img.onerror = updateProgress;
+        }
+      });
+
+      // 3D 모델 로드 카운트
+      let modelLoaded = false;
+      function modelLoadComplete() {
+        if (!modelLoaded) {
+          modelLoaded = true;
+          updateProgress();
+        }
+      }
+
+      window.scrollTo(0, 0); // 새로고침 시 스크롤 초기화
+      const circle = document.querySelector(".circle");
+      let circleHalf = circle.offsetWidth / 2;
+
+      // WebGL 설정 (2D 효과용)
+      const canvas = document.getElementById('webgl-canvas');
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(
+        -window.innerWidth / 2,
+        window.innerWidth / 2,
+        window.innerHeight / 2,
+        -window.innerHeight / 2,
+        1,
+        1000
+      );
+      camera.position.z = 1;
+
+      // 쉐이더 재료 생성
+      const shaderMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          uTime: { value: 0 },
+          uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+          uMouse: { value: new THREE.Vector2(-1000, -1000) },
+          uRadius: { value: circleHalf },
+          uTexture: { value: null }
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform vec2 uResolution;
+          uniform vec2 uMouse;
+          uniform float uRadius;
+          uniform float uTime;
+          varying vec2 vUv;
+          
+          void main() {
+            vec2 uv = gl_FragCoord.xy / uResolution.xy;
+            uv.y = 1.0 - uv.y;
+            
+            vec2 mouse = uMouse / uResolution;
+            mouse.y = 1.0 - mouse.y;
+            
+            float dist = distance(uv, mouse);
+            float effect = smoothstep(uRadius / uResolution.x, 0.0, dist);
+            
+            // 왜곡 효과
+            vec2 distortedUv = uv;
+            if (effect > 0.0) {
+              float wave = sin(uTime * 2.0 + dist * 20.0) * 0.01;
+              distortedUv.x += wave * effect;
+              distortedUv.y += wave * effect * 0.5;
+              
+              // 색상 왜곡
+              float colorShift = sin(uTime * 3.0 + dist * 15.0) * 0.1 * effect;
+              gl_FragColor = vec4(
+                texture2D(uTexture, distortedUv).r + colorShift,
+                texture2D(uTexture, distortedUv).g,
+                texture2D(uTexture, distortedUv).b + colorShift * 0.5,
+                1.0
+              );
+            } else {
+              gl_FragColor = texture2D(uTexture, uv);
+            }
+          }
+        `,
+        transparent: true
+      });
+
+      // 텍스처 생성
+      const texture = new THREE.Texture(document.querySelector('.scroll-content'));
+      texture.needsUpdate = true;
+      shaderMaterial.uniforms.uTexture.value = texture;
+
+      // 평면 생성
+      const planeGeometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
+      const plane = new THREE.Mesh(planeGeometry, shaderMaterial);
+      scene.add(plane);
+
+      // 3D 모델을 위한 별도의 WebGL 렌더러 설정
+      const modelContainer = document.getElementById('model-container');
+      const modelRenderer = new THREE.WebGLRenderer({ 
+        antialias: true, 
+        alpha: true,
+        preserveDrawingBuffer: true // 이 옵션 추가
+      });
+      modelRenderer.setSize(modelContainer.clientWidth, modelContainer.clientHeight);
+      modelRenderer.setPixelRatio(window.devicePixelRatio);
+      modelContainer.appendChild(modelRenderer.domElement);
+
+      const modelScene = new THREE.Scene();
+      const modelCamera = new THREE.PerspectiveCamera(
+        45,
+        modelContainer.clientWidth / modelContainer.clientHeight,
+        0.1,
+        1000
+      );
+      modelCamera.position.z = 5;
+
+      // 조명 설정 (더 밝게 조정)
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+      modelScene.add(ambientLight);
+
+      const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.0);
+      directionalLight1.position.set(1, 1, 1);
+      modelScene.add(directionalLight1);
+
+      const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.6);
+      directionalLight2.position.set(-1, -1, -1);
+      modelScene.add(directionalLight2);
+
+      // OBJ 모델 로드
+      const loader = new THREE.OBJLoader();
+      let model;
+
+      loader.load(
+        '3d/iPhone_6.obj',
+        (object) => {
+          model = object;
+          
+          // 모델 크기 조정 및 위치 설정 (화면에 전체적으로 보이도록)
+          const box = new THREE.Box3().setFromObject(model);
+          const size = box.getSize(new THREE.Vector3()).length();
+          const center = box.getCenter(new THREE.Vector3());
+          
+          const scale = 30;// 크기 조정 값 증가
+          model.scale.set(scale, scale, scale);
+          model.position.x = -center.x * scale;
+          model.position.y = -center.y * scale;
+          model.position.z = -center.z * scale;
+
+          // 여기에 회전 적용 (추가된 부분)
+          model.rotation.x = 0 * (Math.PI / 180); 
+          model.rotation.y = 90 * (Math.PI / 180);
+          model.rotation.z = 10 * (Math.PI / 180);  
+          
+          // 모델에 기본 재질 적용 (OBJ 파일에 재질이 없는 경우)
+          model.traverse(function(child) {
+            if (child.isMesh) {
+              if (!child.material.map) {
+                child.material = new THREE.MeshPhongMaterial({
+                  color: 0x333333,
+                  specular: 0x555555,
+                  shininess: 50,
+                  side: THREE.DoubleSide // 양면 렌더링
+                });
+              }
+            }
+          });
+          
+          modelScene.add(model);
+          modelLoadComplete(); // 모델 로드 완료
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        },
+        (error) => {
+          console.error('Error loading model:', error);
+          // 모델 로드 실패 시 대체 이미지 표시
+          modelContainer.innerHTML = '<p style="color:white;text-align:center;">3D Model failed to load</p>';
+          modelLoadComplete(); // 실패 시에도 로드 완료 처리
+        }
+      );
+
+      // 마우스 위치에 따라 모델이 살짝 쳐다보는 효과
+      let targetRotationX = 0;
+      let targetRotationY = 0;
+      let currentRotationX = 0;
+      let currentRotationY = 0;
+
+      container.addEventListener("mousemove", function (e) {
+        // 화면 중앙을 기준으로 마우스 위치 계산 (정규화)
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = -(e.clientY / window.innerHeight) * 2 + 1;
+        
+        // 회전 각도 계산 (값이 클수록 더 많이 회전)
+        targetRotationY = x * 0.2; // 좌우 회전 (y축)
+        targetRotationX = y * 0.1; // 상하 회전 (x축)
+        
+        // 원형 렌즈 효과
+        let c = circle.cloneNode(true);
+        c.style.left = e.pageX - circleHalf + "px";
+        c.style.top = e.pageY - circleHalf + "px";
+        circle.style.left = e.pageX - circleHalf + "px";
+        circle.style.top = e.pageY - circleHalf + "px";
+        c.classList.add("fadeOut");
+        c.addEventListener("animationend", e => e.target.remove());
+        container.appendChild(c);
+
+        // WebGL에 마우스 위치 전달
+        shaderMaterial.uniforms.uMouse.value.set(e.clientX, window.innerHeight - e.clientY);
+      });
+
+      // 부드러운 회전을 위한 애니메이션
+      function updateModelRotation() {
+        requestAnimationFrame(updateModelRotation);
+        
+        if (!model) return;
+        
+        // 현재 회전 값을 점진적으로 타겟 회전 값에 접근
+        currentRotationX += (targetRotationX - currentRotationX) * 0.05;
+        currentRotationY += (targetRotationY - currentRotationY) * 0.05;
+        
+        // 모델 회전 적용
+        model.rotation.x = currentRotationX;
+        model.rotation.y = currentRotationY;
+        
+        modelRenderer.render(modelScene, modelCamera);
+      }
+      updateModelRotation();
+
+      // 마우스가 영역을 벗어났을 때
+      container.addEventListener("mouseleave", function() {
+        shaderMaterial.uniforms.uMouse.value.set(-1000, -1000);
+        targetRotationX = 0;
+        targetRotationY = 0;
+      });
+
+      // 창 크기 변경 시 모델 렌더러 크기 조정
+      window.addEventListener('resize', () => {
+        modelRenderer.setSize(modelContainer.clientWidth, modelContainer.clientHeight);
+        modelCamera.aspect = modelContainer.clientWidth / modelContainer.clientHeight;
+        modelCamera.updateProjectionMatrix();
+      });
+
+      // 애니메이션 루프 (2D 효과용)
+      function animate() {
+        requestAnimationFrame(animate);
+        shaderMaterial.uniforms.uTime.value += 0.01;
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.set(".video-background", { transform: "none" });
+
+      window.addEventListener("load", () => {
+        ScrollTrigger.refresh();
+      });
+
+      gsap.utils.toArray(".scroll-section").forEach(section => {
+        gsap.to(section, {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "top 30%",
+            toggleActions: "play none none reverse",
+            scrub: 0.5
+          }
+        });
+
+        gsap.to(section.querySelector(".scroll-title"), {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 85%",
+            end: "top 50%",
+            toggleActions: "play none none reverse",
+            scrub: 0.5
+          }
+        });
+
+        gsap.to(section.querySelector(".scroll-text"), {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: 0.5,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "top 45%",
+            toggleActions: "play none none reverse",
+            scrub: 0.5
+          }
+        });
+
+        const img = section.querySelector(".scroll-image");
+        if (img) {
+          gsap.to(img, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.5,
+            delay: 0.7,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        // 5번째 섹션의 3D 모델 컨테이너 애니메이션
+        if (section.id === 'section5') {
+          const modelContainer = section.querySelector('#model-container');
+          gsap.to(modelContainer, {
+            y: 0,
+            opacity: 1,
+            duration: 1.5,
+            delay: 0.7,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+      });
+
+      window.addEventListener("resize", () => {
+        circleHalf = circle.offsetWidth / 2;
+        shaderMaterial.uniforms.uRadius.value = circleHalf;
+        shaderMaterial.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+        
+        camera.left = -window.innerWidth / 2;
+        camera.right = window.innerWidth / 2;
+        camera.top = window.innerHeight / 2;
+        camera.bottom = -window.innerHeight / 2;
+        camera.updateProjectionMatrix();
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        plane.scale.set(window.innerWidth, window.innerHeight, 1);
+        
+        ScrollTrigger.refresh();
+      });
+
+      // 초기 로딩 시작
+      updateProgress(); // 기본 리소스 로드 시작
+    })();
+  </script>
+</body>
+</html>
