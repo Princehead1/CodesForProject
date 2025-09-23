@@ -6,7 +6,7 @@
   <title>Enhanced Scroll Transition with Circle Effect</title>
   <style>
     :root {
-      --lens-size: 300px;
+      --lens-size: 400px;
       --content-margin: 5vw;
     }
 
@@ -170,9 +170,11 @@
       font-size: clamp(2rem, 5vw, 3rem);
       margin-bottom: 1.5rem;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px);
+      transform: translateY(20px) scale(0.95);
       opacity: 0;
       color: white;
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
     }
 
     .scroll-text {
@@ -180,9 +182,11 @@
       max-width: 700px;
       margin-bottom: 2rem;
       text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px);
+      transform: translateY(20px) scale(0.95);
       opacity: 0;
       color: white;
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
     }
 
     .scroll-image {
@@ -374,7 +378,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.min.js"></script>
+  <!-- OBJLoader 대신 GLTFLoader 추가 -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
   <script>
     (function () {
       // 로딩 화면 요소
@@ -552,44 +557,30 @@
       directionalLight2.position.set(-1, -1, -1);
       modelScene.add(directionalLight2);
 
-      // OBJ 모델 로드
-      const loader = new THREE.OBJLoader();
+      // GLTF 모델 로드 (OBJLoader 대신 GLTFLoader 사용)
+      const loader = new THREE.GLTFLoader();
       let model;
 
       loader.load(
-        '3d/iPhone_6.obj',
-        (object) => {
-          model = object;
+        '3d/phone.glb', // 파일 경로 변경
+        (gltf) => {
+          model = gltf.scene;
           
           // 모델 크기 조정 및 위치 설정 (화면에 전체적으로 보이도록)
           const box = new THREE.Box3().setFromObject(model);
           const size = box.getSize(new THREE.Vector3()).length();
           const center = box.getCenter(new THREE.Vector3());
           
-          const scale = 30;// 크기 조정 값 증가
+          const scale = 3; // GLTF 파일은 일반적으로 더 작은 스케일을 가짐
           model.scale.set(scale, scale, scale);
           model.position.x = -center.x * scale;
           model.position.y = -center.y * scale;
           model.position.z = -center.z * scale;
 
-          // 여기에 회전 적용 (추가된 부분)
+          // 회전 적용
           model.rotation.x = 0 * (Math.PI / 180); 
           model.rotation.y = 90 * (Math.PI / 180);
           model.rotation.z = 10 * (Math.PI / 180);  
-          
-          // 모델에 기본 재질 적용 (OBJ 파일에 재질이 없는 경우)
-          model.traverse(function(child) {
-            if (child.isMesh) {
-              if (!child.material.map) {
-                child.material = new THREE.MeshPhongMaterial({
-                  color: 0x333333,
-                  specular: 0x555555,
-                  shininess: 50,
-                  side: THREE.DoubleSide // 양면 렌더링
-                });
-              }
-            }
-          });
           
           modelScene.add(model);
           modelLoadComplete(); // 모델 로드 완료
@@ -698,6 +689,7 @@
         gsap.to(section.querySelector(".scroll-title"), {
           y: 0,
           opacity: 1,
+          scale: 1,
           duration: 1,
           delay: 0.3,
           scrollTrigger: {
@@ -712,6 +704,7 @@
         gsap.to(section.querySelector(".scroll-text"), {
           y: 0,
           opacity: 1,
+          scale: 1,
           duration: 1,
           delay: 0.5,
           scrollTrigger: {
