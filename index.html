@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Enhanced Scroll Transition with Circle Effect</title>
+  <title>Thread</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <style>
     :root {
       --lens-size: 400px;
@@ -23,7 +26,7 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      transition: opacity 0.5s ease-out;
+      transition: opacity 1.0s ease-out;
     }
 
     #loading-progress {
@@ -39,7 +42,7 @@
       height: 100%;
       width: 0%;
       background-color: white;
-      transition: width 0.3s ease;
+      transition: width 1.0s ease;
     }
 
     #loading-text {
@@ -48,14 +51,13 @@
       font-size: 1rem;
     }
 
-    /* 나머지 CSS는 이전과 동일하게 유지 */
     html, body {
       margin: 0;
       padding: 0;
       overflow-x: hidden;
       scroll-behavior: smooth;
       background-color: black;
-      font-family: Arial, sans-serif;
+      font-family: "Urbanist", Arial, sans-serif;
     }
 
     body::-webkit-scrollbar {
@@ -71,7 +73,7 @@
       min-height: 100vh;
       position: relative;
       opacity: 0;
-      transition: opacity 0.5s ease-in;
+      transition: opacity 1.0s ease-in;
     }
 
     .video-background {
@@ -92,13 +94,13 @@
       background: url("images/BG_Image_01-03.png") center center no-repeat fixed;
       background-size: cover;
       mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
-      transition: 0.4s;
-      z-index: 2;
+      transition: 1.0s;
+      z-index: 10;
       pointer-events: none;
     }
 
     .fadeOut {
-      animation: fadeOut 1s forwards;
+      animation: fadeOut 1.5s forwards;
     }
 
     @keyframes fadeOut {
@@ -110,9 +112,11 @@
       position: relative;
       z-index: 3;
       padding-top: 100vh;
-      height: 500vh;
+      height: 1500vh;
+      min-height: 900vh;
       padding-left: var(--content-margin);
       padding-right: var(--content-margin);
+      padding-bottom: 100px;
     }
 
     .scroll-section {
@@ -122,6 +126,66 @@
       transform: translateY(100px);
       will-change: opacity, transform;
       align-items: center;
+      margin-bottom: 100px;
+    }
+
+    /* 섹션0 스타일 */
+    #section0 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 4;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transform: none;
+    }
+
+    #section0 .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    #section0 .scroll-title {
+      display: none;
+    }
+
+    #section0 .intro-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: rgb(255, 251, 240);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    #section0 .text-part {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    #section0 .separator {
+      width: 2px;
+      height: 60px;
+      background-color: white;
+      margin: 0 20px;
+      opacity: 0;
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: all 0.5s ease-out;
+    }
+
+    #section0 .bold-text {
+      font-weight: 600;
+      font-size: 1.2em;
+      font-family: "Urbanist", Arial, sans-serif;
     }
 
     .content-wrapper {
@@ -133,37 +197,462 @@
       box-sizing: border-box;
     }
 
+    /* 섹션1 스타일 */
     #section1 {
       justify-content: center;
     }
 
     #section1 .content-wrapper {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    #section2 .content-wrapper,
-    #section4 .content-wrapper {
       flex-direction: row;
       justify-content: space-between;
-      gap: 40px;
       align-items: center;
     }
 
-    #section3 .content-wrapper,
-    #section5 .content-wrapper {
+    #section1 .text-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    #section1 .scroll-image {
+      max-width: 200%;
+      max-height: 80vh;
+      object-fit: contain;
+      transform: translateY(20px) scale(1.1);
+      opacity: 0;
+      will-change: transform, opacity, filter;
+      filter: blur(2px);
+      transition: all 0.6s ease-out;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    #section1 .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    #section1 .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* 섹션2 스타일 */
+    #section2 .content-wrapper {
       flex-direction: column;
+      justify-content: center;
       align-items: center;
-      text-align: center;
+      gap: 40px;
     }
 
+    #section2 .text-content {
+      flex: none;
+      text-align: center;
+      order: 2;
+    }
+
+    #section2 .image-container {
+      order: 1;
+    }
+
+    #section2 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* 섹션3 스타일 */
+    #section3 .content-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #section3 .text-content {
+      flex: 1;
+      text-align: right;
+    }
+
+    #section3 .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    #section3 .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    .line-space {
+      display: block;
+      margin-top: 30px;
+      line-height: 1.8;
+    }
+
+    /* 섹션4 스타일 */
     #section4 .content-wrapper {
-      flex-direction: row-reverse;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
     }
 
     #section4 .text-content {
+      flex: none;
+      text-align: left;
+      order: 2;
+    }
+
+    #section4 .image-container {
+      order: 1;
+    }
+
+    #section4 .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* 섹션5 스타일 - Snapchat 인터페이스 */
+    #section5 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      z-index: 50; /* WebGL 효과보다 위에 표시 */
+    }
+
+    #section5 .text-content {
+      flex: 1;
+      text-align: center;
+    }
+
+    #section5 .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* Snapchat 스타일 인터페이스 */
+    .phone-mockup {
+      width: 300px;
+      height: 600px;
+      background: #000;
+      border-radius: 30px;
+      border: 3px solid #333;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      z-index: 60; /* WebGL 효과보다 위에 표시 */
+      pointer-events: auto; /* 마우스 이벤트 활성화 */
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #fffeb3, #83001f);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .snap-header {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .snap-search-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    .search-input:focus {
+      outline: none;
+      background: white;
+    }
+
+    .search-btn {
+      background: #ffc800;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .search-results {
+      padding: 15px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .result-item {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .result-item:hover {
+      background: white;
+      transform: translateX(5px);
+    }
+
+    .school-name {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .school-location {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .selected-school {
+      padding: 20px;
+      display: none;
+    }
+
+    .selected-info h3 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .selected-info p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    /* 섹션6 스타일 */
+    #section6 {
+      justify-content: center;
+    }
+
+    #section6 .content-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #section6 .text-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    #section6 .scroll-image {
+      max-width: 200%;
+      max-height: 140vh;
+      object-fit: contain;
+      transform: translateY(20px) scale(1.1);
+      opacity: 0;
+      will-change: transform, opacity, filter;
+      filter: blur(2px);
+      transition: all 0.6s ease-out;
+    }
+
+    #section6 .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    #section6 .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* 섹션7 스타일 */
+    #section7 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    #section7 .text-content {
+      flex: none;
+      text-align: left;
+      order: 2;
+    }
+
+    #section7 .image-container {
+      order: 1;
+    }
+
+    #section7 .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* 섹션8 스타일 */
+    #section8 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    #section8 .text-content {
+      flex: none;
+      text-align: left;
+      order: 2;
+    }
+
+    #section8 .image-container {
+      order: 1;
+    }
+
+    #section8 .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* 섹션9 스타일 */
+    #section9 .content-wrapper {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #section9 .text-content {
+      flex: 1;
       text-align: right;
+    }
+
+    #section9 .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    #section9 .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* 섹션10 스타일 */
+    #section10 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #section10 .text-content {
+      flex: none;
+      text-align: center;
+      order: 1;
+      gap: 20px;
+    }
+
+    #section10 .image-container {
+      order: 2;
+    }
+
+    #section10 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* 섹션-phone 스타일 */
+    #section-phone .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    #section-phone {
+      min-height: 120vh;
+      height: auto; /* 추가 */
+      padding-bottom: 100px; /* 추가 - 하단 여백 확보 */
     }
 
     .scroll-title {
@@ -172,9 +661,10 @@
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
       transform: translateY(20px) scale(0.95);
       opacity: 0;
-      color: white;
+      color: rgb(255, 251, 240);
       will-change: transform, opacity;
       transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
     }
 
     .scroll-text {
@@ -184,9 +674,10 @@
       text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
       transform: translateY(20px) scale(0.95);
       opacity: 0;
-      color: white;
+      color: rgb(255, 251, 240);
       will-change: transform, opacity;
       transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
     }
 
     .scroll-image {
@@ -216,11 +707,12 @@
       bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
-      color: white;
+      color: rgb(255, 251, 240);
       font-size: 1rem;
       z-index: 10;
       opacity: 0.7;
       animation: bounce 2s infinite;
+      font-family: "Urbanist", Arial, sans-serif;
     }
 
     @keyframes bounce {
@@ -256,11 +748,12 @@
 
     #model-container {
       width: 100%;
-      height: 60vh;
+      height: 80vh;
       position: relative;
       transform: translateY(20px);
       opacity: 0;
       will-change: transform, opacity;
+      margin-bottom: 50px; /* 추가 - 하단 여백 */
     }
 
     #model-container canvas {
@@ -270,7 +763,8 @@
 
     @media (max-width: 768px) {
       #section2 .content-wrapper,
-      #section4 .content-wrapper {
+      #section4 .content-wrapper,
+      #section6 .content-wrapper {
         flex-direction: column;
         gap: 30px;
       }
@@ -293,11 +787,53 @@
       #model-container {
         height: 40vh;
       }
+      
+      #section0 .intro-text {
+        flex-direction: column;
+      }
+      
+      #section0 .separator {
+        width: 60px;
+        height: 2px;
+        margin: 10px 0;
+      }
+
+      #section1 .content-wrapper,
+      #section3 .content-wrapper,
+      #section5 .content-wrapper,
+      #section7 .content-wrapper {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      #section1 .text-content,
+      #section3 .text-content,
+      #section5 .text-content,
+      #section7 .text-content {
+        text-align: center;
+      }
+
+      #section1 .image-container,
+      #section3 .image-container,
+      #section5 .image-container,
+      #section7 .image-container {
+        justify-content: center;
+      }
+
+      .phone-mockup {
+        width: 250px;
+        height: 500px;
+      }
+      
+      .search-input {
+        font-size: 12px;
+        padding: 10px 12px;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- 로딩 화면 추가 -->
+  <!-- 로딩 화면 -->
   <div id="loading-screen">
     <div id="loading-text">Loading...</div>
     <div id="loading-progress">
@@ -306,7 +842,7 @@
   </div>
 
   <div class="container">
-    <img src="images/Logo.png" class="logo" alt="Logo" onclick="window.location.reload()" />
+    <img src="images/Logo.png" class="logo" alt="Logo" />
 
     <video class="video-background" autoplay muted loop>
       <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
@@ -315,58 +851,162 @@
 
     <canvas id="webgl-canvas"></canvas>
     <div class="circle"></div>
+    
+    <!-- 섹션0 -->
+    <div class="scroll-section" id="section0">
+      <div class="content-wrapper">
+        <h2 class="scroll-title">Intro</h2>
+        <div class="intro-text">
+          <span class="text-part">Emily, 13 years old</span>
+          <span class="separator"></span>
+          <span class="text-part"><span class="bold-text">DEAD</span>. why?</span>
+        </div>
+      </div>
+    </div>
 
     <div class="scroll-content">
-      <!-- 기존 4개 섹션은 동일하게 유지 -->
+      <!-- 섹션1 -->
       <div class="scroll-section" id="section1">
         <div class="content-wrapper">
-          <h2 class="scroll-title">First Section</h2>
-          <p class="scroll-text">Experience smooth scroll animations with a circular lens effect<br>that responds to your mouse movements.</p>
+          <div class="text-content">
+            <p class="scroll-text">Ordinary middle school student Emily,<br>on the first day of the<br>new semester meets a <span class="font-bold">tragedy</span>.</p>
+          </div>
           <div class="image-container">
-            <img src="images/Image01-02.png" class="scroll-image" alt="Nature" />
+            <img src="images/Image01-02.png" class="scroll-image">
           </div>
         </div>
       </div>
 
+      <!-- 섹션2 -->
       <div class="scroll-section" id="section2">
         <div class="content-wrapper">
           <div class="text-content">
-            <h2 class="scroll-title">Second Section</h2>
-            <p class="scroll-text">Premium transition effects where transparency<br>and position change naturally with scrolling</p>
+            <p class="scroll-text"><span class="font-bold">SUICIDE</span></p>
           </div>
           <div class="image-container">
-            <img src="images/Image02-02.png" class="scroll-image" alt="City" />
+            <img src="images/Image02-02.png" class="scroll-image">
           </div>
         </div>
       </div>
 
+      <!-- 섹션3 -->
       <div class="scroll-section" id="section3">
         <div class="content-wrapper">
-          <h2 class="scroll-title">Third Section</h2>
           <div class="image-container">
-            <img src="images/Image03.png" class="scroll-image" alt="Technology" />
+            <img src="images/Image03.png" class="scroll-image">
           </div>
-          <p class="scroll-text">All elements appear and disappear at optimal timing<br>using GSAP's ScrollTrigger.</p>
+          <p class="scroll-text">There is no evidence of any<br>physical harm on her body.<br><span class="font-bold line-space">What happened to her?</span></p>
         </div>
       </div>
 
+      <!-- 섹션4 -->
       <div class="scroll-section" id="section4">
         <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/Image04.png" class="scroll-image" alt="Art" />
+            <img src="images/Image04.png" class="scroll-image">
           </div>
           <div class="text-content">
-            <h2 class="scroll-title">Fourth Section</h2>
-            <p class="scroll-text">The same effects apply in reverse<br>when you scroll upwards.</p>
+            <p class="scroll-text">At 6 a.m. on the first day of school,<br>Emily woke up early.<br><span class="line-space"></span>With heart fluttering with excitement,<br>Emily looked at her phone to calm her nerves.</p>
           </div>
         </div>
       </div>
 
-      <!-- 5번째 섹션 (3D 모델) -->
       <div class="scroll-section" id="section5">
         <div class="content-wrapper">
-          <h2 class="scroll-title">iPhone 8 3D Model</h2>
-          <p class="scroll-text">Move your cursor to see the model slightly follow your movement</p>
+          <div class="text-content">
+          </div>
+          <div class="phone-mockup">
+            <div class="phone-screen">
+              <div class="snap-header">
+                <div class="snap-search-bar">
+                  <input type="text" id="school-search" placeholder="Search for schools..." class="search-input">
+                  <button class="search-btn" onclick="searchSchool()">🔍</button>
+                </div>
+              </div>
+              
+              <!-- 검색 결과 영역 -->
+              <div class="search-results" id="search-results">
+                <div class="result-item" onclick="selectSchool('Lincoln High School')">
+                  <div class="school-name">Lincoln High School</div>
+                  <div class="school-location">📍 Los Angeles, California</div>
+                </div>
+                <div class="result-item" onclick="selectSchool('Jefferson Middle School')">
+                  <div class="school-name">Jefferson Middle School</div>
+                  <div class="school-location">📍 Chicago, Illinois</div>
+                </div>
+                <div class="result-item" onclick="selectSchool('Washington Academy')">
+                  <div class="school-name">Washington Academy</div>
+                  <div class="school-location">📍 New York, New York</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션6 -->
+      <div class="scroll-section" id="section6">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">She becomes interested after<br>discovering an SNS Chatroom<br>with the name of her school<br>in the background.</p>
+          </div>
+          <div class="image-container">
+            <img src="images/Image05.png" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션7 -->
+      <div class="scroll-section" id="section7">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image06.png" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">At first, Emily was enjoying a pleasant time with<br>her anonymous new friends, exchanging warm greetings, when she discovered something<br><span class="font-bold line-space">intriguing.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션8 -->
+      <div class="scroll-section" id="section8">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image07.png" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">Before the new semester even began, someone had gathered her and other female students to judge their looks.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션9 -->
+      <div class="scroll-section" id="section9">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image08.png" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">Horrified, she scours the chat rooms to track down the creator of this poll.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션10 -->
+      <div class="scroll-section" id="section10">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text"><span class="font-bold">BUT...</span></p>
+          </div>
+          <div class="image-container">
+            <img src="images/Image09.png" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D 모델 섹션 -->
+      <div class="scroll-section" id="section-phone">
+        <div class="content-wrapper">
           <div id="model-container"></div>
         </div>
       </div>
@@ -378,8 +1018,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <!-- OBJLoader 대신 GLTFLoader 추가 -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.min.js"></script>
   <script>
     (function () {
       // 로딩 화면 요소
@@ -387,10 +1027,27 @@
       const loadingProgress = document.getElementById('loading-progress-bar');
       const loadingText = document.getElementById('loading-text');
       const container = document.querySelector(".container");
+      const logo = document.querySelector('.logo');
+
+      // 로고 클릭 이벤트 핸들러
+      logo.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'instant'
+        });
+        
+        loadingScreen.style.display = 'flex';
+        loadingScreen.style.opacity = '1';
+        container.style.opacity = '0';
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
+      });
 
       // 초기 로딩 상태 설정
-      let loadedResources = 0;
-      const totalResources = 5; // 로드해야 할 리소스 수 (비디오, 이미지 3개, 3D 모델)
+      let loadedResources = 5;
+      const totalResources = 6;
 
       // 로딩 진행률 업데이트 함수
       function updateProgress() {
@@ -405,10 +1062,97 @@
             setTimeout(() => {
               loadingScreen.style.display = 'none';
               container.style.opacity = '1';
+              startSection0Animation();
             }, 500);
           }, 1000);
         }
       }
+
+      // 섹션0 애니메이션 시작 함수
+      function startSection0Animation() {
+        const separator = document.querySelector('#section0 .separator');
+        const textParts = document.querySelectorAll('#section0 .text-part');
+        
+        gsap.to(separator, {
+          opacity: 1,
+          scaleY: 1,
+          duration: 0.5,
+          delay: 0.5,
+          ease: "power2.out"
+        });
+        
+        gsap.to(textParts[0], {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.8,
+          ease: "power2.out"
+        });
+        
+        gsap.to(textParts[1], {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 1.1,
+          ease: "power2.out"
+        });
+      }
+
+      // Snapchat 검색 기능
+      function searchSchool() {
+        const searchInput = document.getElementById('school-search');
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const results = document.getElementById('search-results');
+        const selectedSchool = document.getElementById('selected-school');
+        
+        if (searchTerm === '') {
+          alert('Please enter a school name');
+          return;
+        }
+        
+        results.style.display = 'block';
+        selectedSchool.style.display = 'none';
+        console.log('Searching for:', searchTerm);
+      }
+
+      function selectSchool(schoolName) {
+        const results = document.getElementById('search-results');
+        const selectedSchool = document.getElementById('selected-school');
+        const selectedName = document.getElementById('selected-name');
+        const selectedLocation = document.getElementById('selected-location');
+        
+        const schoolData = {
+          'Lincoln High School': {
+            name: 'Lincoln High School',
+            location: '📍 123 Lincoln Ave, Los Angeles, CA'
+          },
+          'Jefferson Middle School': {
+            name: 'Jefferson Middle School', 
+            location: '📍 456 Jefferson St, Chicago, IL'
+          },
+          'Washington Academy': {
+            name: 'Washington Academy',
+            location: '📍 789 Washington Blvd, New York, NY'
+          }
+        };
+        
+        const school = schoolData[schoolName];
+        if (school) {
+          selectedName.textContent = school.name;
+          selectedLocation.textContent = school.location;
+          
+          results.style.display = 'none';
+          selectedSchool.style.display = 'block';
+          document.getElementById('school-search').value = '';
+        }
+      }
+
+      // 엔터 키로 검색
+      document.getElementById('school-search').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          searchSchool();
+        }
+      });
 
       // 비디오 로드 확인
       const video = document.querySelector('.video-background');
@@ -434,7 +1178,7 @@
         }
       }
 
-      window.scrollTo(0, 0); // 새로고침 시 스크롤 초기화
+      window.scrollTo(0, 0);
       const circle = document.querySelector(".circle");
       let circleHalf = circle.offsetWidth / 2;
 
@@ -459,14 +1203,16 @@
       );
       camera.position.z = 1;
 
-      // 쉐이더 재료 생성
+      // 쉐이더 재료 생성 - 휴대폰 목업 영역 제외
       const shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {
           uTime: { value: 0 },
           uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
           uMouse: { value: new THREE.Vector2(-1000, -1000) },
           uRadius: { value: circleHalf },
-          uTexture: { value: null }
+          uTexture: { value: null },
+          uPhonePosition: { value: new THREE.Vector2(0, 0) },
+          uPhoneSize: { value: new THREE.Vector2(300, 600) }
         },
         vertexShader: `
           varying vec2 vUv;
@@ -480,6 +1226,8 @@
           uniform vec2 uMouse;
           uniform float uRadius;
           uniform float uTime;
+          uniform vec2 uPhonePosition;
+          uniform vec2 uPhoneSize;
           varying vec2 vUv;
           
           void main() {
@@ -488,6 +1236,24 @@
             
             vec2 mouse = uMouse / uResolution;
             mouse.y = 1.0 - mouse.y;
+            
+            // 휴대폰 목업 영역 계산
+            vec2 phoneCenter = uPhonePosition / uResolution;
+            vec2 phoneHalfSize = uPhoneSize / uResolution / 2.0;
+            phoneCenter.y = 1.0 - phoneCenter.y; // y 좌표 반전
+            
+            // 휴대폰 영역 내부인지 확인
+            bool inPhoneArea = 
+              uv.x >= phoneCenter.x - phoneHalfSize.x && 
+              uv.x <= phoneCenter.x + phoneHalfSize.x && 
+              uv.y >= phoneCenter.y - phoneHalfSize.y && 
+              uv.y <= phoneCenter.y + phoneHalfSize.y;
+            
+            // 휴대폰 영역 내부면 WebGL 효과 적용하지 않음
+            if (inPhoneArea) {
+              gl_FragColor = texture2D(uTexture, uv);
+              return;
+            }
             
             float dist = distance(uv, mouse);
             float effect = smoothstep(uRadius / uResolution.x, 0.0, dist);
@@ -530,7 +1296,7 @@
       const modelRenderer = new THREE.WebGLRenderer({ 
         antialias: true, 
         alpha: true,
-        preserveDrawingBuffer: true // 이 옵션 추가
+        preserveDrawingBuffer: true
       });
       modelRenderer.setSize(modelContainer.clientWidth, modelContainer.clientHeight);
       modelRenderer.setPixelRatio(window.devicePixelRatio);
@@ -543,9 +1309,9 @@
         0.1,
         1000
       );
-      modelCamera.position.z = 5;
+      modelCamera.position.z = 3.3;
 
-      // 조명 설정 (더 밝게 조정)
+      // 조명 설정
       const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
       modelScene.add(ambientLight);
 
@@ -557,44 +1323,122 @@
       directionalLight2.position.set(-1, -1, -1);
       modelScene.add(directionalLight2);
 
-      // GLTF 모델 로드 (OBJLoader 대신 GLTFLoader 사용)
-      const loader = new THREE.GLTFLoader();
+      // OBJ/MTL 로더
+      const mtlLoader = new THREE.MTLLoader();
+      const objLoader = new THREE.OBJLoader();
+
       let model;
 
-      loader.load(
-        '3d/phone.glb', // 파일 경로 변경
-        (gltf) => {
-          model = gltf.scene;
+      mtlLoader.load(
+        '3d/phone.mtl',
+        (materials) => {
+          materials.preload();
+          objLoader.setMaterials(materials);
           
-          // 모델 크기 조정 및 위치 설정 (화면에 전체적으로 보이도록)
-          const box = new THREE.Box3().setFromObject(model);
-          const size = box.getSize(new THREE.Vector3()).length();
-          const center = box.getCenter(new THREE.Vector3());
-          
-          const scale = 3; // GLTF 파일은 일반적으로 더 작은 스케일을 가짐
-          model.scale.set(scale, scale, scale);
-          model.position.x = -center.x * scale;
-          model.position.y = -center.y * scale;
-          model.position.z = -center.z * scale;
-
-          // 회전 적용
-          model.rotation.x = 0 * (Math.PI / 180); 
-          model.rotation.y = 90 * (Math.PI / 180);
-          model.rotation.z = 10 * (Math.PI / 180);  
-          
-          modelScene.add(model);
-          modelLoadComplete(); // 모델 로드 완료
+          objLoader.load(
+            '3d/phone.obj',
+            (object) => {
+              model = object;
+              
+              // 모델 크기 조정
+              const box = new THREE.Box3().setFromObject(model);
+              const center = box.getCenter(new THREE.Vector3());
+              const size = box.getSize(new THREE.Vector3());
+              
+              const maxDim = Math.max(size.x, size.y, size.z);
+              const scale = 3 / maxDim;
+              model.scale.multiplyScalar(scale);
+              
+              // 위치 조정
+              model.position.x = -center.x * scale;
+              model.position.y = -center.y * scale;
+              model.position.z = -center.z * scale;
+              
+              // 회전 적용
+              model.rotation.x = 0;
+              model.rotation.y = Math.PI / 2;
+              model.rotation.z = Math.PI / 18;
+              
+              console.log('3D Model loaded successfully');
+              modelScene.add(model);
+              modelLoadComplete();
+            },
+            (xhr) => {
+              console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            (error) => {
+              console.error('Error loading OBJ model:', error);
+              modelContainer.innerHTML = '<p style="color:white;text-align:center;font-size:1.2rem;">3D Model failed to load: ' + error.message + '</p>';
+              modelLoadComplete();
+            }
+          );
         },
         (xhr) => {
-          console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+          console.log('MTL ' + (xhr.loaded / xhr.total * 100) + '% loaded');
         },
         (error) => {
-          console.error('Error loading model:', error);
-          // 모델 로드 실패 시 대체 이미지 표시
-          modelContainer.innerHTML = '<p style="color:white;text-align:center;">3D Model failed to load</p>';
-          modelLoadComplete(); // 실패 시에도 로드 완료 처리
+          console.error('Error loading MTL materials:', error);
+          // MTL 로드 실패 시 기본 재질로 OBJ 로드
+          objLoader.load(
+            '3d/phone.obj',
+            (object) => {
+              model = object;
+              
+              // 기본 재질 적용
+              model.traverse((child) => {
+                if (child.isMesh) {
+                  child.material = new THREE.MeshPhongMaterial({ 
+                    color: 0x888888,
+                    shininess: 30
+                  });
+                }
+              });
+              
+              // 모델 크기 조정
+              const box = new THREE.Box3().setFromObject(model);
+              const center = box.getCenter(new THREE.Vector3());
+              const size = box.getSize(new THREE.Vector3());
+              
+              const maxDim = Math.max(size.x, size.y, size.z);
+              const scale = 3 / maxDim;
+              model.scale.multiplyScalar(scale);
+              
+              model.position.x = -center.x * scale;
+              model.position.y = -center.y * scale;
+              model.position.z = -center.z * scale;
+              
+              model.rotation.x = 0;
+              model.rotation.y = Math.PI / 2;
+              model.rotation.z = Math.PI / 18;
+              
+              console.log('3D Model loaded with default materials');
+              modelScene.add(model);
+              modelLoadComplete();
+            },
+            (xhr) => {
+              console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            (error) => {
+              console.error('Error loading OBJ model:', error);
+              modelContainer.innerHTML = '<p style="color:white;text-align:center;font-size:1.2rem;">3D Model failed to load: ' + error.message + '</p>';
+              modelLoadComplete();
+            }
+          );
         }
       );
+
+      // 휴대폰 목업 위치 추적 함수
+      function updatePhonePosition() {
+        const phoneMockup = document.querySelector('.phone-mockup');
+        if (phoneMockup) {
+          const rect = phoneMockup.getBoundingClientRect();
+          const phoneX = rect.left + rect.width / 2;
+          const phoneY = rect.top + rect.height / 2;
+          
+          shaderMaterial.uniforms.uPhonePosition.value.set(phoneX, phoneY);
+          shaderMaterial.uniforms.uPhoneSize.value.set(rect.width, rect.height);
+        }
+      }
 
       // 마우스 위치에 따라 모델이 살짝 쳐다보는 효과
       let targetRotationX = 0;
@@ -602,16 +1446,14 @@
       let currentRotationX = 0;
       let currentRotationY = 0;
 
-      container.addEventListener("mousemove", function (e) {
-        // 화면 중앙을 기준으로 마우스 위치 계산 (정규화)
+      // 마우스 이벤트 핸들러
+      document.addEventListener("mousemove", function (e) {
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = -(e.clientY / window.innerHeight) * 2 + 1;
         
-        // 회전 각도 계산 (값이 클수록 더 많이 회전)
-        targetRotationY = x * 0.2; // 좌우 회전 (y축)
-        targetRotationX = y * 0.1; // 상하 회전 (x축)
+        targetRotationY = x * 0.2;
+        targetRotationX = y * 0.1;
         
-        // 원형 렌즈 효과
         let c = circle.cloneNode(true);
         c.style.left = e.pageX - circleHalf + "px";
         c.style.top = e.pageY - circleHalf + "px";
@@ -621,7 +1463,6 @@
         c.addEventListener("animationend", e => e.target.remove());
         container.appendChild(c);
 
-        // WebGL에 마우스 위치 전달
         shaderMaterial.uniforms.uMouse.value.set(e.clientX, window.innerHeight - e.clientY);
       });
 
@@ -631,11 +1472,9 @@
         
         if (!model) return;
         
-        // 현재 회전 값을 점진적으로 타겟 회전 값에 접근
         currentRotationX += (targetRotationX - currentRotationX) * 0.05;
         currentRotationY += (targetRotationY - currentRotationY) * 0.05;
         
-        // 모델 회전 적용
         model.rotation.x = currentRotationX;
         model.rotation.y = currentRotationY;
         
@@ -644,7 +1483,7 @@
       updateModelRotation();
 
       // 마우스가 영역을 벗어났을 때
-      container.addEventListener("mouseleave", function() {
+      document.addEventListener("mouseleave", function() {
         shaderMaterial.uniforms.uMouse.value.set(-1000, -1000);
         targetRotationX = 0;
         targetRotationY = 0;
@@ -655,12 +1494,33 @@
         modelRenderer.setSize(modelContainer.clientWidth, modelContainer.clientHeight);
         modelCamera.aspect = modelContainer.clientWidth / modelContainer.clientHeight;
         modelCamera.updateProjectionMatrix();
+        
+        // WebGL 렌더러 크기 조정
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        shaderMaterial.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+        
+        camera.left = -window.innerWidth / 2;
+        camera.right = window.innerWidth / 2;
+        camera.top = window.innerHeight / 2;
+        camera.bottom = -window.innerHeight / 2;
+        camera.updateProjectionMatrix();
+        
+        plane.scale.set(window.innerWidth, window.innerHeight, 1);
+        
+        // 휴대폰 위치 업데이트
+        updatePhonePosition();
+        
+        ScrollTrigger.refresh();
       });
 
       // 애니메이션 루프 (2D 효과용)
       function animate() {
         requestAnimationFrame(animate);
         shaderMaterial.uniforms.uTime.value += 0.01;
+        
+        // 스크롤 시 휴대폰 위치 업데이트
+        updatePhonePosition();
+        
         renderer.render(scene, camera);
       }
       animate();
@@ -670,9 +1530,27 @@
 
       window.addEventListener("load", () => {
         ScrollTrigger.refresh();
+        // 초기 휴대폰 위치 설정
+        updatePhonePosition();
       });
 
+      // 섹션0 스크롤 트리거 설정
+      gsap.to("#section0", {
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: "#section1",
+          start: "top 80%",
+          end: "top 20%",
+          toggleActions: "play none none reverse",
+          scrub: 0.5
+        }
+      });
+
+      // 다른 섹션들의 애니메이션
       gsap.utils.toArray(".scroll-section").forEach(section => {
+        if (section.id === "section0") return;
+        
         gsap.to(section, {
           opacity: 1,
           y: 0,
@@ -735,8 +1613,8 @@
           });
         }
 
-        // 5번째 섹션의 3D 모델 컨테이너 애니메이션
-        if (section.id === 'section5') {
+        // 3D 모델 컨테이너 애니메이션
+        if (section.id === 'section-phone') {
           const modelContainer = section.querySelector('#model-container');
           gsap.to(modelContainer, {
             y: 0,
@@ -757,23 +1635,12 @@
       window.addEventListener("resize", () => {
         circleHalf = circle.offsetWidth / 2;
         shaderMaterial.uniforms.uRadius.value = circleHalf;
-        shaderMaterial.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
-        
-        camera.left = -window.innerWidth / 2;
-        camera.right = window.innerWidth / 2;
-        camera.top = window.innerHeight / 2;
-        camera.bottom = -window.innerHeight / 2;
-        camera.updateProjectionMatrix();
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        
-        plane.scale.set(window.innerWidth, window.innerHeight, 1);
         
         ScrollTrigger.refresh();
       });
 
       // 초기 로딩 시작
-      updateProgress(); // 기본 리소스 로드 시작
+      updateProgress();
     })();
   </script>
 </body>
