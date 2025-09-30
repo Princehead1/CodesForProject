@@ -42,7 +42,7 @@
       height: 100%;
       width: 0%;
       background-color: white;
-      transition: width 1.0s ease;
+      transition: width 2.0s ease;
     }
 
     #loading-text {
@@ -94,8 +94,8 @@
       background: url("images/BG_Image_01-03.png") center center no-repeat fixed;
       background-size: cover;
       mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
-      transition: 1.0s;
-      z-index: 10;
+      transition: 2.0s;
+      z-index: 0;
       pointer-events: none;
     }
 
@@ -197,25 +197,89 @@
       box-sizing: border-box;
     }
 
-    /* 섹션1 스타일 */
-    #section1 {
+    /* 공통 섹션 스타일 */
+    #section1, #section6, #section9 {
       justify-content: center;
     }
 
-    #section1 .content-wrapper {
+    #section1 .content-wrapper,
+    #section3 .content-wrapper,
+    #section6 .content-wrapper,
+    #section9 .content-wrapper {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
     }
 
-    #section1 .text-content {
+    #section2 .content-wrapper,
+    #section4 .content-wrapper,
+    #section7 .content-wrapper,
+    #section8 .content-wrapper,
+    #section10 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .text-content {
       flex: 1;
+    }
+
+    #section1 .text-content,
+    #section6 .text-content {
       text-align: left;
     }
 
-    #section1 .scroll-image {
-      max-width: 200%;
-      max-height: 80vh;
+    #section3 .text-content,
+    #section9 .text-content {
+      text-align: right;
+    }
+
+    #section2 .text-content,
+    #section10 .text-content {
+      text-align: center;
+    }
+
+    #section4 .text-content,
+    #section7 .text-content,
+    #section8 .text-content {
+      text-align: left;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+
+    #section3 .image-container,
+    #section9 .image-container {
+      justify-content: flex-start;
+    }
+
+    #section2 .image-container,
+    #section4 .image-container,
+    #section7 .image-container,
+    #section8 .image-container {
+      order: 1;
+    }
+
+    #section2 .text-content,
+    #section4 .text-content,
+    #section7 .text-content,
+    #section8 .text-content {
+      order: 2;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    .scroll-image {
+      max-width: 165%;
+      max-height: 70vh;
       object-fit: contain;
       transform: translateY(20px) scale(1.1);
       opacity: 0;
@@ -224,17 +288,17 @@
       transition: all 0.6s ease-out;
     }
 
-    .font-bold {
-      font-weight: 700;
+    #section1 .scroll-image {
+      max-width: 200%;
+      max-height: 80vh;
     }
 
-    #section1 .image-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
+    #section6 .scroll-image {
+      max-width: 200%;
+      max-height: 140vh;
     }
 
-    #section1 .scroll-text {
+    .scroll-text {
       font-size: clamp(1.3rem, 3.5vw, 2.0rem);
       line-height: 1.6;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
@@ -246,64 +310,9 @@
       font-family: "Urbanist", Arial, sans-serif;
     }
 
-    /* 섹션2 스타일 */
-    #section2 .content-wrapper {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-    }
-
-    #section2 .text-content {
-      flex: none;
-      text-align: center;
-      order: 2;
-    }
-
-    #section2 .image-container {
-      order: 1;
-    }
-
-    #section2 .scroll-text {
+    #section2 .scroll-text,
+    #section10 .scroll-text {
       font-size: clamp(1.5rem, 4vw, 2.5rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    /* 섹션3 스타일 */
-    #section3 .content-wrapper {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #section3 .text-content {
-      flex: 1;
-      text-align: right;
-    }
-
-    #section3 .image-container {
-      flex: 1;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    #section3 .scroll-text {
-      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
     }
 
     .line-space {
@@ -312,44 +321,17 @@
       line-height: 1.8;
     }
 
-    /* 섹션4 스타일 */
-    #section4 .content-wrapper {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-    }
-
-    #section4 .text-content {
-      flex: none;
-      text-align: left;
-      order: 2;
-    }
-
-    #section4 .image-container {
-      order: 1;
-    }
-
-    #section4 .scroll-text {
-      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
     /* 섹션5 스타일 - Snapchat 인터페이스 */
+    #section5 {
+      position: relative;
+      z-index: 100;
+    }
+
     #section5 .content-wrapper {
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 40px;
-      position: relative;
-      z-index: 50; /* WebGL 효과보다 위에 표시 */
     }
 
     #section5 .text-content {
@@ -357,16 +339,46 @@
       text-align: center;
     }
 
-    #section5 .scroll-text {
-      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
+    /* 휴대폰 모드 활성화 시 전체 오버레이 */
+    .phone-mode-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .phone-mode-overlay.active {
+      display: flex;
+    }
+
+    .phone-mode-instruction {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      text-align: center;
       font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    .esc-key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #555, #333);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 5px;
+      border: 2px solid #777;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+      margin: 0 5px;
+      min-width: 60px;
     }
 
     /* Snapchat 스타일 인터페이스 */
@@ -379,8 +391,6 @@
       position: relative;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      z-index: 60; /* WebGL 효과보다 위에 표시 */
-      pointer-events: auto; /* 마우스 이벤트 활성화 */
     }
 
     .phone-screen {
@@ -409,7 +419,7 @@
       border: none;
       border-radius: 20px;
       background: rgba(255, 255, 255, 0.8);
-      font-size: 14px;
+      font-size: 16px;
       font-family: "Urbanist", Arial, sans-serif;
     }
 
@@ -469,12 +479,44 @@
     .selected-info h3 {
       color: #333;
       margin-bottom: 10px;
-      font-size: 18px;
+      font-size: 20px;
+      font-weight: 600;
     }
 
     .selected-info p {
       color: #666;
       margin-bottom: 15px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .map-container {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .map-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .default-message {
+      padding: 80px;
+      text-align: center;
+      color: #212121;
+      font-family: "Urbanist", Arial, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
     }
 
     /* 섹션6 스타일 */
@@ -651,8 +693,8 @@
 
     #section-phone {
       min-height: 120vh;
-      height: auto; /* 추가 */
-      padding-bottom: 100px; /* 추가 - 하단 여백 확보 */
+      height: auto;
+      padding-bottom: 100px;
     }
 
     .scroll-title {
@@ -665,41 +707,6 @@
       will-change: transform, opacity;
       transition: all 0.6s ease-out;
       font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    .scroll-text {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      max-width: 700px;
-      margin-bottom: 2rem;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    .scroll-image {
-      max-width: 165%;
-      max-height: 70vh;
-      object-fit: contain;
-      transform: translateY(20px) scale(1.1);
-      opacity: 0;
-      will-change: transform, opacity, filter;
-      filter: blur(2px);
-      transition: all 0.6s ease-out;
-    }
-
-    .image-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-    }
-
-    .text-content {
-      flex: 1;
     }
 
     .scroll-indicator {
@@ -753,7 +760,7 @@
       transform: translateY(20px);
       opacity: 0;
       will-change: transform, opacity;
-      margin-bottom: 50px; /* 추가 - 하단 여백 */
+      margin-bottom: 50px;
     }
 
     #model-container canvas {
@@ -761,21 +768,36 @@
       height: 100% !important;
     }
 
+    /* WebGL 렌즈 효과를 위한 배경 레이어 */
+    .webgl-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
     @media (max-width: 768px) {
-      #section2 .content-wrapper,
-      #section4 .content-wrapper,
-      #section6 .content-wrapper {
+      #section1 .content-wrapper,
+      #section3 .content-wrapper,
+      #section6 .content-wrapper,
+      #section9 .content-wrapper {
         flex-direction: column;
         gap: 30px;
+      }
+
+      #section1 .text-content,
+      #section3 .text-content,
+      #section6 .text-content,
+      #section9 .text-content {
+        text-align: center;
       }
 
       .text-content,
       .image-container {
         max-width: 100%;
-      }
-
-      #section4 .text-content {
-        text-align: center;
       }
 
       .logo {
@@ -798,36 +820,23 @@
         margin: 10px 0;
       }
 
-      #section1 .content-wrapper,
-      #section3 .content-wrapper,
-      #section5 .content-wrapper,
-      #section7 .content-wrapper {
-        flex-direction: column;
-        gap: 30px;
-      }
-
-      #section1 .text-content,
-      #section3 .text-content,
-      #section5 .text-content,
-      #section7 .text-content {
-        text-align: center;
-      }
-
-      #section1 .image-container,
-      #section3 .image-container,
-      #section5 .image-container,
-      #section7 .image-container {
-        justify-content: center;
-      }
-
       .phone-mockup {
         width: 250px;
         height: 500px;
       }
       
       .search-input {
-        font-size: 12px;
+        font-size: 14px;
         padding: 10px 12px;
+      }
+
+      .phone-mode-instruction {
+        font-size: 1.2rem;
+        padding: 0 20px;
+      }
+      
+      .default-message {
+        font-size: 16px;
       }
     }
   </style>
@@ -841,16 +850,67 @@
     </div>
   </div>
 
+  <!-- 휴대폰 모드 오버레이 -->
+  <div class="phone-mode-overlay" id="phone-mode-overlay">
+    <div class="phone-mode-instruction">
+      Press <span class="esc-key">ESC</span> to exit phone mode
+    </div>
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <div class="snap-header">
+          <div class="snap-search-bar">
+            <input type="text" id="school-search" placeholder="Search for schools..." class="search-input">
+            <button class="search-btn" onclick="searchSchool()">🔍</button>
+          </div>
+        </div>
+        
+        <!-- 검색 결과 영역 -->
+        <div class="search-results" id="search-results">
+          <div class="result-item" onclick="selectSchool('Lincoln High School', 'Los Angeles, California')">
+            <div class="school-name">Lincoln High School</div>
+            <div class="school-location">📍 Los Angeles, California</div>
+          </div>
+          <div class="result-item" onclick="selectSchool('Jefferson Middle School', 'Chicago, Illinois')">
+            <div class="school-name">Jefferson Middle School</div>
+            <div class="school-location">📍 Chicago, Illinois</div>
+          </div>
+          <div class="result-item" onclick="selectSchool('Washington Academy', 'New York, New York')">
+            <div class="school-name">Washington Academy</div>
+            <div class="school-location">📍 New York, New York</div>
+          </div>
+        </div>
+        
+        <!-- 선택된 학교 정보 -->
+        <div class="selected-school" id="selected-school">
+          <div class="selected-info">
+            <h3 id="selected-name"></h3>
+            <p id="selected-location"></p>
+            <div class="map-container" id="map-container">
+              <iframe class="map-frame" id="map-frame" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- 기본 상태 메시지 -->
+        <div class="default-message" id="default-message">
+          <p>Search for your school to get started</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
     <img src="images/Logo.png" class="logo" alt="Logo" />
 
-    <video class="video-background" autoplay muted loop>
-      <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-
-    <canvas id="webgl-canvas"></canvas>
-    <div class="circle"></div>
+    <!-- WebGL 효과를 위한 배경 레이어 -->
+    <div class="webgl-background">
+      <video class="video-background" autoplay muted loop>
+        <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <canvas id="webgl-canvas"></canvas>
+      <div class="circle"></div>
+    </div>
     
     <!-- 섹션0 -->
     <div class="scroll-section" id="section0">
@@ -911,39 +971,21 @@
         </div>
       </div>
 
+      <!-- 섹션5 -->
       <div class="scroll-section" id="section5">
         <div class="content-wrapper">
-          <div class="text-content">
-          </div>
+          <div class="text-content"></div>
           <div class="phone-mockup">
             <div class="phone-screen">
-              <div class="snap-header">
-                <div class="snap-search-bar">
-                  <input type="text" id="school-search" placeholder="Search for schools..." class="search-input">
-                  <button class="search-btn" onclick="searchSchool()">🔍</button>
-                </div>
-              </div>
-              
-              <!-- 검색 결과 영역 -->
-              <div class="search-results" id="search-results">
-                <div class="result-item" onclick="selectSchool('Lincoln High School')">
-                  <div class="school-name">Lincoln High School</div>
-                  <div class="school-location">📍 Los Angeles, California</div>
-                </div>
-                <div class="result-item" onclick="selectSchool('Jefferson Middle School')">
-                  <div class="school-name">Jefferson Middle School</div>
-                  <div class="school-location">📍 Chicago, Illinois</div>
-                </div>
-                <div class="result-item" onclick="selectSchool('Washington Academy')">
-                  <div class="school-name">Washington Academy</div>
-                  <div class="school-location">📍 New York, New York</div>
-                </div>
+              <div class="default-message">
+                <p>Press <kbd>A</kbd> to interact with the phone</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- 나머지 섹션들... -->
       <!-- 섹션6 -->
       <div class="scroll-section" id="section6">
         <div class="content-wrapper">
@@ -1020,7 +1062,159 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/MTLLoader.min.js"></script>
+
   <script>
+    // 전역 변수 - 휴대폰 모드 상태
+    let isPhoneModeActive = false;
+    let originalScrollTriggers = [];
+
+    // 전역 함수들
+    function searchSchool() {
+      const searchInput = document.getElementById('school-search');
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      const results = document.getElementById('search-results');
+      const selectedSchool = document.getElementById('selected-school');
+      const defaultMessage = document.getElementById('default-message');
+      const mapContainer = document.getElementById('map-container');
+      
+      if (searchTerm === '') {
+        alert('Please enter a school name');
+        return;
+      }
+      
+      // 기본 메시지 숨기기
+      if (defaultMessage) defaultMessage.style.display = 'none';
+      
+      // 검색 결과 필터링
+      let filteredResults = '';
+      let found = false;
+      
+      for (const schoolName in window.usSchools) {
+        if (schoolName.toLowerCase().includes(searchTerm)) {
+          found = true;
+          const school = window.usSchools[schoolName];
+          filteredResults += `
+            <div class="result-item" onclick="selectSchool('${schoolName}', '${school.location}')">
+              <div class="school-name">${schoolName}</div>
+              <div class="school-location">📍 ${school.location}</div>
+            </div>
+          `;
+        }
+      }
+      
+      if (!found) {
+        filteredResults = '<div class="result-item">No schools found</div>';
+      }
+      
+      results.innerHTML = filteredResults;
+      results.style.display = 'block';
+      selectedSchool.style.display = 'none';
+      if (mapContainer) mapContainer.style.display = 'none';
+    }
+
+    function selectSchool(schoolName, location) {
+      const results = document.getElementById('search-results');
+      const selectedSchool = document.getElementById('selected-school');
+      const selectedName = document.getElementById('selected-name');
+      const selectedLocation = document.getElementById('selected-location');
+      const mapContainer = document.getElementById('map-container');
+      const mapFrame = document.getElementById('map-frame');
+      const defaultMessage = document.getElementById('default-message');
+      
+      // UI 상태 업데이트
+      if (defaultMessage) defaultMessage.style.display = 'none';
+      results.style.display = 'none';
+      
+      selectedName.textContent = schoolName;
+      selectedLocation.textContent = location;
+      
+      // 학교 좌표로 지도 표시
+      const school = window.usSchools[schoolName];
+      if (school && school.coords) {
+        const coords = school.coords;
+        mapFrame.src = `https://maps.google.com/maps?q=${coords.lat},${coords.lng}&z=15&output=embed`;
+        mapContainer.style.display = 'block';
+      } else {
+        mapContainer.style.display = 'none';
+      }
+      
+      selectedSchool.style.display = 'block';
+      document.getElementById('school-search').value = '';
+    }
+
+    // 휴대폰 모드 제어 함수
+    function activatePhoneMode() {
+      if (isPhoneModeActive) return;
+      
+      isPhoneModeActive = true;
+      const overlay = document.getElementById('phone-mode-overlay');
+      
+      // 모든 ScrollTrigger 비활성화
+      originalScrollTriggers = ScrollTrigger.getAll();
+      originalScrollTriggers.forEach(trigger => {
+        trigger.disable();
+      });
+      
+      // 스크롤 비활성화
+      document.body.style.overflow = 'hidden';
+      
+      // WebGL 효과 일시정지
+      if (window.circleAnimation) {
+        window.circleAnimation.pause();
+      }
+      
+      // 오버레이 표시
+      overlay.classList.add('active');
+      
+      // 검색창에 포커스
+      setTimeout(() => {
+        document.getElementById('school-search').focus();
+      }, 100);
+      
+      console.log('Phone mode activated');
+    }
+
+    function deactivatePhoneMode() {
+      if (!isPhoneModeActive) return;
+      
+      isPhoneModeActive = false;
+      const overlay = document.getElementById('phone-mode-overlay');
+      
+      // ScrollTrigger 다시 활성화
+      originalScrollTriggers.forEach(trigger => {
+        trigger.enable();
+      });
+      
+      // 스크롤 활성화
+      document.body.style.overflow = '';
+      
+      // WebGL 효과 재개
+      if (window.circleAnimation) {
+        window.circleAnimation.play();
+      }
+      
+      // 오버레이 숨기기
+      overlay.classList.remove('active');
+      
+      console.log('Phone mode deactivated');
+    }
+
+    // 키보드 이벤트 리스너
+    document.addEventListener('keydown', function(e) {
+      // A키로 휴대폰 모드 활성화
+      if ((e.key === 'a' || e.key === 'A') && !isPhoneModeActive) {
+        activatePhoneMode();
+        e.preventDefault();
+      }
+      
+      // ESC키로 휴대폰 모드 비활성화
+      if (e.key === 'Escape' && isPhoneModeActive) {
+        deactivatePhoneMode();
+        e.preventDefault();
+      }
+    });
+
+    // 메인 애플리케이션
     (function () {
       // 로딩 화면 요소
       const loadingScreen = document.getElementById('loading-screen');
@@ -1098,57 +1292,52 @@
         });
       }
 
-      // Snapchat 검색 기능
-      function searchSchool() {
-        const searchInput = document.getElementById('school-search');
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const results = document.getElementById('search-results');
-        const selectedSchool = document.getElementById('selected-school');
-        
-        if (searchTerm === '') {
-          alert('Please enter a school name');
-          return;
+      // 미국 학교 데이터베이스
+      window.usSchools = {
+        'Lincoln High School': {
+          name: 'Lincoln High School',
+          location: 'Los Angeles, California',
+          coords: { lat: 34.0522, lng: -118.2437 }
+        },
+        'Jefferson Middle School': {
+          name: 'Jefferson Middle School',
+          location: 'Chicago, Illinois',
+          coords: { lat: 41.8781, lng: -87.6298 }
+        },
+        'Washington Academy': {
+          name: 'Washington Academy',
+          location: 'New York, New York',
+          coords: { lat: 40.7128, lng: -74.0060 }
+        },
+        'Roosevelt High School': {
+          name: 'Roosevelt High School',
+          location: 'Seattle, Washington',
+          coords: { lat: 47.6062, lng: -122.3321 }
+        },
+        'Kennedy Elementary': {
+          name: 'Kennedy Elementary',
+          location: 'Boston, Massachusetts',
+          coords: { lat: 42.3601, lng: -71.0589 }
+        },
+        'Madison Middle School': {
+          name: 'Madison Middle School',
+          location: 'Phoenix, Arizona',
+          coords: { lat: 33.4484, lng: -112.0740 }
+        },
+        'Jackson High School': {
+          name: 'Jackson High School',
+          location: 'Houston, Texas',
+          coords: { lat: 29.7604, lng: -95.3698 }
+        },
+        'Adams Elementary': {
+          name: 'Adams Elementary',
+          location: 'Miami, Florida',
+          coords: { lat: 25.7617, lng: -80.1918 }
         }
-        
-        results.style.display = 'block';
-        selectedSchool.style.display = 'none';
-        console.log('Searching for:', searchTerm);
-      }
+      };
 
-      function selectSchool(schoolName) {
-        const results = document.getElementById('search-results');
-        const selectedSchool = document.getElementById('selected-school');
-        const selectedName = document.getElementById('selected-name');
-        const selectedLocation = document.getElementById('selected-location');
-        
-        const schoolData = {
-          'Lincoln High School': {
-            name: 'Lincoln High School',
-            location: '📍 123 Lincoln Ave, Los Angeles, CA'
-          },
-          'Jefferson Middle School': {
-            name: 'Jefferson Middle School', 
-            location: '📍 456 Jefferson St, Chicago, IL'
-          },
-          'Washington Academy': {
-            name: 'Washington Academy',
-            location: '📍 789 Washington Blvd, New York, NY'
-          }
-        };
-        
-        const school = schoolData[schoolName];
-        if (school) {
-          selectedName.textContent = school.name;
-          selectedLocation.textContent = school.location;
-          
-          results.style.display = 'none';
-          selectedSchool.style.display = 'block';
-          document.getElementById('school-search').value = '';
-        }
-      }
-
-      // 엔터 키로 검색
-      document.getElementById('school-search').addEventListener('keypress', function(e) {
+      // 엔터 키로 검색 (휴대폰 모드 내에서)
+      document.getElementById('school-search')?.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
           searchSchool();
         }
@@ -1182,7 +1371,7 @@
       const circle = document.querySelector(".circle");
       let circleHalf = circle.offsetWidth / 2;
 
-      // WebGL 설정 (2D 효과용)
+      // WebGL 설정
       const canvas = document.getElementById('webgl-canvas');
       const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
@@ -1203,16 +1392,14 @@
       );
       camera.position.z = 1;
 
-      // 쉐이더 재료 생성 - 휴대폰 목업 영역 제외
+      // 쉐이더 재료
       const shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {
           uTime: { value: 0 },
           uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
           uMouse: { value: new THREE.Vector2(-1000, -1000) },
           uRadius: { value: circleHalf },
-          uTexture: { value: null },
-          uPhonePosition: { value: new THREE.Vector2(0, 0) },
-          uPhoneSize: { value: new THREE.Vector2(300, 600) }
+          uTexture: { value: null }
         },
         vertexShader: `
           varying vec2 vUv;
@@ -1226,8 +1413,6 @@
           uniform vec2 uMouse;
           uniform float uRadius;
           uniform float uTime;
-          uniform vec2 uPhonePosition;
-          uniform vec2 uPhoneSize;
           varying vec2 vUv;
           
           void main() {
@@ -1237,35 +1422,15 @@
             vec2 mouse = uMouse / uResolution;
             mouse.y = 1.0 - mouse.y;
             
-            // 휴대폰 목업 영역 계산
-            vec2 phoneCenter = uPhonePosition / uResolution;
-            vec2 phoneHalfSize = uPhoneSize / uResolution / 2.0;
-            phoneCenter.y = 1.0 - phoneCenter.y; // y 좌표 반전
-            
-            // 휴대폰 영역 내부인지 확인
-            bool inPhoneArea = 
-              uv.x >= phoneCenter.x - phoneHalfSize.x && 
-              uv.x <= phoneCenter.x + phoneHalfSize.x && 
-              uv.y >= phoneCenter.y - phoneHalfSize.y && 
-              uv.y <= phoneCenter.y + phoneHalfSize.y;
-            
-            // 휴대폰 영역 내부면 WebGL 효과 적용하지 않음
-            if (inPhoneArea) {
-              gl_FragColor = texture2D(uTexture, uv);
-              return;
-            }
-            
             float dist = distance(uv, mouse);
             float effect = smoothstep(uRadius / uResolution.x, 0.0, dist);
             
-            // 왜곡 효과
             vec2 distortedUv = uv;
             if (effect > 0.0) {
               float wave = sin(uTime * 2.0 + dist * 20.0) * 0.01;
               distortedUv.x += wave * effect;
               distortedUv.y += wave * effect * 0.5;
               
-              // 색상 왜곡
               float colorShift = sin(uTime * 3.0 + dist * 15.0) * 0.1 * effect;
               gl_FragColor = vec4(
                 texture2D(uTexture, distortedUv).r + colorShift,
@@ -1282,8 +1447,10 @@
       });
 
       // 텍스처 생성
-      const texture = new THREE.Texture(document.querySelector('.scroll-content'));
-      texture.needsUpdate = true;
+      const texture = new THREE.VideoTexture(video);
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.format = THREE.RGBFormat;
       shaderMaterial.uniforms.uTexture.value = texture;
 
       // 평면 생성
@@ -1291,7 +1458,7 @@
       const plane = new THREE.Mesh(planeGeometry, shaderMaterial);
       scene.add(plane);
 
-      // 3D 모델을 위한 별도의 WebGL 렌더러 설정
+      // 3D 모델을 위한 별도의 WebGL 렌더러
       const modelContainer = document.getElementById('model-container');
       const modelRenderer = new THREE.WebGLRenderer({ 
         antialias: true, 
@@ -1340,7 +1507,6 @@
             (object) => {
               model = object;
               
-              // 모델 크기 조정
               const box = new THREE.Box3().setFromObject(model);
               const center = box.getCenter(new THREE.Vector3());
               const size = box.getSize(new THREE.Vector3());
@@ -1349,12 +1515,10 @@
               const scale = 3 / maxDim;
               model.scale.multiplyScalar(scale);
               
-              // 위치 조정
               model.position.x = -center.x * scale;
               model.position.y = -center.y * scale;
               model.position.z = -center.z * scale;
               
-              // 회전 적용
               model.rotation.x = 0;
               model.rotation.y = Math.PI / 2;
               model.rotation.z = Math.PI / 18;
@@ -1378,13 +1542,11 @@
         },
         (error) => {
           console.error('Error loading MTL materials:', error);
-          // MTL 로드 실패 시 기본 재질로 OBJ 로드
           objLoader.load(
             '3d/phone.obj',
             (object) => {
               model = object;
               
-              // 기본 재질 적용
               model.traverse((child) => {
                 if (child.isMesh) {
                   child.material = new THREE.MeshPhongMaterial({ 
@@ -1394,7 +1556,6 @@
                 }
               });
               
-              // 모델 크기 조정
               const box = new THREE.Box3().setFromObject(model);
               const center = box.getCenter(new THREE.Vector3());
               const size = box.getSize(new THREE.Vector3());
@@ -1427,27 +1588,15 @@
         }
       );
 
-      // 휴대폰 목업 위치 추적 함수
-      function updatePhonePosition() {
-        const phoneMockup = document.querySelector('.phone-mockup');
-        if (phoneMockup) {
-          const rect = phoneMockup.getBoundingClientRect();
-          const phoneX = rect.left + rect.width / 2;
-          const phoneY = rect.top + rect.height / 2;
-          
-          shaderMaterial.uniforms.uPhonePosition.value.set(phoneX, phoneY);
-          shaderMaterial.uniforms.uPhoneSize.value.set(rect.width, rect.height);
-        }
-      }
-
-      // 마우스 위치에 따라 모델이 살짝 쳐다보는 효과
+      // 마우스 위치에 따라 모델 회전 효과
       let targetRotationX = 0;
       let targetRotationY = 0;
       let currentRotationX = 0;
       let currentRotationY = 0;
 
-      // 마우스 이벤트 핸들러
       document.addEventListener("mousemove", function (e) {
+        if (isPhoneModeActive) return; // 휴대폰 모드 중에는 효과 비활성화
+        
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = -(e.clientY / window.innerHeight) * 2 + 1;
         
@@ -1466,11 +1615,10 @@
         shaderMaterial.uniforms.uMouse.value.set(e.clientX, window.innerHeight - e.clientY);
       });
 
-      // 부드러운 회전을 위한 애니메이션
       function updateModelRotation() {
         requestAnimationFrame(updateModelRotation);
         
-        if (!model) return;
+        if (!model || isPhoneModeActive) return;
         
         currentRotationX += (targetRotationX - currentRotationX) * 0.05;
         currentRotationY += (targetRotationY - currentRotationY) * 0.05;
@@ -1482,20 +1630,19 @@
       }
       updateModelRotation();
 
-      // 마우스가 영역을 벗어났을 때
       document.addEventListener("mouseleave", function() {
+        if (isPhoneModeActive) return;
+        
         shaderMaterial.uniforms.uMouse.value.set(-1000, -1000);
         targetRotationX = 0;
         targetRotationY = 0;
       });
 
-      // 창 크기 변경 시 모델 렌더러 크기 조정
       window.addEventListener('resize', () => {
         modelRenderer.setSize(modelContainer.clientWidth, modelContainer.clientHeight);
         modelCamera.aspect = modelContainer.clientWidth / modelContainer.clientHeight;
         modelCamera.updateProjectionMatrix();
         
-        // WebGL 렌더러 크기 조정
         renderer.setSize(window.innerWidth, window.innerHeight);
         shaderMaterial.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
         
@@ -1507,20 +1654,14 @@
         
         plane.scale.set(window.innerWidth, window.innerHeight, 1);
         
-        // 휴대폰 위치 업데이트
-        updatePhonePosition();
-        
         ScrollTrigger.refresh();
       });
 
-      // 애니메이션 루프 (2D 효과용)
       function animate() {
         requestAnimationFrame(animate);
-        shaderMaterial.uniforms.uTime.value += 0.01;
-        
-        // 스크롤 시 휴대폰 위치 업데이트
-        updatePhonePosition();
-        
+        if (!isPhoneModeActive) {
+          shaderMaterial.uniforms.uTime.value += 0.01;
+        }
         renderer.render(scene, camera);
       }
       animate();
@@ -1530,8 +1671,6 @@
 
       window.addEventListener("load", () => {
         ScrollTrigger.refresh();
-        // 초기 휴대폰 위치 설정
-        updatePhonePosition();
       });
 
       // 섹션0 스크롤 트리거 설정
@@ -1564,37 +1703,44 @@
           }
         });
 
-        gsap.to(section.querySelector(".scroll-title"), {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          delay: 0.3,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 85%",
-            end: "top 50%",
-            toggleActions: "play none none reverse",
-            scrub: 0.5
-          }
-        });
-
-        gsap.to(section.querySelector(".scroll-text"), {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          delay: 0.5,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            end: "top 45%",
-            toggleActions: "play none none reverse",
-            scrub: 0.5
-          }
-        });
-
+        const title = section.querySelector(".scroll-title");
+        const text = section.querySelector(".scroll-text");
         const img = section.querySelector(".scroll-image");
+
+        if (title) {
+          gsap.to(title, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            delay: 0.3,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 85%",
+              end: "top 50%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        if (text) {
+          gsap.to(text, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            delay: 0.5,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              end: "top 45%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
         if (img) {
           gsap.to(img, {
             y: 0,
@@ -1613,7 +1759,6 @@
           });
         }
 
-        // 3D 모델 컨테이너 애니메이션
         if (section.id === 'section-phone') {
           const modelContainer = section.querySelector('#model-container');
           gsap.to(modelContainer, {
@@ -1635,7 +1780,6 @@
       window.addEventListener("resize", () => {
         circleHalf = circle.offsetWidth / 2;
         shaderMaterial.uniforms.uRadius.value = circleHalf;
-        
         ScrollTrigger.refresh();
       });
 
