@@ -7,839 +7,805 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --lens-size: 400px;
-      --content-margin: 5vw;
-    }
-
-    /* 로딩 화면 스타일 */
-    #loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      transition: opacity 1.0s ease-out;
-    }
-
-    #loading-progress {
-      width: 200px;
-      height: 4px;
-      background-color: rgba(255, 255, 255, 0.2);
-      margin-top: 20px;
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    #loading-progress-bar {
-      height: 100%;
-      width: 0%;
-      background-color: white;
-      transition: width 2.0s ease;
-    }
-
-    #loading-text {
-      color: white;
-      margin-top: 15px;
-      font-size: 1rem;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-      background-color: black;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    body::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    body::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 4px;
-    }
-
-    .container {
-      min-height: 100vh;
-      position: relative;
-      opacity: 0;
-      transition: opacity 1.0s ease-in;
-    }
-
-    .video-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-      transform: none !important;
-    }
-
-    .circle {
-      position: absolute;
-      width: var(--lens-size);
-      height: var(--lens-size);
-      background: url("images/BG_Image_01-03.png") center center no-repeat fixed;
-      background-size: cover;
-      mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
-      transition: 2.0s;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .fadeOut {
-      animation: fadeOut 1.5s forwards;
-    }
-
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-
-    .scroll-content {
-      position: relative;
-      z-index: 3;
-      padding-top: 100vh;
-      height: 1500vh;
-      min-height: 900vh;
-      padding-left: var(--content-margin);
-      padding-right: var(--content-margin);
-      padding-bottom: 100px;
-    }
-
-    .scroll-section {
-      min-height: 100vh;
-      display: flex;
-      opacity: 0;
-      transform: translateY(100px);
-      will-change: opacity, transform;
-      align-items: center;
-      margin-bottom: 100px;
-    }
-
-    /* 섹션0 스타일 */
-    #section0 {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: 4;
-      justify-content: center;
-      align-items: center;
-      opacity: 1;
-      transform: none;
-    }
-
-    #section0 .content-wrapper {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-    }
-
-    #section0 .scroll-title {
-      display: none;
-    }
-
-    #section0 .intro-text {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      color: rgb(255, 251, 240);
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    #section0 .text-part {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.8s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    #section0 .separator {
-      width: 2px;
-      height: 60px;
-      background-color: white;
-      margin: 0 20px;
-      opacity: 0;
-      transform: scaleY(0);
-      transform-origin: center;
-      transition: all 0.5s ease-out;
-    }
-
-    #section0 .bold-text {
-      font-weight: 600;
-      font-size: 1.2em;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    .content-wrapper {
-      display: flex;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    /* 공통 섹션 스타일 */
-    #section1, #section6, #section9 {
-      justify-content: center;
-    }
-
-    #section1 .content-wrapper,
-    #section3 .content-wrapper,
-    #section6 .content-wrapper,
-    #section9 .content-wrapper {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #section2 .content-wrapper,
-    #section4 .content-wrapper,
-    #section7 .content-wrapper,
-    #section8 .content-wrapper,
-    #section10 .content-wrapper {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-    }
-
-    .text-content {
-      flex: 1;
-    }
-
-    #section1 .text-content,
-    #section6 .text-content {
-      text-align: left;
-    }
-
-    #section3 .text-content,
-    #section9 .text-content {
-      text-align: right;
-    }
-
-    #section2 .text-content,
-    #section10 .text-content {
-      text-align: center;
-    }
-
-    #section4 .text-content,
-    #section7 .text-content,
-    #section8 .text-content {
-      text-align: left;
-    }
-
-    .image-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-    }
-
-    #section3 .image-container,
-    #section9 .image-container {
-      justify-content: flex-start;
-    }
-
-    #section2 .image-container,
-    #section4 .image-container,
-    #section7 .image-container,
-    #section8 .image-container {
-      order: 1;
-    }
-
-    #section2 .text-content,
-    #section4 .text-content,
-    #section7 .text-content,
-    #section8 .text-content {
-      order: 2;
-    }
-
-    .font-bold {
-      font-weight: 700;
-    }
-
-    .scroll-image {
-      max-width: 165%;
-      max-height: 70vh;
-      object-fit: contain;
-      transform: translateY(20px) scale(1.1);
-      opacity: 0;
-      will-change: transform, opacity, filter;
-      filter: blur(2px);
-      transition: all 0.6s ease-out;
-    }
-
-    #section1 .scroll-image {
-      max-width: 200%;
-      max-height: 80vh;
-    }
-
-    #section6 .scroll-image {
-      max-width: 200%;
-      max-height: 140vh;
-    }
-
-    .scroll-text {
-      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    #section2 .scroll-text,
-    #section10 .scroll-text {
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-    }
-
-    .line-space {
-      display: block;
-      margin-top: 30px;
-      line-height: 1.8;
-    }
-
-    /* 섹션5 스타일 - Snapchat 인터페이스 */
-    #section5 {
-      position: relative;
-      z-index: 100;
-    }
-
-    #section5 .content-wrapper {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-    }
-
-    #section5 .text-content {
-      flex: 1;
-      text-align: center;
-    }
-
-    /* 휴대폰 모드 활성화 시 전체 오버레이 */
-    .phone-mode-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    .phone-mode-overlay.active {
-      display: flex;
-    }
-
-    .phone-mode-instruction {
-      color: white;
-      font-size: 1.5rem;
-      margin-bottom: 30px;
-      text-align: center;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    .esc-key {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #555, #333);
-      color: white;
-      padding: 2px 8px;
-      border-radius: 5px;
-      border: 2px solid #777;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      font-weight: 600;
-      margin: 0 5px;
-      min-width: 60px;
-    }
-
-    /* Snapchat 스타일 인터페이스 */
-    .phone-mockup {
-      width: 300px;
-      height: 600px;
-      background: #000;
-      border-radius: 30px;
-      border: 3px solid #333;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .phone-screen {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #fffeb3, #83001f);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .snap-header {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 15px;
-      backdrop-filter: blur(10px);
-    }
-
-    .snap-search-bar {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .search-input {
-      flex: 1;
-      padding: 12px 15px;
-      border: none;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      font-size: 16px;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    .search-input:focus {
-      outline: none;
-      background: white;
-    }
-
-    .search-btn {
-      background: #ffc800;
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .search-results {
-      padding: 15px;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .result-item {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 15px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .result-item:hover {
-      background: white;
-      transform: translateX(5px);
-    }
-
-    .school-name {
-      font-weight: 600;
-      font-size: 16px;
-      margin-bottom: 5px;
-      color: #333;
-    }
-
-    .school-location {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .selected-school {
-      padding: 20px;
-      display: none;
-    }
-
-    .selected-info h3 {
-      color: #333;
-      margin-bottom: 10px;
-      font-size: 20px;
-      font-weight: 600;
-    }
-
-    .selected-info p {
-      color: #666;
-      margin-bottom: 15px;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .map-container {
-      width: 100%;
-      height: 200px;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 15px;
-      display: none;
-    }
-
-    .map-frame {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .default-message {
-      padding: 80px;
-      text-align: center;
-      color: #212121;
-      font-family: "Urbanist", Arial, sans-serif;
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 1; }
-    }
-
-    /* 섹션6 스타일 */
-    #section6 {
-      justify-content: center;
-    }
-
-    #section6 .content-wrapper {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #section6 .text-content {
-      flex: 1;
-      text-align: left;
-    }
-
-    #section6 .scroll-image {
-      max-width: 200%;
-      max-height: 140vh;
-      object-fit: contain;
-      transform: translateY(20px) scale(1.1);
-      opacity: 0;
-      will-change: transform, opacity, filter;
-      filter: blur(2px);
-      transition: all 0.6s ease-out;
-    }
-
-    #section6 .image-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-
-    #section6 .scroll-text {
-      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    /* 섹션7 스타일 */
-    #section7 .content-wrapper {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-    }
-
-    #section7 .text-content {
-      flex: none;
-      text-align: left;
-      order: 2;
-    }
-
-    #section7 .image-container {
-      order: 1;
-    }
-
-    #section7 .scroll-text {
-      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    /* 섹션8 스타일 */
-    #section8 .content-wrapper {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-    }
-
-    #section8 .text-content {
-      flex: none;
-      text-align: left;
-      order: 2;
-    }
-
-    #section8 .image-container {
-      order: 1;
-    }
-
-    #section8 .scroll-text {
-      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    /* 섹션9 스타일 */
-    #section9 .content-wrapper {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #section9 .text-content {
-      flex: 1;
-      text-align: right;
-    }
-
-    #section9 .image-container {
-      flex: 1;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    #section9 .scroll-text {
-      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    /* 섹션10 스타일 */
-    #section10 .content-wrapper {
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #section10 .text-content {
-      flex: none;
-      text-align: center;
-      order: 1;
-      gap: 20px;
-    }
-
-    #section10 .image-container {
-      order: 2;
-    }
-
-    #section10 .scroll-text {
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-      line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    /* 섹션-phone 스타일 */
-    #section-phone .content-wrapper {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    #section-phone {
-      min-height: 120vh;
-      height: auto;
-      padding-bottom: 100px;
-    }
-
-    .scroll-title {
-      font-size: clamp(2rem, 5vw, 3rem);
-      margin-bottom: 1.5rem;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    .scroll-indicator {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgb(255, 251, 240);
-      font-size: 1rem;
-      z-index: 10;
-      opacity: 0.7;
-      animation: bounce 2s infinite;
-      font-family: "Urbanist", Arial, sans-serif;
-    }
-
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-      40% { transform: translateY(-10px) translateX(-50%); }
-      60% { transform: translateY(-5px) translateX(-50%); }
-    }
-
-    .logo {
-      position: fixed;
-      top: 30px;
-      left: 30px;
-      z-index: 20;
-      width: 120px;
-      height: auto;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
-    }
-
-    #webgl-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    #model-container {
-      width: 100%;
-      height: 80vh;
-      position: relative;
-      transform: translateY(20px);
-      opacity: 0;
-      will-change: transform, opacity;
-      margin-bottom: 50px;
-    }
-
-    #model-container canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
-
-    /* WebGL 렌즈 효과를 위한 배경 레이어 */
-    .webgl-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    @media (max-width: 768px) {
-      #section1 .content-wrapper,
-      #section3 .content-wrapper,
-      #section6 .content-wrapper,
-      #section9 .content-wrapper {
-        flex-direction: column;
-        gap: 30px;
-      }
-
-      #section1 .text-content,
-      #section3 .text-content,
-      #section6 .text-content,
-      #section9 .text-content {
-        text-align: center;
-      }
-
-      .text-content,
-      .image-container {
-        max-width: 100%;
-      }
-
-      .logo {
-        width: 90px;
-        top: 20px;
-        left: 20px;
-      }
-
-      #model-container {
-        height: 40vh;
-      }
-      
-      #section0 .intro-text {
-        flex-direction: column;
-      }
-      
-      #section0 .separator {
-        width: 60px;
-        height: 2px;
-        margin: 10px 0;
-      }
-
-      .phone-mockup {
-        width: 250px;
-        height: 500px;
-      }
-      
-      .search-input {
-        font-size: 14px;
-        padding: 10px 12px;
-      }
-
-      .phone-mode-instruction {
-        font-size: 1.2rem;
-        padding: 0 20px;
-      }
-      
-      .default-message {
-        font-size: 16px;
-      }
-    }
-  </style>
+    <style>
+        :root {
+          --lens-size: 400px;
+          --content-margin: 5vw;
+        }
+
+        /* 기본 스타일 */
+        html, body {
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+          scroll-behavior: smooth;
+          background-color: black;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        body::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 4px;
+        }
+
+        /* 로딩 화면 스타일 */
+        #loading-screen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.8);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+          transition: opacity 1.0s ease-out;
+        }
+
+        #loading-progress {
+          width: 200px;
+          height: 4px;
+          background-color: rgba(255, 255, 255, 0.2);
+          margin-top: 20px;
+          border-radius: 2px;
+          overflow: hidden;
+        }
+
+        #loading-progress-bar {
+          height: 100%;
+          width: 0%;
+          background-color: white;
+          transition: width 2.0s ease;
+        }
+
+        #loading-text {
+          color: white;
+          margin-top: 15px;
+          font-size: 1rem;
+        }
+
+        /* 컨테이너 및 공통 요소 */
+        .container {
+          min-height: 100vh;
+          position: relative;
+          opacity: 0;
+          transition: opacity 1.0s ease-in;
+        }
+
+        .video-background {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          z-index: 0;
+          transform: none !important;
+        }
+
+        .circle {
+          position: absolute;
+          width: var(--lens-size);
+          height: var(--lens-size);
+          background: url("images/BG_Image_01-03.png") center center no-repeat fixed;
+          background-size: cover;
+          mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+          transition: 2.0s;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .fadeOut {
+          animation: fadeOut 1.5s forwards;
+        }
+
+        @keyframes fadeOut {
+          0% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+
+        .scroll-content {
+          position: relative;
+          z-index: 3;
+          padding-top: 100vh;
+          height: 1500vh;
+          min-height: 900vh;
+          padding-left: var(--content-margin);
+          padding-right: var(--content-margin);
+          padding-bottom: 100px;
+        }
+
+        .scroll-section {
+          min-height: 100vh;
+          display: flex;
+          opacity: 0;
+          transform: translateY(100px);
+          will-change: opacity, transform;
+          align-items: center;
+          margin-bottom: 100px;
+        }
+
+        .content-wrapper {
+          display: flex;
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+
+        .text-content {
+          flex: 1;
+        }
+
+        .image-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex: 1;
+        }
+
+        .font-bold {
+          font-weight: 700;
+        }
+
+        .scroll-image {
+          max-width: 165%;
+          max-height: 70vh;
+          object-fit: contain;
+          transform: translateY(20px) scale(1.1);
+          opacity: 0;
+          will-change: transform, opacity, filter;
+          filter: blur(2px);
+          transition: all 0.6s ease-out;
+        }
+
+        .scroll-text {
+          font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+          line-height: 1.6;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+          transform: translateY(20px) scale(0.95);
+          opacity: 0;
+          color: rgb(255, 251, 240);
+          will-change: transform, opacity;
+          transition: all 0.6s ease-out;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        .line-space {
+          display: block;
+          margin-top: 30px;
+          line-height: 1.8;
+        }
+
+        .scroll-title {
+          font-size: clamp(2rem, 5vw, 3rem);
+          margin-bottom: 1.5rem;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+          transform: translateY(20px) scale(0.95);
+          opacity: 0;
+          color: rgb(255, 251, 240);
+          will-change: transform, opacity;
+          transition: all 0.6s ease-out;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        .scroll-indicator {
+          position: fixed;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          color: rgb(255, 251, 240);
+          font-size: 1rem;
+          z-index: 10;
+          opacity: 0.7;
+          animation: bounce 2s infinite;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+          40% { transform: translateY(-10px) translateX(-50%); }
+          60% { transform: translateY(-5px) translateX(-50%); }
+        }
+
+        .logo {
+          position: fixed;
+          top: 30px;
+          left: 30px;
+          z-index: 20;
+          width: 120px;
+          height: auto;
+          cursor: pointer;
+          transition: transform 0.3s;
+        }
+
+        .logo:hover {
+          transform: scale(1.05);
+        }
+
+        #webgl-canvas {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        #model-container {
+          width: 100%;
+          height: 80vh;
+          position: relative;
+          transform: translateY(20px);
+          opacity: 0;
+          will-change: transform, opacity;
+          margin-bottom: 50px;
+        }
+
+        #model-container canvas {
+          width: 100% !important;
+          height: 100% !important;
+        }
+
+        .webgl-background {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        /* 섹션0 스타일 */
+        #section0 {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          z-index: 4;
+          justify-content: center;
+          align-items: center;
+          opacity: 1;
+          transform: none;
+        }
+
+        #section0 .content-wrapper {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          position: relative;
+        }
+
+        #section0 .scroll-title {
+          display: none;
+        }
+
+        #section0 .intro-text {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
+          color: rgb(255, 251, 240);
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        #section0 .text-part {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s ease-out;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        #section0 .separator {
+          width: 2px;
+          height: 60px;
+          background-color: white;
+          margin: 0 20px;
+          opacity: 0;
+          transform: scaleY(0);
+          transform-origin: center;
+          transition: all 0.5s ease-out;
+        }
+
+        #section0 .bold-text {
+          font-weight: 600;
+          font-size: 1.2em;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        @media (max-width: 768px) {
+          #section0 .intro-text {
+            flex-direction: column;
+          }
+          
+          #section0 .separator {
+            width: 60px;
+            height: 2px;
+            margin: 10px 0;
+          }
+        }
+
+        /* 섹션1 스타일 */
+        #section1 {
+          justify-content: center;
+        }
+
+        #section1 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section1 .text-content {
+          text-align: left;
+        }
+
+        #section1 .scroll-image {
+          max-width: 200%;
+          max-height: 80vh;
+        }
+
+        @media (max-width: 768px) {
+          #section1 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section1 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션2 스타일 */
+        #section2 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section2 .text-content {
+          text-align: center;
+        }
+
+        #section2 .image-container {
+          order: 1;
+        }
+
+        #section2 .text-content {
+          order: 2;
+        }
+
+        #section2 .scroll-text {
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        /* 섹션3 스타일 */
+        #section3 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section3 .text-content {
+          text-align: right;
+        }
+
+        #section3 .image-container {
+          justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+          #section3 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section3 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션4 스타일 */
+        #section4 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section4 .text-content {
+          text-align: left;
+          width: 60%;
+          order: 2;
+        }
+
+        #section4 .image-container {
+          order: 1;
+        }
+
+        /* 섹션5 스타일 - Snapchat 인터페이스 */
+        #section5 {
+          position: relative;
+          z-index: 100;
+        }
+
+        #section5 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section5 .text-content {
+          flex: 1;
+          text-align: center;
+        }
+
+        /* 휴대폰 모드 활성화 시 전체 오버레이 */
+        .phone-mode-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.9);
+          z-index: 1000;
+          display: none;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        .phone-mode-overlay.active {
+          display: flex;
+        }
+
+        .phone-mode-instruction {
+          color: white;
+          font-size: 1.5rem;
+          margin-bottom: 30px;
+          text-align: center;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        .esc-key {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #555, #333);
+          color: white;
+          padding: 2px 8px;
+          border-radius: 5px;
+          border: 2px solid #777;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+          font-weight: 600;
+          margin: 0 5px;
+          min-width: 60px;
+        }
+
+        /* Snapchat 스타일 인터페이스 */
+        .phone-mockup {
+          width: 300px;
+          height: 600px;
+          background: #000;
+          border-radius: 30px;
+          border: 3px solid #333;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .phone-screen {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #fffeb3, #83001f);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .snap-header {
+          background: rgba(255, 255, 255, 0.9);
+          padding: 15px;
+          backdrop-filter: blur(10px);
+        }
+
+        .snap-search-bar {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+        }
+
+        .search-input {
+          flex: 1;
+          padding: 12px 15px;
+          border: none;
+          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.8);
+          font-size: 16px;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        .search-input:focus {
+          outline: none;
+          background: white;
+        }
+
+        .search-btn {
+          background: #ffc800;
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          cursor: pointer;
+          font-size: 16px;
+        }
+
+        .search-results {
+          padding: 15px;
+          max-height: 300px;
+          overflow-y: auto;
+        }
+
+        .result-item {
+          background: rgba(255, 255, 255, 0.9);
+          padding: 15px;
+          margin-bottom: 10px;
+          border-radius: 15px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+
+        .result-item:hover {
+          background: white;
+          transform: translateX(5px);
+        }
+
+        .school-name {
+          font-weight: 600;
+          font-size: 16px;
+          margin-bottom: 5px;
+          color: #333;
+        }
+
+        .school-location {
+          font-size: 14px;
+          color: #666;
+        }
+
+        .selected-school {
+          padding: 20px;
+          display: none;
+        }
+
+        .selected-info h3 {
+          color: #333;
+          margin-bottom: 10px;
+          font-size: 20px;
+          font-weight: 600;
+        }
+
+        .selected-info p {
+          color: #666;
+          margin-bottom: 15px;
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        .map-container {
+          width: 100%;
+          height: 200px;
+          border-radius: 10px;
+          overflow: hidden;
+          margin-top: 15px;
+          display: none;
+        }
+
+        .map-frame {
+          width: 100%;
+          height: 100%;
+          border: none;
+        }
+
+        .default-message {
+          padding: 80px;
+          text-align: center;
+          color: #212121;
+          font-family: "Urbanist", Arial, sans-serif;
+          font-size: 22px;
+          font-weight: 700;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 0.7; }
+          50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+          .phone-mockup {
+            width: 250px;
+            height: 500px;
+          }
+          
+          .search-input {
+            font-size: 14px;
+            padding: 10px 12px;
+          }
+
+          .phone-mode-instruction {
+            font-size: 1.2rem;
+            padding: 0 20px;
+          }
+          
+          .default-message {
+            font-size: 16px;
+          }
+        }
+
+        /* 섹션6 스타일 */
+        #section6 {
+          justify-content: center;
+        }
+
+        #section6 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section6 .text-content {
+          text-align: left;
+        }
+
+        #section6 .scroll-image {
+          max-width: 200%;
+          max-height: 140vh;
+        }
+
+        @media (max-width: 768px) {
+          #section6 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section6 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션7 스타일 */
+        #section7 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+          width: 100%;
+        }
+
+        #section7 .text-content {
+          text-align: left;
+          order: 2;
+          width: 60%;
+          max-width: 1200px;
+        }
+
+        #section7 .image-container {
+          order: 1;
+          width: 100%;
+        }
+        
+
+        /* 섹션8 스타일 */
+        #section8 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+          width: 100%;
+        }
+
+        #section8 .text-content {
+          text-align: left;
+          order: 2;
+          width: 60%;
+          max-width: 1200px;
+        }
+
+        #section8 .image-container {
+          order: 1;
+          width: 100%;
+        }
+
+        /* 섹션9 스타일 */
+        #section9 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section9 .text-content {
+          text-align: right;
+        }
+
+        #section9 .image-container {
+          justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+          #section9 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section9 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션10 스타일 */
+        #section10 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        #section10 .text-content {
+          text-align: center;
+          order: 1;
+          gap: 20px;
+        }
+
+        #section10 .image-container {
+          order: 2;
+        }
+
+        #section10 .scroll-text {
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        /* 섹션-phone 스타일 */
+        #section-phone .content-wrapper {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+
+        #section-phone {
+          min-height: 120vh;
+          height: auto;
+          padding-bottom: 100px;
+        }
+
+        /* 반응형 공통 스타일 */
+        @media (max-width: 768px) {
+          .text-content,
+          .image-container {
+            max-width: 100%;
+          }
+
+          .logo {
+            width: 90px;
+            top: 20px;
+            left: 20px;
+          }
+
+          #model-container {
+            height: 40vh;
+          }
+        }
+      </style>
 </head>
 <body>
   <!-- 로딩 화면 -->
@@ -1476,7 +1442,7 @@
         0.1,
         1000
       );
-      modelCamera.position.z = 3.3;
+      modelCamera.position.z = 5;
 
       // 조명 설정
       const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
@@ -1594,8 +1560,9 @@
       let currentRotationX = 0;
       let currentRotationY = 0;
 
+      // 원래 마우스 이동 이벤트로 복원 + 랜덤 크기 변화
       document.addEventListener("mousemove", function (e) {
-        if (isPhoneModeActive) return; // 휴대폰 모드 중에는 효과 비활성화
+        if (isPhoneModeActive) return;
         
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -1603,9 +1570,15 @@
         targetRotationY = x * 0.2;
         targetRotationX = y * 0.1;
         
+        // 랜덤 크기 변화
+        const randomSize = 450 + Math.random() * 100;
+        const randomCircleHalf = randomSize / 2;
+        
         let c = circle.cloneNode(true);
-        c.style.left = e.pageX - circleHalf + "px";
-        c.style.top = e.pageY - circleHalf + "px";
+        c.style.width = randomSize + "px";
+        c.style.height = randomSize + "px";
+        c.style.left = e.pageX - randomCircleHalf + "px";
+        c.style.top = e.pageY - randomCircleHalf + "px";
         circle.style.left = e.pageX - circleHalf + "px";
         circle.style.top = e.pageY - circleHalf + "px";
         c.classList.add("fadeOut");
