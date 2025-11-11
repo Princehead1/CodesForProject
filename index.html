@@ -32,6 +32,134 @@
           border-radius: 4px;
         }
 
+        /* 트리거 경고 화면 스타일 */
+        #trigger-warning {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.95);
+          display: none;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          z-index: 2000;
+          color: rgb(255, 251, 240);
+          text-align: center;
+          padding: 20px;
+          font-family: "Urbanist", Arial, sans-serif;
+          opacity: 0;
+          transition: opacity 0.8s ease;
+        }
+
+        #trigger-warning.active {
+          display: flex;
+          opacity: 1;
+        }
+
+        .warning-title {
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          margin-bottom: 2rem;
+          font-weight: 700;
+          color: #ff6b6b;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .warning-content {
+          font-size: clamp(1.2rem, 3vw, 1.8rem);
+          line-height: 1.6;
+          max-width: 800px;
+          margin-bottom: 3rem;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .warning-list {
+          text-align: left;
+          max-width: 600px;
+          margin: 0 auto 3rem;
+          font-size: clamp(1rem, 2.5vw, 1.4rem);
+        }
+
+        .warning-list li {
+          margin-bottom: 1rem;
+          line-height: 1.5;
+        }
+
+        .warning-question {
+          font-size: clamp(1.3rem, 3vw, 1.8rem);
+          margin-bottom: 2rem;
+          font-weight: 600;
+        }
+
+        .warning-buttons {
+          display: flex;
+          gap: 20px;
+        }
+
+        .warning-btn {
+          padding: 15px 40px;
+          font-size: 1.2rem;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: "Urbanist", Arial, sans-serif;
+          font-weight: 600;
+        }
+
+        .continue-btn {
+          background-color: #ff6b6b;
+          color: white;
+        }
+
+        .continue-btn:hover {
+          background-color: #ff5252;
+          transform: translateY(-2px);
+        }
+
+        .exit-btn {
+          background-color: transparent;
+          color: white;
+          border: 2px solid white;
+        }
+
+        .exit-btn:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          transform: translateY(-2px);
+        }
+
+        /* 다음 페이지 이동 버튼 */
+        #next-page-btn {
+          position: fixed;
+          bottom: 30px;
+          right: 30px;
+          background-color: #ff6b6b;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 15px 30px;
+          font-size: 1.2rem;
+          font-family: "Urbanist", Arial, sans-serif;
+          font-weight: 600;
+          cursor: pointer;
+          z-index: 100;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.5s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #next-page-btn.show {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        #next-page-btn:hover {
+          background-color: #ff5252;
+          transform: translateY(-2px);
+        }
+
         /* 로딩 화면 스타일 */
         #loading-screen {
           position: fixed;
@@ -39,13 +167,37 @@
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: rgba(0, 0, 0, 0.8);
+          background-color: black;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
           z-index: 1000;
-          transition: opacity 1.0s ease-out;
+          transition: opacity 0.5s ease-out;
+        }
+
+        #loading-video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          z-index: 1;
+        }
+
+        #loading-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.3);
+          z-index: 2;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
 
         #loading-progress {
@@ -61,13 +213,14 @@
           height: 100%;
           width: 0%;
           background-color: white;
-          transition: width 2.0s ease;
+          transition: width 0.3s linear;
         }
 
         #loading-text {
           color: white;
           margin-top: 15px;
           font-size: 1rem;
+          z-index: 3;
         }
 
         /* 컨테이너 및 공통 요소 */
@@ -114,7 +267,7 @@
           position: relative;
           z-index: 3;
           padding-top: 100vh;
-          height: 1500vh;
+          height: 2300vh;
           min-height: 900vh;
           padding-left: var(--content-margin);
           padding-right: var(--content-margin);
@@ -155,6 +308,7 @@
           font-weight: 700;
         }
 
+        /* 이미지 스크롤 애니메이션 */
         .scroll-image {
           max-width: 165%;
           max-height: 70vh;
@@ -166,6 +320,7 @@
           transition: all 0.6s ease-out;
         }
 
+        /* 텍스트 스크롤 애니메이션 - 이미지와 동일한 효과 적용 */
         .scroll-text {
           font-size: clamp(1.3rem, 3.5vw, 2.0rem);
           line-height: 1.6;
@@ -176,6 +331,7 @@
           will-change: transform, opacity;
           transition: all 0.6s ease-out;
           font-family: "Urbanist", Arial, sans-serif;
+          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
         }
 
         .line-space {
@@ -194,6 +350,7 @@
           will-change: transform, opacity;
           transition: all 0.6s ease-out;
           font-family: "Urbanist", Arial, sans-serif;
+          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
         }
 
         .scroll-indicator {
@@ -305,6 +462,7 @@
           transform: translateY(20px);
           transition: all 0.8s ease-out;
           font-family: "Urbanist", Arial, sans-serif;
+          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
         }
 
         #section0 .separator {
@@ -628,6 +786,290 @@
           font-weight: 700;
         }
 
+        /* 외모 평가 데모 스타일 - 이미지 크기 조정 */
+        .hot-or-not-container {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .hot-or-not-title {
+          font-size: 24px;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 20px;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .profile-container {
+          width: 280px; /* 크기 증가 */
+          height: 280px; /* 크기 증가 */
+          border-radius: 50%;
+          overflow: hidden;
+          margin-bottom: 30px;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+          position: relative;
+          cursor: pointer;
+        }
+
+        .profile-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+        }
+
+        .profile-container:hover .profile-image {
+          transform: scale(1.05);
+        }
+
+        .rating-buttons {
+          display: flex;
+          gap: 20px;
+        }
+
+        .rate-btn {
+          width: 80px; /* 크기 증가 */
+          height: 80px; /* 크기 증가 */
+          border-radius: 50%;
+          border: none;
+          font-size: 32px; /* 크기 증가 */
+          cursor: pointer;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+          transition: all 0.2s ease;
+        }
+
+        .rate-btn:hover {
+          transform: scale(1.1);
+        }
+
+        .rate-btn:active {
+          transform: scale(0.95);
+        }
+
+        .hot-btn {
+          background: #ff4757;
+          color: white;
+        }
+
+        .not-btn {
+          background: #2f3542;
+          color: white;
+        }
+
+        .reaction {
+          position: absolute;
+          font-size: 80px; /* 크기 증가 */
+          opacity: 0;
+          pointer-events: none;
+          z-index: 10;
+        }
+
+        .heart {
+          color: #ff4757;
+        }
+
+        .thumbs-down {
+          color: #2f3542;
+        }
+
+        /* 외모 평가 데모 오버레이 */
+        .hot-or-not-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.9);
+          z-index: 1000;
+          display: none;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        .hot-or-not-overlay.active {
+          display: flex;
+        }
+
+        .hot-or-not-instruction {
+          color: white;
+          font-size: 1.5rem;
+          margin-bottom: 30px;
+          text-align: center;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        /* 메시지 알림 스타일 */
+        .message-notification {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          width: 300px;
+          background: rgba(255, 255, 255, 0.95);
+          border-radius: 10px;
+          padding: 15px;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+          z-index: 1001;
+          transform: translateX(400px);
+          transition: transform 0.5s ease;
+          backdrop-filter: blur(10px);
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        .message-notification.show {
+          transform: translateX(0);
+        }
+
+        .message-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+
+        .message-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #ddd;
+          margin-right: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          color: #555;
+        }
+
+        .message-sender {
+          font-weight: 600;
+          color: #333;
+        }
+
+        .message-time {
+          font-size: 12px;
+          color: #888;
+          margin-left: auto;
+        }
+
+        .message-content {
+          color: #444;
+          line-height: 1.4;
+        }
+
+        .message-close {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: none;
+          border: none;
+          font-size: 16px;
+          cursor: pointer;
+          color: #888;
+        }
+
+        /* 섹션 17 - 사이버불링 휴대폰 화면 */
+        .cyberbullying-phone-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.9);
+          z-index: 1000;
+          display: none;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        .cyberbullying-phone-overlay.active {
+          display: flex;
+        }
+
+        .cyberbullying-instruction {
+          color: white;
+          font-size: 1.5rem;
+          margin-bottom: 30px;
+          text-align: center;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        .message-screen {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          position: relative;
+          overflow: hidden;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+
+        .message-container {
+          height: calc(100% - 60px);
+          overflow-y: auto;
+          padding-right: 10px;
+        }
+
+        .message {
+          margin-bottom: 15px;
+          padding: 12px 16px;
+          border-radius: 18px;
+          max-width: 80%;
+          word-wrap: break-word;
+          position: relative;
+          animation: messageAppear 0.3s ease-out;
+          font-family: "Urbanist", Arial, sans-serif;
+          font-size: 14px;
+          line-height: 1.4;
+        }
+
+        @keyframes messageAppear {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .received {
+          background: rgba(255, 255, 255, 0.9);
+          align-self: flex-start;
+          border-bottom-left-radius: 5px;
+        }
+
+        .sent {
+          background: rgba(255, 235, 59, 0.9);
+          align-self: flex-end;
+          margin-left: auto;
+          border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+          font-size: 10px;
+          color: #666;
+          margin-top: 5px;
+          text-align: right;
+        }
+
+        .phone-shake {
+          animation: phoneShake 0.5s ease-in-out;
+        }
+
+        @keyframes phoneShake {
+          0%, 100% { transform: translateX(0) translateY(0); }
+          10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) translateY(-2px); }
+          20%, 40%, 60%, 80% { transform: translateX(2px) translateY(2px); }
+        }
+
         @keyframes pulse {
           0%, 100% { opacity: 0.7; }
           50% { opacity: 1; }
@@ -651,6 +1093,44 @@
           
           .default-message {
             font-size: 16px;
+          }
+
+          .message-notification {
+            width: 250px;
+            right: 10px;
+            bottom: 10px;
+          }
+
+          .warning-buttons {
+            flex-direction: column;
+            gap: 15px;
+          }
+          
+          .warning-btn {
+            width: 100%;
+            max-width: 250px;
+          }
+
+          .profile-container {
+            width: 220px;
+            height: 220px;
+          }
+
+          .rate-btn {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+          }
+
+          .reaction {
+            font-size: 60px;
+          }
+
+          #next-page-btn {
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            font-size: 1rem;
           }
         }
 
@@ -774,6 +1254,135 @@
         #section10 .scroll-text {
           font-size: clamp(1.5rem, 4vw, 2.5rem);
         }
+        
+        /* 섹션11 스타일 */
+        #section11 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        #section11 .text-content {
+          text-align: center;
+          order: 1;
+          width: 60%;
+          gap: 20px;
+          max-width: 1200px;
+        }
+
+        /* 섹션12 스타일 */
+        #section12 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+        }
+
+        #section12 .text-content {
+          text-align: left;
+          order: 2;
+          width: 60%;
+          gap: 20px;
+          max-width: 1200px;
+        }
+
+        #section12 .image-container {
+          order: 1;
+          width: 100%;
+        }
+        
+        /* 섹션13 스타일 */
+        #section13 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section13 .text-content {
+          text-align: right;
+        }
+
+        #section13 .image-container {
+          justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+          #section13 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section13 .text-content {
+            text-align: center;
+          }
+        }        
+
+        /* 섹션14 스타일 */
+        #section14 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section14 .image-container {
+          order: 1;
+        }
+
+        /* 섹션15 스타일 */
+        #section15 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section15 .image-container {
+          order: 1;
+        }        
+
+        /* 섹션16 스타일 */
+        #section16 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section16 .text-content {
+          text-align: right;
+        }
+
+        #section16 .image-container {
+          justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+          #section16 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section16 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션17 스타일 */
+        #section17 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section17 .text-content {
+          text-align: center;
+          order: 1;
+        }
+
+        #section17 .phone-mockup {
+          order: 2;
+        }
 
         /* 섹션-phone 스타일 */
         #section-phone .content-wrapper {
@@ -810,11 +1419,41 @@
 <body>
   <!-- 로딩 화면 -->
   <div id="loading-screen">
-    <div id="loading-text">Loading...</div>
-    <div id="loading-progress">
-      <div id="loading-progress-bar"></div>
+    <video id="loading-video" autoplay muted>
+      <source src="images/Opening_load_screen.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div id="loading-overlay">
+      <div id="loading-text">Loading...</div>
+      <div id="loading-progress">
+        <div id="loading-progress-bar"></div>
+      </div>
     </div>
   </div>
+
+  <!-- 트리거 경고 화면 -->
+  <div id="trigger-warning">
+    <h1 class="warning-title">TRIGGER WARNING</h1>
+    <div class="warning-content">
+      This website contains content that may be distressing or triggering for some viewers.
+    </div>
+    <ul class="warning-list">
+      <li>Graphic depictions of cyberbullying and harassment</li>
+      <li>Themes of suicide and self-harm</li>
+      <li>Strong language and offensive content</li>
+      <li>Simulated social media interactions containing harmful messages</li>
+    </ul>
+    <div class="warning-question">
+      Do you wish to continue?
+    </div>
+    <div class="warning-buttons">
+      <button class="warning-btn continue-btn" id="continue-btn">Yes, I understand</button>
+      <button class="warning-btn exit-btn" id="exit-btn">No, take me away</button>
+    </div>
+  </div>
+
+  <!-- 다음 페이지 이동 버튼 -->
+  <button id="next-page-btn">Next Page →</button>
 
   <!-- 휴대폰 모드 오버레이 -->
   <div class="phone-mode-overlay" id="phone-mode-overlay">
@@ -862,6 +1501,56 @@
           <p>Search for your school to get started</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- 외모 평가 데모 오버레이 -->
+  <div class="hot-or-not-overlay" id="hot-or-not-overlay">
+    <div class="hot-or-not-instruction">
+      Press <span class="esc-key">ESC</span> to exit rating mode
+    </div>
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <div class="hot-or-not-container">
+          <div class="hot-or-not-title">Rate This Person</div>
+          <div class="profile-container" id="profile-container">
+            <img src="images/Image07.png" class="profile-image" alt="Profile">
+          </div>
+          <div class="rating-buttons">
+            <button class="rate-btn hot-btn" onclick="rateProfile('hot')">❤️</button>
+            <button class="rate-btn not-btn" onclick="rateProfile('not')">👎</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 섹션 17 - 사이버불링 휴대폰 화면 -->
+  <div class="cyberbullying-phone-overlay" id="cyberbullying-phone-overlay">
+    <div class="cyberbullying-instruction">
+      Press <span class="esc-key">ESC</span> to exit message mode
+    </div>
+    <div class="phone-mockup" id="cyberbullying-phone">
+      <div class="phone-screen">
+        <div class="message-screen">
+          <div class="message-container" id="message-container">
+            <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 메시지 알림 -->
+  <div class="message-notification" id="message-notification">
+    <button class="message-close" onclick="closeMessage()">×</button>
+    <div class="message-header">
+      <div class="message-avatar">A</div>
+      <div class="message-sender">Anonymous</div>
+      <div class="message-time">Just now</div>
+    </div>
+    <div class="message-content" id="message-content">
+      Did you see what they were wearing today?
     </div>
   </div>
 
@@ -941,17 +1630,16 @@
       <div class="scroll-section" id="section5">
         <div class="content-wrapper">
           <div class="text-content"></div>
-          <div class="phone-mockup">
+          <div class="phone-mockup" onclick="activatePhoneMode()">
             <div class="phone-screen">
               <div class="default-message">
-                <p>Press <kbd>A</kbd> to interact with the phone</p>
+                <p>Click "A" to interact with the phone</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 나머지 섹션들... -->
       <!-- 섹션6 -->
       <div class="scroll-section" id="section6">
         <div class="content-wrapper">
@@ -979,8 +1667,19 @@
       <!-- 섹션8 -->
       <div class="scroll-section" id="section8">
         <div class="content-wrapper">
-          <div class="image-container">
-            <img src="images/Image07.png" class="scroll-image">
+          <div class="phone-mockup" onclick="activateHotOrNotMode()">
+            <div class="phone-screen">
+              <div class="hot-or-not-container">
+                <div class="hot-or-not-title">Rate This Person<br>[press "S" button]</div>
+                <div class="profile-container" id="section8-profile-container">
+                  <img src="images/Image07.png" class="profile-image" alt="Profile">
+                </div>
+                <div class="rating-buttons">
+                  <button class="rate-btn hot-btn" onclick="event.stopPropagation(); rateProfile('hot', 'section8')">❤️</button>
+                  <button class="rate-btn not-btn" onclick="event.stopPropagation(); rateProfile('not', 'section8')">👎</button>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="text-content">
             <p class="scroll-text">Before the new semester even began, someone had gathered her and other female students to judge their looks.</p>
@@ -1012,6 +1711,87 @@
         </div>
       </div>
 
+      <!-- 섹션11 -->
+      <div class="scroll-section" id="section11">
+        <div class="content-wrapper">
+          <div class="image-container">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">As whispers spread and classmates send screenshots to each other,<br>she realizes the post has already traveled beyond the group.<br></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션12 -->
+      <div class="scroll-section" id="section12">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image10.png" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text"><br>Her face, along with those of a few classmates<span class="font-bold line-space">had already spread across the internet.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션13 -->
+      <div class="scroll-section" id="section13">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image11.png" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">Worse, her personal information<br>had already been traced<br>across several social media platforms,<br>and her photos were circulating widely.</p>
+          </div>
+        </div>
+      </div>      
+
+      <!-- 섹션14 -->
+      <div class="scroll-section" id="section14">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image12.png" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션15 -->
+      <div class="scroll-section" id="section15">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image13.png" class="scroll-image">
+          </div>
+        </div>
+      </div>      
+
+      <!-- 섹션16 -->
+      <div class="scroll-section" id="section16">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/Image14.png" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">At some point, messages from <br>strangers began to appear,<br>people she had never spoken to before<br>suddenly sending messages to her.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션17 -->
+      <div class="scroll-section" id="section17">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">Her phone was flooded with<br>hateful messages from strangers,<br>each one more vicious than the last.</p>
+          </div>
+          <div class="phone-mockup" onclick="activateCyberbullyingMode()">
+            <div class="phone-screen">
+              <div class="default-message">
+                <p>Click "D" to see the messages</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- 3D 모델 섹션 -->
       <div class="scroll-section" id="section-phone">
         <div class="content-wrapper">
@@ -1032,7 +1812,110 @@
   <script>
     // 전역 변수 - 휴대폰 모드 상태
     let isPhoneModeActive = false;
+    let isHotOrNotModeActive = false;
+    let isCyberbullyingModeActive = false;
     let originalScrollTriggers = [];
+    let messageTimer = null;
+    let userVisitTime = null;
+    let hasTriggerWarningBeenShown = false; // 트리거 경고가 이미 표시되었는지 추적
+    let currentPage = 1; // 현재 페이지 번호
+
+    // 사이버불링 메시지 데이터베이스 (업데이트됨)
+    const bullyingMessages = [
+      "Can’t believe you showed up looking like that lol.",
+      "You seriously think anyone likes you? Wake up.",
+      "No wonder you eat lunch alone every day.",
+      "You’d be cute if you didn’t look so fake.",
+      "Do you even look in the mirror before posting?",
+      "Why do you always edit your pics so much? It’s pathetic.",
+      "That outfit is giving ‘trying too hard.’",
+      "We made a new group chat — don’t worry, you’re not in it.",
+      "Stop tagging us. You’re not part of the group anymore.",
+      "Certain people really need to log off for a while.",
+      "Wow, still playing those dumb games? Grow up.",
+      "Why do you act like you’re better than everyone just because you like art?",
+      "No one cares about your activism posts.",
+      "You always play the victim — get over it.",
+      "You brought this on yourself, remember?",
+      "Stop making everything about you.",
+      "You should just delete your account already.",
+      "No one would miss you if you disappeared.",
+      "Keep talking and you’ll regret it.",
+      "Better watch what you post next time.",
+      "I was only kidding! You always take everything so seriously.",
+      "Stop being dramatic. No one else thinks like you do.",
+      "Weird how you twist things to sound like you’re hurt.",
+      "lol people always assume the worst about others — relax.",
+      "Nobody even noticed until you brought it up.",
+      "Honestly, you’re being sensitive — not everything is an attack.",
+      "If you can’t handle jokes, maybe group chat isn’t for you.",
+      "You always overreact; it’s exhausting to have to calm you down.",
+      "Everyone thinks you’re too fragile, don’t make this harder than it needs to be.",
+      "Everyone decided it’s better without you. Sorry."
+    ];
+
+    // 트리거 경고 화면 관련 함수들
+    function showTriggerWarning() {
+      if (hasTriggerWarningBeenShown) return; // 이미 표시되었다면 다시 표시하지 않음
+      
+      const triggerWarning = document.getElementById('trigger-warning');
+      triggerWarning.classList.add('active');
+      hasTriggerWarningBeenShown = true;
+    }
+
+    function hideTriggerWarning() {
+      const triggerWarning = document.getElementById('trigger-warning');
+      triggerWarning.classList.remove('active');
+      
+      // 메인 컨테이너 표시
+      document.querySelector('.container').style.opacity = '1';
+      
+      // 섹션0 애니메이션 시작
+      startSection0Animation();
+      
+      // 메시지 타이머 시작 (지연 시간 증가)
+      startMessageTimer();
+      
+      // ScrollTrigger 초기화
+      initScrollTriggers();
+      
+      // 다음 페이지 버튼 표시 설정
+      setupNextPageButton();
+    }
+
+    function exitSite() {
+      // 사용자를 안전한 페이지로 리디렉션
+      window.location.href = "https://www.google.com";
+    }
+
+    // 다음 페이지로 이동하는 함수
+    function goToNextPage() {
+      // 페이지2로 이동 (임시로 alert 표시)
+      alert("페이지 2로 이동합니다. 실제로는 페이지2.html로 리디렉션됩니다.");
+      // 실제 구현 시: window.location.href = "page2.html";
+    }
+
+    // 다음 페이지 버튼 설정 함수
+    function setupNextPageButton() {
+      const nextPageBtn = document.getElementById('next-page-btn');
+      
+      // 스크롤 이벤트 리스너 추가
+      window.addEventListener('scroll', function() {
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        // 스크롤이 하단에 가까워지면 버튼 표시
+        if (documentHeight - (scrollPosition + windowHeight) < 100) {
+          nextPageBtn.classList.add('show');
+        } else {
+          nextPageBtn.classList.remove('show');
+        }
+      });
+      
+      // 버튼 클릭 이벤트 리스너 추가
+      nextPageBtn.addEventListener('click', goToNextPage);
+    }
 
     // 전역 함수들
     function searchSchool() {
@@ -1108,9 +1991,80 @@
       document.getElementById('school-search').value = '';
     }
 
+    // 외모 평가 기능 - 이미지 크기 증가로 인해 더 잘 보이게 됨
+    function rateProfile(rating, containerId = 'profile-container') {
+      const profileContainer = document.getElementById(containerId);
+      const reaction = document.createElement('div');
+      reaction.classList.add('reaction');
+      
+      if (rating === 'hot') {
+        reaction.innerHTML = '❤️';
+        reaction.classList.add('heart');
+      } else {
+        reaction.innerHTML = '👎';
+        reaction.classList.add('thumbs-down');
+      }
+      
+      profileContainer.appendChild(reaction);
+      
+      // 애니메이션 효과 - 더 크게 표시
+      gsap.fromTo(reaction, 
+        { 
+          scale: 0, 
+          opacity: 1,
+          y: 0
+        }, 
+        { 
+          scale: 2.0, // 크기 증가
+          opacity: 0,
+          y: -80, // 이동 거리 증가
+          duration: 2.0, // 지속 시간 증가
+          ease: "power2.out",
+          onComplete: () => {
+            reaction.remove();
+          }
+        }
+      );
+    }
+
+    // 메시지 알림 기능 개선
+    function showRandomMessage() {
+      const notification = document.getElementById('message-notification');
+      const messageContent = document.getElementById('message-content');
+      const randomMessage = bullyingMessages[Math.floor(Math.random() * bullyingMessages.length)];
+      
+      messageContent.textContent = randomMessage;
+      notification.classList.add('show');
+      
+      // 8초 후 2초에 걸쳐 사라짐 (총 10초 표시)
+      setTimeout(() => {
+        notification.style.transition = 'transform 2s ease';
+        notification.classList.remove('show');
+        
+        // 다음 메시지를 위해 트랜지션 초기화
+        setTimeout(() => {
+          notification.style.transition = 'transform 0.5s ease';
+        }, 2000);
+      }, 8000);
+    }
+
+    function closeMessage() {
+      const notification = document.getElementById('message-notification');
+      notification.classList.remove('show');
+    }
+
+    function startMessageTimer() {
+      // 2분(120000ms) 후부터 메시지 표시 시작
+      setTimeout(() => {
+        showRandomMessage();
+        // 그 후 15-25초 간격으로 메시지 표시
+        messageTimer = setInterval(showRandomMessage, 10000 + Math.random() * 10000);
+      }, 90000);
+    }
+
     // 휴대폰 모드 제어 함수
     function activatePhoneMode() {
-      if (isPhoneModeActive) return;
+      if (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive) return;
       
       isPhoneModeActive = true;
       const overlay = document.getElementById('phone-mode-overlay');
@@ -1165,49 +2119,544 @@
       console.log('Phone mode deactivated');
     }
 
+    // 외모 평가 모드 제어 함수
+    function activateHotOrNotMode() {
+      if (isHotOrNotModeActive || isPhoneModeActive || isCyberbullyingModeActive) return;
+      
+      isHotOrNotModeActive = true;
+      const overlay = document.getElementById('hot-or-not-overlay');
+      
+      // 모든 ScrollTrigger 비활성화
+      originalScrollTriggers = ScrollTrigger.getAll();
+      originalScrollTriggers.forEach(trigger => {
+        trigger.disable();
+      });
+      
+      // 스크롤 비활성화
+      document.body.style.overflow = 'hidden';
+      
+      // WebGL 효과 일시정지
+      if (window.circleAnimation) {
+        window.circleAnimation.pause();
+      }
+      
+      // 오버레이 표시
+      overlay.classList.add('active');
+      
+      console.log('Hot or Not mode activated');
+    }
+
+    function deactivateHotOrNotMode() {
+      if (!isHotOrNotModeActive) return;
+      
+      isHotOrNotModeActive = false;
+      const overlay = document.getElementById('hot-or-not-overlay');
+      
+      // ScrollTrigger 다시 활성화
+      originalScrollTriggers.forEach(trigger => {
+        trigger.enable();
+      });
+      
+      // 스크롤 활성화
+      document.body.style.overflow = '';
+      
+      // WebGL 효과 재개
+      if (window.circleAnimation) {
+        window.circleAnimation.play();
+      }
+      
+      // 오버레이 숨기기
+      overlay.classList.remove('active');
+      
+      console.log('Hot or Not mode deactivated');
+    }
+
+    // 사이버불링 모드 제어 함수
+    function activateCyberbullyingMode() {
+      if (isCyberbullyingModeActive || isPhoneModeActive || isHotOrNotModeActive) return;
+      
+      isCyberbullyingModeActive = true;
+      const overlay = document.getElementById('cyberbullying-phone-overlay');
+      
+      // 모든 ScrollTrigger 비활성화
+      originalScrollTriggers = ScrollTrigger.getAll();
+      originalScrollTriggers.forEach(trigger => {
+        trigger.disable();
+      });
+      
+      // 스크롤 비활성화
+      document.body.style.overflow = 'hidden';
+      
+      // WebGL 효과 일시정지
+      if (window.circleAnimation) {
+        window.circleAnimation.pause();
+      }
+      
+      // 오버레이 표시
+      overlay.classList.add('active');
+      
+      // 메시지 스트림 시작
+      startMessageStream();
+      
+      console.log('Cyberbullying mode activated');
+    }
+
+    function deactivateCyberbullyingMode() {
+      if (!isCyberbullyingModeActive) return;
+      
+      isCyberbullyingModeActive = false;
+      const overlay = document.getElementById('cyberbullying-phone-overlay');
+      
+      // ScrollTrigger 다시 활성화
+      originalScrollTriggers.forEach(trigger => {
+        trigger.enable();
+      });
+      
+      // 스크롤 활성화
+      document.body.style.overflow = '';
+      
+      // WebGL 효과 재개
+      if (window.circleAnimation) {
+        window.circleAnimation.play();
+      }
+      
+      // 오버레이 숨기기
+      overlay.classList.remove('active');
+      
+      // 메시지 스트림 중지
+      clearInterval(window.messageStreamInterval);
+      
+      console.log('Cyberbullying mode deactivated');
+    }
+
+    // 사이버불링 메시지 스트림 함수
+    function startMessageStream() {
+      const messageContainer = document.getElementById('message-container');
+      messageContainer.innerHTML = '';
+      
+      // 초기 메시지 추가
+      addMessage("Hey, did you see Emily's new post?", "received");
+      
+      // 0.5초 후 메시지 추가 (속도 2배 증가)
+      setTimeout(() => {
+        addMessage("Yeah, she looks so desperate for attention", "received");
+      }, 500);
+      
+      // 1초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("I can't believe she thinks she's popular", "received");
+      }, 1000);
+      
+      // 1.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Someone should tell her to stop posting", "received");
+      }, 1500);
+      
+      // 2초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Why does she even try? Everyone knows she's a loser", "received");
+      }, 2000);
+      
+      // 2.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("I heard she cried in the bathroom yesterday", "received");
+      }, 2500);
+      
+      // 3초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Good, she deserves it", "received");
+      }, 3000);
+      
+      // 3.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("We should make a group without her", "received");
+      }, 3500);
+      
+      // 4초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Already did. Want me to add you?", "received");
+      }, 4000);
+      
+      // 4.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Yes please! I can't stand her anymore", "received");
+      }, 4500);
+      
+      // 5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Done. Welcome to the no-Emily zone!", "received");
+      }, 5000);
+      
+      // 5.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("LOL perfect!", "received");
+      }, 5500);
+      
+      // 6초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("I hope she sees this and knows she's not wanted", "received");
+      }, 6000);
+      
+      // 6.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("She will. I'm screenshotting and sending it to her", "received");
+      }, 6500);
+      
+      // 7초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("OMG you're evil! I love it", "received");
+      }, 7000);
+      
+      // 7.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Just sent it. Let's see how long until she cracks", "received");
+      }, 7500);
+      
+      // 8초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("This is so much fun!", "received");
+      }, 8000);
+      
+      // 8.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("I know right? Best entertainment ever", "received");
+      }, 8500);
+      
+      // 9초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("We should do this more often", "received");
+      }, 9000);
+      
+      // 9.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Definitely. Who's next?", "received");
+      }, 9500);
+      
+      // 10초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Maybe that quiet girl in math class", "received");
+      }, 10000);
+      
+      // 10.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Oh yeah, she's an easy target too", "received");
+      }, 10500);
+      
+      // 11초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Let's make a list", "received");
+      }, 11000);
+      
+      // 11.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Perfect. Operation Bully Squad begins!", "received");
+      }, 11500);
+      
+      // 12초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("LOL you're the best!", "received");
+      }, 12000);
+      
+      // 12.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("I know 😎", "received");
+      }, 12500);
+      
+      // 13초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("This is going to be the best school year ever", "received");
+      }, 13000);
+      
+      // 13.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("For us, not for them! LOL", "received");
+      }, 13500);
+      
+      // 14초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Exactly!", "received");
+      }, 14000);
+      
+      // 14.5초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("I can't wait to see them cry", "received");
+      }, 14500);
+      
+      // 15초 후 메시지 추가
+      setTimeout(() => {
+        addMessage("Me neither. This is too fun", "received");
+      }, 15000);
+      
+      // 흔들림 효과 타이머 시작 (더 자주 발생)
+      let shakeCount = 0;
+      const maxShakes = 10; // 총 흔들림 횟수
+      const shakeInterval = setInterval(() => {
+        if (shakeCount >= maxShakes) {
+          clearInterval(shakeInterval);
+          return;
+        }
+        
+        const phone = document.getElementById('cyberbullying-phone');
+        phone.classList.add('phone-shake');
+        
+        // 흔들림 효과 제거
+        setTimeout(() => {
+          phone.classList.remove('phone-shake');
+        }, 500);
+        
+        shakeCount++;
+      }, 2000); // 2초마다 흔들림
+    }
+
+    // 메시지 추가 함수
+    function addMessage(text, type) {
+      const messageContainer = document.getElementById('message-container');
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', type);
+      
+      const now = new Date();
+      const timeString = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+      
+      messageDiv.innerHTML = `
+        <div class="message-text">${text}</div>
+        <div class="message-time">${timeString}</div>
+      `;
+      
+      messageContainer.appendChild(messageDiv);
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+
     // 키보드 이벤트 리스너
     document.addEventListener('keydown', function(e) {
       // A키로 휴대폰 모드 활성화
-      if ((e.key === 'a' || e.key === 'A') && !isPhoneModeActive) {
+      if ((e.key === 'a' || e.key === 'A') && !isPhoneModeActive && !isHotOrNotModeActive && !isCyberbullyingModeActive) {
         activatePhoneMode();
         e.preventDefault();
       }
       
-      // ESC키로 휴대폰 모드 비활성화
-      if (e.key === 'Escape' && isPhoneModeActive) {
-        deactivatePhoneMode();
+      // S키로 외모 평가 모드 활성화
+      if ((e.key === 's' || e.key === 'S') && !isPhoneModeActive && !isHotOrNotModeActive && !isCyberbullyingModeActive) {
+        activateHotOrNotMode();
+        e.preventDefault();
+      }
+      
+      // D키로 사이버불링 모드 활성화 (M에서 D로 변경)
+      if ((e.key === 'd' || e.key === 'D') && !isPhoneModeActive && !isHotOrNotModeActive && !isCyberbullyingModeActive) {
+        activateCyberbullyingMode();
+        e.preventDefault();
+      }
+      
+      // ESC키로 모드 비활성화
+      if (e.key === 'Escape' && (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive)) {
+        if (isPhoneModeActive) {
+          deactivatePhoneMode();
+        } else if (isHotOrNotModeActive) {
+          deactivateHotOrNotMode();
+        } else if (isCyberbullyingModeActive) {
+          deactivateCyberbullyingMode();
+        }
         e.preventDefault();
       }
     });
 
+    // 섹션0 애니메이션 시작 함수
+    function startSection0Animation() {
+      const separator = document.querySelector('#section0 .separator');
+      const textParts = document.querySelectorAll('#section0 .text-part');
+      
+      gsap.to(separator, {
+        opacity: 1,
+        scaleY: 1,
+        duration: 0.5,
+        delay: 0.5,
+        ease: "power2.out"
+      });
+      
+      gsap.to(textParts[0], {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0)",
+        duration: 0.8,
+        delay: 0.8,
+        ease: "power2.out"
+      });
+      
+      gsap.to(textParts[1], {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0)",
+        duration: 0.8,
+        delay: 1.1,
+        ease: "power2.out"
+      });
+    }
+
+    // ScrollTrigger 초기화 함수
+    function initScrollTriggers() {
+      // 섹션0 스크롤 트리거 설정
+      gsap.to("#section0", {
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: "#section1",
+          start: "top 80%",
+          end: "top 20%",
+          toggleActions: "play none none reverse",
+          scrub: 0.5
+        }
+      });
+
+      // 다른 섹션들의 애니메이션
+      gsap.utils.toArray(".scroll-section").forEach(section => {
+        if (section.id === "section0") return;
+        
+        gsap.to(section, {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "top 30%",
+            toggleActions: "play none none reverse",
+            scrub: 0.5
+          }
+        });
+
+        const title = section.querySelector(".scroll-title");
+        const text = section.querySelector(".scroll-text");
+        const img = section.querySelector(".scroll-image");
+
+        if (title) {
+          gsap.to(title, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)", // 이미지와 동일한 블러 제거 효과
+            duration: 1,
+            delay: 0.3,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 85%",
+              end: "top 50%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        if (text) {
+          gsap.to(text, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)", // 이미지와 동일한 블러 제거 효과
+            duration: 1,
+            delay: 0.5,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              end: "top 45%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        if (img) {
+          gsap.to(img, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.5,
+            delay: 0.7,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        if (section.id === 'section-phone') {
+          const modelContainer = section.querySelector('#model-container');
+          gsap.to(modelContainer, {
+            y: 0,
+            opacity: 1,
+            duration: 1.5,
+            delay: 0.7,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+      });
+    }
+
     // 메인 애플리케이션
     (function () {
+      // 사용자 방문 시간 기록
+      userVisitTime = new Date();
+      
       // 로딩 화면 요소
       const loadingScreen = document.getElementById('loading-screen');
+      const loadingVideo = document.getElementById('loading-video');
       const loadingProgress = document.getElementById('loading-progress-bar');
       const loadingText = document.getElementById('loading-text');
       const container = document.querySelector(".container");
       const logo = document.querySelector('.logo');
 
+      // 트리거 경고 버튼 이벤트 리스너
+      document.getElementById('continue-btn').addEventListener('click', hideTriggerWarning);
+      document.getElementById('exit-btn').addEventListener('click', exitSite);
+
       // 로고 클릭 이벤트 핸들러
       logo.addEventListener('click', function() {
+        // 페이지를 맨 위로 스크롤
         window.scrollTo({
           top: 0,
-          behavior: 'instant'
+          behavior: 'smooth'
         });
         
+        // 로딩 화면 표시
         loadingScreen.style.display = 'flex';
         loadingScreen.style.opacity = '1';
         container.style.opacity = '0';
         
+        // 트리거 경고 숨기기
+        document.getElementById('trigger-warning').classList.remove('active');
+        
+        // 로딩 동영상 재생
+        loadingVideo.currentTime = 0;
+        loadingVideo.play();
+        
+        // 로딩 진행률 초기화
+        loadingProgress.style.width = '0%';
+        loadingText.textContent = 'Loading... 0%';
+        
+        // 모든 ScrollTrigger 재설정
+        ScrollTrigger.getAll().forEach(trigger => {
+          trigger.kill();
+        });
+        
+        // 3초 후 페이지 새로고침
         setTimeout(() => {
           window.location.reload();
-        }, 300);
+        }, 3000);
       });
 
       // 초기 로딩 상태 설정
-      let loadedResources = 5;
+      let loadedResources = 0;
       const totalResources = 6;
+      let videoDuration = 6; // 동영상 길이 (초)
+      let progressInterval;
 
       // 로딩 진행률 업데이트 함수
       function updateProgress() {
@@ -1217,45 +2666,43 @@
         loadingText.textContent = `Loading... ${Math.round(progress)}%`;
 
         if (loadedResources >= totalResources) {
-          setTimeout(() => {
-            loadingScreen.style.opacity = '0';
-            setTimeout(() => {
-              loadingScreen.style.display = 'none';
-              container.style.opacity = '1';
-              startSection0Animation();
-            }, 500);
-          }, 1000);
+          clearInterval(progressInterval);
+          // 동영상이 끝날 때까지 기다린 후에 페이지 표시
+          if (loadingVideo.ended) {
+            completeLoading();
+          } else {
+            loadingVideo.addEventListener('ended', completeLoading);
+          }
         }
       }
 
-      // 섹션0 애니메이션 시작 함수
-      function startSection0Animation() {
-        const separator = document.querySelector('#section0 .separator');
-        const textParts = document.querySelectorAll('#section0 .text-part');
-        
-        gsap.to(separator, {
-          opacity: 1,
-          scaleY: 1,
-          duration: 0.5,
-          delay: 0.5,
-          ease: "power2.out"
-        });
-        
-        gsap.to(textParts[0], {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: 0.8,
-          ease: "power2.out"
-        });
-        
-        gsap.to(textParts[1], {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: 1.1,
-          ease: "power2.out"
-        });
+      // 로딩 완료 처리 함수
+      function completeLoading() {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+          loadingScreen.style.display = 'none';
+          // 트리거 경고 화면 표시 (한 번만)
+          showTriggerWarning();
+        }, 300);
+      }
+
+      // 동영상 재생 시간에 따른 진행률 업데이트
+      function startVideoProgressTracking() {
+        let startTime = Date.now();
+        progressInterval = setInterval(() => {
+          if (loadingVideo.ended) {
+            clearInterval(progressInterval);
+            return;
+          }
+          
+          const elapsed = (Date.now() - startTime) / 1000;
+          const videoProgress = Math.min((elapsed / videoDuration) * 50, 50); // 동영상은 50%까지 차지
+          const resourceProgress = (loadedResources / totalResources) * 50; // 리소스는 50%까지 차지
+          const totalProgress = videoProgress + resourceProgress;
+          
+          loadingProgress.style.width = `${totalProgress}%`;
+          loadingText.textContent = `Loading... ${Math.round(totalProgress)}%`;
+        }, 100);
       }
 
       // 미국 학교 데이터베이스
@@ -1312,6 +2759,19 @@
       // 비디오 로드 확인
       const video = document.querySelector('.video-background');
       video.oncanplay = updateProgress;
+
+      // 로딩 동영상 이벤트 리스너
+      loadingVideo.addEventListener('loadedmetadata', function() {
+        videoDuration = loadingVideo.duration;
+        startVideoProgressTracking();
+      });
+
+      loadingVideo.addEventListener('ended', function() {
+        // 동영상이 끝나면 리소스 로딩이 완료되었는지 확인
+        if (loadedResources >= totalResources) {
+          completeLoading();
+        }
+      });
 
       // 이미지 로드 확인
       const images = document.querySelectorAll('.scroll-image');
@@ -1562,7 +3022,7 @@
 
       // 원래 마우스 이동 이벤트로 복원 + 랜덤 크기 변화
       document.addEventListener("mousemove", function (e) {
-        if (isPhoneModeActive) return;
+        if (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive) return;
         
         const x = (e.clientX / window.innerWidth) * 2 - 1;
         const y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -1571,8 +3031,8 @@
         targetRotationX = y * 0.1;
         
         // 랜덤 크기 변화
-        const randomSize = 450 + Math.random() * 100;
-        const randomCircleHalf = randomSize / 2;
+        const randomSize = 100 + Math.random() * 400;
+        const randomCircleHalf = randomSize / 3;
         
         let c = circle.cloneNode(true);
         c.style.width = randomSize + "px";
@@ -1591,7 +3051,7 @@
       function updateModelRotation() {
         requestAnimationFrame(updateModelRotation);
         
-        if (!model || isPhoneModeActive) return;
+        if (!model || isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive) return;
         
         currentRotationX += (targetRotationX - currentRotationX) * 0.05;
         currentRotationY += (targetRotationY - currentRotationY) * 0.05;
@@ -1604,7 +3064,7 @@
       updateModelRotation();
 
       document.addEventListener("mouseleave", function() {
-        if (isPhoneModeActive) return;
+        if (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive) return;
         
         shaderMaterial.uniforms.uMouse.value.set(-1000, -1000);
         targetRotationX = 0;
@@ -1632,7 +3092,7 @@
 
       function animate() {
         requestAnimationFrame(animate);
-        if (!isPhoneModeActive) {
+        if (!isPhoneModeActive && !isHotOrNotModeActive && !isCyberbullyingModeActive) {
           shaderMaterial.uniforms.uTime.value += 0.01;
         }
         renderer.render(scene, camera);
@@ -1644,110 +3104,6 @@
 
       window.addEventListener("load", () => {
         ScrollTrigger.refresh();
-      });
-
-      // 섹션0 스크롤 트리거 설정
-      gsap.to("#section0", {
-        opacity: 0,
-        duration: 1,
-        scrollTrigger: {
-          trigger: "#section1",
-          start: "top 80%",
-          end: "top 20%",
-          toggleActions: "play none none reverse",
-          scrub: 0.5
-        }
-      });
-
-      // 다른 섹션들의 애니메이션
-      gsap.utils.toArray(".scroll-section").forEach(section => {
-        if (section.id === "section0") return;
-        
-        gsap.to(section, {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          scrollTrigger: {
-            trigger: section,
-            start: "top bottom",
-            end: "top 30%",
-            toggleActions: "play none none reverse",
-            scrub: 0.5
-          }
-        });
-
-        const title = section.querySelector(".scroll-title");
-        const text = section.querySelector(".scroll-text");
-        const img = section.querySelector(".scroll-image");
-
-        if (title) {
-          gsap.to(title, {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1,
-            delay: 0.3,
-            scrollTrigger: {
-              trigger: section,
-              start: "top 85%",
-              end: "top 50%",
-              toggleActions: "play none none reverse",
-              scrub: 0.5
-            }
-          });
-        }
-
-        if (text) {
-          gsap.to(text, {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 1,
-            delay: 0.5,
-            scrollTrigger: {
-              trigger: section,
-              start: "top 80%",
-              end: "top 45%",
-              toggleActions: "play none none reverse",
-              scrub: 0.5
-            }
-          });
-        }
-
-        if (img) {
-          gsap.to(img, {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            filter: "blur(0)",
-            duration: 1.5,
-            delay: 0.7,
-            scrollTrigger: {
-              trigger: section,
-              start: "top 75%",
-              end: "top 40%",
-              toggleActions: "play none none reverse",
-              scrub: 0.5
-            }
-          });
-        }
-
-        if (section.id === 'section-phone') {
-          const modelContainer = section.querySelector('#model-container');
-          gsap.to(modelContainer, {
-            y: 0,
-            opacity: 1,
-            duration: 1.5,
-            delay: 0.7,
-            scrollTrigger: {
-              trigger: section,
-              start: "top 75%",
-              end: "top 40%",
-              toggleActions: "play none none reverse",
-              scrub: 0.5
-            }
-          });
-        }
       });
 
       window.addEventListener("resize", () => {
