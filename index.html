@@ -302,15 +302,28 @@
           justify-content: center;
           align-items: center;
           flex: 1;
+          position: relative;
         }
 
         .font-bold {
           font-weight: 700;
         }
 
+        /* 동영상 스크롤 애니메이션 */
+        .scroll-video {
+          max-width: 100%;
+          max-height: 70vh;
+          object-fit: contain;
+          transform: translateY(20px) scale(1.1);
+          opacity: 0;
+          will-change: transform, opacity, filter;
+          filter: blur(2px);
+          transition: all 0.6s ease-out;
+        }
+
         /* 이미지 스크롤 애니메이션 */
         .scroll-image {
-          max-width: 165%;
+          max-width: 100%;
           max-height: 70vh;
           object-fit: contain;
           transform: translateY(20px) scale(1.1);
@@ -509,8 +522,8 @@
           text-align: left;
         }
 
-        #section1 .scroll-image {
-          max-width: 200%;
+        #section1 .scroll-video {
+          max-width: 100%;
           max-height: 80vh;
         }
 
@@ -825,7 +838,15 @@
           transition: transform 0.3s ease;
         }
 
-        .profile-container:hover .profile-image {
+        .profile-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+        }
+
+        .profile-container:hover .profile-image,
+        .profile-container:hover .profile-video {
           transform: scale(1.05);
         }
 
@@ -1150,8 +1171,8 @@
         }
 
         #section6 .scroll-image {
-          max-width: 200%;
-          max-height: 140vh;
+          max-width: 100%;
+          max-height: 70vh;
         }
 
         @media (max-width: 768px) {
@@ -1555,7 +1576,7 @@
   </div>
 
   <div class="container">
-    <img src="images/Logo.png" class="logo" alt="Logo" />
+    <img src="images/Logo.png" class="logo" alt="Logo" onclick="goToFirstPage()" />
 
     <!-- WebGL 효과를 위한 배경 레이어 -->
     <div class="webgl-background">
@@ -1587,7 +1608,10 @@
             <p class="scroll-text">Ordinary middle school student Emily,<br>on the first day of the<br>new semester meets a <span class="font-bold">tragedy</span>.</p>
           </div>
           <div class="image-container">
-            <img src="images/Image01-02.png" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images/01.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -1599,7 +1623,10 @@
             <p class="scroll-text"><span class="font-bold">SUICIDE</span></p>
           </div>
           <div class="image-container">
-            <img src="images/Image02-02.png" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images/02.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -1608,9 +1635,14 @@
       <div class="scroll-section" id="section3">
         <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/Image03.png" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images/03.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
-          <p class="scroll-text">There is no evidence of any<br>physical harm on her body.<br><span class="font-bold line-space">What happened to her?</span></p>
+          <div class="text-content">
+            <p class="scroll-text">There is no evidence of any<br>physical harm on her body.<br><span class="font-bold line-space">What happened to her?</span></p>
+          </div>
         </div>
       </div>
 
@@ -1656,7 +1688,10 @@
       <div class="scroll-section" id="section7">
         <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/Image06.png" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images/06.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
           <div class="text-content">
             <p class="scroll-text">At first, Emily was enjoying a pleasant time with<br>her anonymous new friends, exchanging warm greetings, when she discovered something<br><span class="font-bold line-space">intriguing.</span></p>
@@ -1672,7 +1707,10 @@
               <div class="hot-or-not-container">
                 <div class="hot-or-not-title">Rate This Person<br>[press "S" button]</div>
                 <div class="profile-container" id="section8-profile-container">
-                  <img src="images/Image07.png" class="profile-image" alt="Profile">
+                  <video class="profile-video" autoplay muted loop playsinline>
+                    <source src="images/07.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
                 <div class="rating-buttons">
                   <button class="rate-btn hot-btn" onclick="event.stopPropagation(); rateProfile('hot', 'section8')">❤️</button>
@@ -1822,36 +1860,36 @@
 
     // 사이버불링 메시지 데이터베이스 (업데이트됨)
     const bullyingMessages = [
-      "Can’t believe you showed up looking like that lol.",
+      "Can't believe you showed up looking like that lol.",
       "You seriously think anyone likes you? Wake up.",
       "No wonder you eat lunch alone every day.",
-      "You’d be cute if you didn’t look so fake.",
+      "You'd be cute if you didn't look so fake.",
       "Do you even look in the mirror before posting?",
-      "Why do you always edit your pics so much? It’s pathetic.",
-      "That outfit is giving ‘trying too hard.’",
-      "We made a new group chat — don’t worry, you’re not in it.",
-      "Stop tagging us. You’re not part of the group anymore.",
+      "Why do you always edit your pics so much? It's pathetic.",
+      "That outfit is giving 'trying too hard.'",
+      "We made a new group chat — don't worry, you're not in it.",
+      "Stop tagging us. You're not part of the group anymore.",
       "Certain people really need to log off for a while.",
       "Wow, still playing those dumb games? Grow up.",
-      "Why do you act like you’re better than everyone just because you like art?",
+      "Why do you act like you're better than everyone just because you like art?",
       "No one cares about your activism posts.",
       "You always play the victim — get over it.",
       "You brought this on yourself, remember?",
       "Stop making everything about you.",
       "You should just delete your account already.",
       "No one would miss you if you disappeared.",
-      "Keep talking and you’ll regret it.",
+      "Keep talking and you'll regret it.",
       "Better watch what you post next time.",
       "I was only kidding! You always take everything so seriously.",
       "Stop being dramatic. No one else thinks like you do.",
-      "Weird how you twist things to sound like you’re hurt.",
+      "Weird how you twist things to sound like you're hurt.",
       "lol people always assume the worst about others — relax.",
       "Nobody even noticed until you brought it up.",
-      "Honestly, you’re being sensitive — not everything is an attack.",
-      "If you can’t handle jokes, maybe group chat isn’t for you.",
-      "You always overreact; it’s exhausting to have to calm you down.",
-      "Everyone thinks you’re too fragile, don’t make this harder than it needs to be.",
-      "Everyone decided it’s better without you. Sorry."
+      "Honestly, you're being sensitive — not everything is an attack.",
+      "If you can't handle jokes, maybe group chat isn't for you.",
+      "You always overreact; it's exhausting to have to calm you down.",
+      "Everyone thinks you're too fragile, don't make this harder than it needs to be.",
+      "Everyone decided it's better without you. Sorry."
     ];
 
     // 트리거 경고 화면 관련 함수들
@@ -1890,9 +1928,13 @@
 
     // 다음 페이지로 이동하는 함수
     function goToNextPage() {
-      // 페이지2로 이동 (임시로 alert 표시)
-      alert("페이지 2로 이동합니다. 실제로는 페이지2.html로 리디렉션됩니다.");
-      // 실제 구현 시: window.location.href = "page2.html";
+      // 페이지2로 이동
+      window.location.href = "index2.html";
+    }
+
+    // 첫 페이지로 이동하는 함수 (로고 클릭 시)
+    function goToFirstPage() {
+      window.location.href = "index.html";
     }
 
     // 다음 페이지 버튼 설정 함수
@@ -2526,6 +2568,7 @@
         const title = section.querySelector(".scroll-title");
         const text = section.querySelector(".scroll-text");
         const img = section.querySelector(".scroll-image");
+        const video = section.querySelector(".scroll-video");
 
         if (title) {
           gsap.to(title, {
@@ -2581,6 +2624,24 @@
           });
         }
 
+        if (video) {
+          gsap.to(video, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.5,
+            delay: 0.7,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
         if (section.id === 'section-phone') {
           const modelContainer = section.querySelector('#model-container');
           gsap.to(modelContainer, {
@@ -2617,40 +2678,8 @@
       document.getElementById('continue-btn').addEventListener('click', hideTriggerWarning);
       document.getElementById('exit-btn').addEventListener('click', exitSite);
 
-      // 로고 클릭 이벤트 핸들러
-      logo.addEventListener('click', function() {
-        // 페이지를 맨 위로 스크롤
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        
-        // 로딩 화면 표시
-        loadingScreen.style.display = 'flex';
-        loadingScreen.style.opacity = '1';
-        container.style.opacity = '0';
-        
-        // 트리거 경고 숨기기
-        document.getElementById('trigger-warning').classList.remove('active');
-        
-        // 로딩 동영상 재생
-        loadingVideo.currentTime = 0;
-        loadingVideo.play();
-        
-        // 로딩 진행률 초기화
-        loadingProgress.style.width = '0%';
-        loadingText.textContent = 'Loading... 0%';
-        
-        // 모든 ScrollTrigger 재설정
-        ScrollTrigger.getAll().forEach(trigger => {
-          trigger.kill();
-        });
-        
-        // 3초 후 페이지 새로고침
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
-      });
+      // 로고 클릭 이벤트 핸들러 - 페이지 새로고침 대신 첫 페이지로 이동
+      logo.addEventListener('click', goToFirstPage);
 
       // 초기 로딩 상태 설정
       let loadedResources = 0;
@@ -2756,7 +2785,7 @@
         }
       });
 
-      // 비디오 로드 확인
+      // 비디로 로드 확인
       const video = document.querySelector('.video-background');
       video.oncanplay = updateProgress;
 
@@ -2781,6 +2810,17 @@
         } else {
           img.onload = updateProgress;
           img.onerror = updateProgress;
+        }
+      });
+
+      // 동영상 로드 확인
+      const videos = document.querySelectorAll('.scroll-video');
+      videos.forEach(vid => {
+        if (vid.readyState >= 3) { // HAVE_FUTURE_DATA
+          updateProgress();
+        } else {
+          vid.addEventListener('loadeddata', updateProgress);
+          vid.addEventListener('error', updateProgress);
         }
       });
 

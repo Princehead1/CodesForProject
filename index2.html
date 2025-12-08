@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thread - Page 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --lens-size: 400px;
+          --content-margin: 5vw;
+        }
+
+        /* 기본 스타일 */
+        html, body {
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+          scroll-behavior: smooth;
+          background-color: black;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        body::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 4px;
+        }
+
+        /* 다음 페이지 이동 버튼 */
+        #next-page-btn {
+          position: fixed;
+          bottom: 30px;
+          right: 30px;
+          background-color: #ff6b6b;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 15px 30px;
+          font-size: 1.2rem;
+          font-family: "Urbanist", Arial, sans-serif;
+          font-weight: 600;
+          cursor: pointer;
+          z-index: 100;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.5s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        #next-page-btn.show {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        #next-page-btn:hover {
+          background-color: #ff5252;
+          transform: translateY(-2px);
+        }
+
+        /* 컨테이너 및 공통 요소 */
+        .container {
+          min-height: 100vh;
+          position: relative;
+          opacity: 1;
+        }
+
+        .video-background {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          z-index: 0;
+          transform: none !important;
+        }
+
+        .circle {
+          position: absolute;
+          width: var(--lens-size);
+          height: var(--lens-size);
+          background: url("images/BG_Image_01-03.png") center center no-repeat fixed;
+          background-size: cover;
+          mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+          transition: 2.0s;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .fadeOut {
+          animation: fadeOut 1.5s forwards;
+        }
+
+        @keyframes fadeOut {
+          0% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+
+        .scroll-content {
+          position: relative;
+          z-index: 3;
+          padding-top: 100vh;
+          height: 2300vh;
+          min-height: 900vh;
+          padding-left: var(--content-margin);
+          padding-right: var(--content-margin);
+          padding-bottom: 100px;
+        }
+
+        .scroll-section {
+          min-height: 100vh;
+          display: flex;
+          opacity: 0;
+          transform: translateY(100px);
+          will-change: opacity, transform;
+          align-items: center;
+          margin-bottom: 100px;
+        }
+
+        .content-wrapper {
+          display: flex;
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 20px;
+          box-sizing: border-box;
+        }
+
+        .text-content {
+          flex: 1;
+        }
+
+        .image-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex: 1;
+        }
+
+        .font-bold {
+          font-weight: 700;
+        }
+
+        /* 이미지 스크롤 애니메이션 */
+        .scroll-image {
+          max-width: 165%;
+          max-height: 70vh;
+          object-fit: contain;
+          transform: translateY(20px) scale(1.1);
+          opacity: 0;
+          will-change: transform, opacity, filter;
+          filter: blur(2px);
+          transition: all 0.6s ease-out;
+        }
+
+        /* 텍스트 스크롤 애니메이션 - 이미지와 동일한 효과 적용 */
+        .scroll-text {
+          font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+          line-height: 1.6;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+          transform: translateY(20px) scale(0.95);
+          opacity: 0;
+          color: rgb(255, 251, 240);
+          will-change: transform, opacity;
+          transition: all 0.6s ease-out;
+          font-family: "Urbanist", Arial, sans-serif;
+          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
+        }
+
+        .line-space {
+          display: block;
+          margin-top: 30px;
+          line-height: 1.8;
+        }
+
+        .scroll-title {
+          font-size: clamp(2rem, 5vw, 3rem);
+          margin-bottom: 1.5rem;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+          transform: translateY(20px) scale(0.95);
+          opacity: 0;
+          color: rgb(255, 251, 240);
+          will-change: transform, opacity;
+          transition: all 0.6s ease-out;
+          font-family: "Urbanist", Arial, sans-serif;
+          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
+        }
+
+        .scroll-indicator {
+          position: fixed;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          color: rgb(255, 251, 240);
+          font-size: 1rem;
+          z-index: 10;
+          opacity: 0.7;
+          animation: bounce 2s infinite;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+          40% { transform: translateY(-10px) translateX(-50%); }
+          60% { transform: translateY(-5px) translateX(-50%); }
+        }
+
+        .logo {
+          position: fixed;
+          top: 30px;
+          left: 30px;
+          z-index: 20;
+          width: 120px;
+          height: auto;
+          cursor: pointer;
+          transition: transform 0.3s;
+        }
+
+        .logo:hover {
+          transform: scale(1.05);
+        }
+
+        .webgl-background {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        /* 섹션0 스타일 */
+        #section0 {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100vh;
+          z-index: 4;
+          justify-content: center;
+          align-items: center;
+          opacity: 1;
+          transform: none;
+        }
+
+        #section0 .content-wrapper {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          position: relative;
+        }
+
+        #section0 .scroll-title {
+          display: none;
+        }
+
+        #section0 .intro-text {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
+          color: rgb(255, 251, 240);
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        #section0 .text-part {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: all 0.8s ease-out;
+          font-family: "Urbanist", Arial, sans-serif;
+          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
+        }
+
+        #section0 .separator {
+          width: 2px;
+          height: 60px;
+          background-color: white;
+          margin: 0 20px;
+          opacity: 0;
+          transform: scaleY(0);
+          transform-origin: center;
+          transition: all 0.5s ease-out;
+        }
+
+        #section0 .bold-text {
+          font-weight: 600;
+          font-size: 1.2em;
+          font-family: "Urbanist", Arial, sans-serif;
+        }
+
+        @media (max-width: 768px) {
+          #section0 .intro-text {
+            flex-direction: column;
+          }
+          
+          #section0 .separator {
+            width: 60px;
+            height: 2px;
+            margin: 10px 0;
+          }
+        }
+
+        /* 섹션1 스타일 */
+        #section1 {
+          justify-content: center;
+        }
+
+        #section1 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section1 .text-content {
+          text-align: left;
+        }
+
+        #section1 .scroll-image {
+          max-width: 200%;
+          max-height: 80vh;
+        }
+
+        @media (max-width: 768px) {
+          #section1 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section1 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션2 스타일 */
+        #section2 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section2 .text-content {
+          text-align: center;
+        }
+
+        #section2 .image-container {
+          order: 1;
+        }
+
+        #section2 .text-content {
+          order: 2;
+        }
+
+        #section2 .scroll-text {
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
+        }
+
+        /* 섹션3 스타일 */
+        #section3 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section3 .text-content {
+          text-align: right;
+        }
+
+        #section3 .image-container {
+          justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+          #section3 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section3 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션4 스타일 */
+        #section4 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section4 .text-content {
+          text-align: left;
+          width: 60%;
+          order: 2;
+        }
+
+        #section4 .image-container {
+          order: 1;
+        }
+
+        /* 섹션5 스타일 */
+        #section5 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section5 .text-content {
+          flex: 1;
+          text-align: center;
+        }
+
+        /* 섹션6 스타일 */
+        #section6 {
+          justify-content: center;
+        }
+
+        #section6 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section6 .text-content {
+          text-align: left;
+        }
+
+        #section6 .scroll-image {
+          max-width: 200%;
+          max-height: 140vh;
+        }
+
+        @media (max-width: 768px) {
+          #section6 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section6 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션7 스타일 */
+        #section7 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+          width: 100%;
+        }
+
+        #section7 .text-content {
+          text-align: left;
+          order: 2;
+          width: 60%;
+          max-width: 1200px;
+        }
+
+        #section7 .image-container {
+          order: 1;
+          width: 100%;
+        }
+        
+
+        /* 섹션8 스타일 */
+        #section8 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+          width: 100%;
+        }
+
+        #section8 .text-content {
+          text-align: left;
+          order: 2;
+          width: 60%;
+          max-width: 1200px;
+        }
+
+        #section8 .image-container {
+          order: 1;
+          width: 100%;
+        }
+
+        /* 섹션9 스타일 */
+        #section9 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section9 .text-content {
+          text-align: right;
+        }
+
+        #section9 .image-container {
+          justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+          #section9 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section9 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션10 스타일 */
+        #section10 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        #section10 .text-content {
+          text-align: center;
+          order: 1;
+          gap: 20px;
+        }
+
+        #section10 .image-container {
+          order: 2;
+        }
+
+        #section10 .scroll-text {
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
+        }
+        
+        /* 섹션11 스타일 */
+        #section11 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        #section11 .text-content {
+          text-align: center;
+          order: 1;
+          width: 60%;
+          gap: 20px;
+          max-width: 1200px;
+        }
+
+        /* 섹션12 스타일 */
+        #section12 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+        }
+
+        #section12 .text-content {
+          text-align: left;
+          order: 2;
+          width: 60%;
+          gap: 20px;
+          max-width: 1200px;
+        }
+
+        #section12 .image-container {
+          order: 1;
+          width: 100%;
+        }
+        
+        /* 섹션13 스타일 */
+        #section13 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section13 .text-content {
+          text-align: right;
+        }
+
+        #section13 .image-container {
+          justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+          #section13 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section13 .text-content {
+            text-align: center;
+          }
+        }        
+
+        /* 섹션14 스타일 */
+        #section14 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section14 .image-container {
+          order: 1;
+        }
+
+        /* 섹션15 스타일 */
+        #section15 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section15 .image-container {
+          order: 1;
+        }        
+
+        /* 섹션16 스타일 */
+        #section16 .content-wrapper {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        #section16 .text-content {
+          text-align: right;
+        }
+
+        #section16 .image-container {
+          justify-content: flex-start;
+        }
+
+        @media (max-width: 768px) {
+          #section16 .content-wrapper {
+            flex-direction: column;
+            gap: 30px;
+          }
+
+          #section16 .text-content {
+            text-align: center;
+          }
+        }
+
+        /* 섹션17 스타일 */
+        #section17 .content-wrapper {
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 40px;
+        }
+
+        #section17 .text-content {
+          text-align: center;
+          order: 1;
+        }
+
+        /* 반응형 공통 스타일 */
+        @media (max-width: 768px) {
+          .text-content,
+          .image-container {
+            max-width: 100%;
+          }
+
+          .logo {
+            width: 90px;
+            top: 20px;
+            left: 20px;
+          }
+        }
+      </style>
+</head>
+<body>
+  <!-- 다음 페이지 이동 버튼 -->
+  <button id="next-page-btn">Next Page →</button>
+
+  <div class="container">
+    <img src="images/Logo.png" class="logo" alt="Logo" onclick="goToFirstPage()" />
+
+    <!-- 배경 레이어 -->
+    <div class="webgl-background">
+      <video class="video-background" autoplay muted loop>
+        <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="circle"></div>
+    </div>
+    
+    <!-- 섹션0 -->
+    <div class="scroll-section" id="section0">
+      <div class="content-wrapper">
+        <h2 class="scroll-title">The Aftermath</h2>
+        <div class="intro-text">
+          <span class="text-part">The story continues</span>
+          <span class="separator"></span>
+          <span class="text-part"><span class="bold-text">IMPACT</span> of cyberbullying</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-content">
+      <!-- 섹션1 -->
+      <div class="scroll-section" id="section1">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">Emily's story spread across the school,<br>leaving everyone in shock and disbelief.</p>
+          </div>
+          <div class="image-container">
+            <img src="images/page2-image1.jpg" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션2 -->
+      <div class="scroll-section" id="section2">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text"><span class="font-bold">THE INVESTIGATION</span></p>
+          </div>
+          <div class="image-container">
+            <img src="images/page2-image2.jpg" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션3 -->
+      <div class="scroll-section" id="section3">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image3.jpg" class="scroll-image">
+          </div>
+          <p class="scroll-text">School authorities began looking into<br>the cyberbullying incidents,<br><span class="font-bold line-space">but could they find the perpetrators?</span></p>
+        </div>
+      </div>
+
+      <!-- 섹션4 -->
+      <div class="scroll-section" id="section4">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image4.jpg" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">Parents and community members<br>demanded answers and action.<br><span class="line-space"></span>The school implemented new<br>anti-cyberbullying policies.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션5 -->
+      <div class="scroll-section" id="section5">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">Emily's friends started a movement<br>to raise awareness about<br>cyberbullying prevention.</p>
+          </div>
+          <div class="image-container">
+            <img src="images/page2-image5.jpg" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션6 -->
+      <div class="scroll-section" id="section6">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">They organized workshops and<br>support groups for students<br>affected by online harassment.</p>
+          </div>
+          <div class="image-container">
+            <img src="images/page2-image6.jpg" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션7 -->
+      <div class="scroll-section" id="section7">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image7.jpg" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">The movement gained national attention,<br>sparking conversations about<br>digital responsibility and mental health.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션8 -->
+      <div class="scroll-section" id="section8">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image8.jpg" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">Lawmakers began considering<br>stricter regulations for<br>social media platforms.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션9 -->
+      <div class="scroll-section" id="section9">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image9.jpg" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">Emily's story became a cautionary tale<br>about the real-world consequences<br>of online actions.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션10 -->
+      <div class="scroll-section" id="section10">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text"><span class="font-bold">THE LEGACY</span></p>
+          </div>
+          <div class="image-container">
+            <img src="images/page2-image10.jpg" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션11 -->
+      <div class="scroll-section" id="section11">
+        <div class="content-wrapper">
+          <div class="image-container">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">Emily's memory lives on through<br>the positive changes she inspired.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션12 -->
+      <div class="scroll-section" id="section12">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image11.jpg" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text"><br>Her story reminds us all to be kinder,<br><span class="font-bold line-space">both online and offline.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션13 -->
+      <div class="scroll-section" id="section13">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image12.jpg" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">The school established an annual<br>anti-bullying award in her name.</p>
+          </div>
+        </div>
+      </div>      
+
+      <!-- 섹션14 -->
+      <div class="scroll-section" id="section14">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image13.jpg" class="scroll-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션15 -->
+      <div class="scroll-section" id="section15">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image14.jpg" class="scroll-image">
+          </div>
+        </div>
+      </div>      
+
+      <!-- 섹션16 -->
+      <div class="scroll-section" id="section16">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <img src="images/page2-image15.jpg" class="scroll-image">
+          </div>
+          <div class="text-content">
+            <p class="scroll-text">Students learned to stand up<br>against cyberbullying and<br>support those who are targeted.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션17 -->
+      <div class="scroll-section" id="section17">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">Emily's tragedy became a catalyst<br>for change, inspiring a generation<br>to create a safer digital world.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">Scroll Down</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
+
+  <script>
+    // 다음 페이지로 이동하는 함수
+    function goToNextPage() {
+      // 페이지3로 이동 (임시로 alert 표시)
+      alert("페이지 3로 이동합니다. 실제로는 페이지3.html로 리디렉션됩니다.");
+      // 실제 구현 시: window.location.href = "page3.html";
+    }
+
+    // 첫 페이지로 이동하는 함수 (로고 클릭 시)
+    function goToFirstPage() {
+      window.location.href = "index.html";
+    }
+
+    // 다음 페이지 버튼 설정 함수
+    function setupNextPageButton() {
+      const nextPageBtn = document.getElementById('next-page-btn');
+      
+      // 스크롤 이벤트 리스너 추가
+      window.addEventListener('scroll', function() {
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        // 스크롤이 하단에 가까워지면 버튼 표시
+        if (documentHeight - (scrollPosition + windowHeight) < 100) {
+          nextPageBtn.classList.add('show');
+        } else {
+          nextPageBtn.classList.remove('show');
+        }
+      });
+      
+      // 버튼 클릭 이벤트 리스너 추가
+      nextPageBtn.addEventListener('click', goToNextPage);
+    }
+
+    // 섹션0 애니메이션 시작 함수
+    function startSection0Animation() {
+      const separator = document.querySelector('#section0 .separator');
+      const textParts = document.querySelectorAll('#section0 .text-part');
+      
+      gsap.to(separator, {
+        opacity: 1,
+        scaleY: 1,
+        duration: 0.5,
+        delay: 0.5,
+        ease: "power2.out"
+      });
+      
+      gsap.to(textParts[0], {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0)",
+        duration: 0.8,
+        delay: 0.8,
+        ease: "power2.out"
+      });
+      
+      gsap.to(textParts[1], {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0)",
+        duration: 0.8,
+        delay: 1.1,
+        ease: "power2.out"
+      });
+    }
+
+    // ScrollTrigger 초기화 함수
+    function initScrollTriggers() {
+      // 섹션0 스크롤 트리거 설정
+      gsap.to("#section0", {
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: "#section1",
+          start: "top 80%",
+          end: "top 20%",
+          toggleActions: "play none none reverse",
+          scrub: 0.5
+        }
+      });
+
+      // 다른 섹션들의 애니메이션
+      gsap.utils.toArray(".scroll-section").forEach(section => {
+        if (section.id === "section0") return;
+        
+        gsap.to(section, {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "top 30%",
+            toggleActions: "play none none reverse",
+            scrub: 0.5
+          }
+        });
+
+        const title = section.querySelector(".scroll-title");
+        const text = section.querySelector(".scroll-text");
+        const img = section.querySelector(".scroll-image");
+
+        if (title) {
+          gsap.to(title, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)", // 이미지와 동일한 블러 제거 효과
+            duration: 1,
+            delay: 0.3,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 85%",
+              end: "top 50%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        if (text) {
+          gsap.to(text, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)", // 이미지와 동일한 블러 제거 효과
+            duration: 1,
+            delay: 0.5,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              end: "top 45%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        if (img) {
+          gsap.to(img, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.5,
+            delay: 0.7,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+      });
+    }
+
+    // 마우스 효과
+    document.addEventListener("mousemove", function (e) {
+      const container = document.querySelector(".container");
+      const circle = document.querySelector(".circle");
+      let circleHalf = circle.offsetWidth / 2;
+      
+      const randomSize = 100 + Math.random() * 400;
+      const randomCircleHalf = randomSize / 3;
+      
+      let c = circle.cloneNode(true);
+      c.style.width = randomSize + "px";
+      c.style.height = randomSize + "px";
+      c.style.left = e.pageX - randomCircleHalf + "px";
+      c.style.top = e.pageY - randomCircleHalf + "px";
+      circle.style.left = e.pageX - circleHalf + "px";
+      circle.style.top = e.pageY - circleHalf + "px";
+      c.classList.add("fadeOut");
+      c.addEventListener("animationend", e => e.target.remove());
+      container.appendChild(c);
+    });
+
+    // 메인 애플리케이션
+    (function () {
+      gsap.registerPlugin(ScrollTrigger);
+      
+      // 로고 클릭 이벤트 핸들러
+      document.querySelector('.logo').addEventListener('click', goToFirstPage);
+
+      // 초기화
+      startSection0Animation();
+      initScrollTriggers();
+      setupNextPageButton();
+
+      window.addEventListener("load", () => {
+        ScrollTrigger.refresh();
+      });
+
+      window.addEventListener("resize", () => {
+        ScrollTrigger.refresh();
+      });
+    })();
+  </script>
+</body>
+</html>
