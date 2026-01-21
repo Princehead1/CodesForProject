@@ -7,704 +7,777 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-          --lens-size: 400px;
-          --content-margin: 5vw;
-        }
-
-        /* 기본 스타일 */
-        html, body {
-          margin: 0;
-          padding: 0;
-          overflow-x: hidden;
-          scroll-behavior: smooth;
-          background-color: black;
-          font-family: "Urbanist", Arial, sans-serif;
-        }
-
-        body::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        body::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.3);
-          border-radius: 4px;
-        }
-
-        /* 다음 페이지 이동 버튼 */
-        #next-page-btn {
-          position: fixed;
-          bottom: 30px;
-          right: 30px;
-          background-color: #ff6b6b;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          padding: 15px 30px;
-          font-size: 1.2rem;
-          font-family: "Urbanist", Arial, sans-serif;
-          font-weight: 600;
-          cursor: pointer;
-          z-index: 100;
-          opacity: 0;
-          transform: translateY(20px);
-          transition: all 0.5s ease;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        #next-page-btn.show {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        #next-page-btn:hover {
-          background-color: #ff5252;
-          transform: translateY(-2px);
-        }
-
-        /* 컨테이너 및 공통 요소 */
-        .container {
-          min-height: 100vh;
-          position: relative;
-          opacity: 1;
-        }
-
-        .video-background {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          z-index: 0;
-          transform: none !important;
-        }
-
-        .circle {
-          position: absolute;
-          width: var(--lens-size);
-          height: var(--lens-size);
-          background: url("images/BG_Image_01-03.png") center center no-repeat fixed;
-          background-size: cover;
-          mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
-          transition: 2.0s;
-          z-index: 0;
-          pointer-events: none;
-        }
-
-        .fadeOut {
-          animation: fadeOut 1.5s forwards;
-        }
-
-        @keyframes fadeOut {
-          0% { opacity: 1; }
-          100% { opacity: 0; }
-        }
-
-        .scroll-content {
-          position: relative;
-          z-index: 3;
-          padding-top: 100vh;
-          height: 2300vh;
-          min-height: 900vh;
-          padding-left: var(--content-margin);
-          padding-right: var(--content-margin);
-          padding-bottom: 100px;
-        }
-
-        .scroll-section {
-          min-height: 100vh;
-          display: flex;
-          opacity: 0;
-          transform: translateY(100px);
-          will-change: opacity, transform;
-          align-items: center;
-          margin-bottom: 100px;
-        }
-
-        .content-wrapper {
-          display: flex;
-          width: 100%;
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 20px;
-          box-sizing: border-box;
-        }
-
-        .text-content {
-          flex: 1;
-        }
-
-        .image-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex: 1;
-        }
-
-        .font-bold {
-          font-weight: 700;
-        }
-
-        /* 이미지 스크롤 애니메이션 */
-        .scroll-image {
-          max-width: 165%;
-          max-height: 70vh;
-          object-fit: contain;
-          transform: translateY(20px) scale(1.1);
-          opacity: 0;
-          will-change: transform, opacity, filter;
-          filter: blur(2px);
-          transition: all 0.6s ease-out;
-        }
-
-        /* 텍스트 스크롤 애니메이션 - 이미지와 동일한 효과 적용 */
-        .scroll-text {
-          font-size: clamp(1.3rem, 3.5vw, 2.0rem);
-          line-height: 1.6;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-          transform: translateY(20px) scale(0.95);
-          opacity: 0;
-          color: rgb(255, 251, 240);
-          will-change: transform, opacity;
-          transition: all 0.6s ease-out;
-          font-family: "Urbanist", Arial, sans-serif;
-          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
-        }
-
-        .line-space {
-          display: block;
-          margin-top: 30px;
-          line-height: 1.8;
-        }
-
-        .scroll-title {
-          font-size: clamp(2rem, 5vw, 3rem);
-          margin-bottom: 1.5rem;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-          transform: translateY(20px) scale(0.95);
-          opacity: 0;
-          color: rgb(255, 251, 240);
-          will-change: transform, opacity;
-          transition: all 0.6s ease-out;
-          font-family: "Urbanist", Arial, sans-serif;
-          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
-        }
-
-        .scroll-indicator {
-          position: fixed;
-          bottom: 30px;
-          left: 50%;
-          transform: translateX(-50%);
-          color: rgb(255, 251, 240);
-          font-size: 1rem;
-          z-index: 10;
-          opacity: 0.7;
-          animation: bounce 2s infinite;
-          font-family: "Urbanist", Arial, sans-serif;
-        }
-
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-          40% { transform: translateY(-10px) translateX(-50%); }
-          60% { transform: translateY(-5px) translateX(-50%); }
-        }
-
-        .logo {
-          position: fixed;
-          top: 30px;
-          left: 30px;
-          z-index: 20;
-          width: 120px;
-          height: auto;
-          cursor: pointer;
-          transition: transform 0.3s;
-        }
-
-        .logo:hover {
-          transform: scale(1.05);
-        }
-
-        .webgl-background {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-          pointer-events: none;
-        }
-
-        /* 섹션0 스타일 */
-        #section0 {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100vh;
-          z-index: 4;
-          justify-content: center;
-          align-items: center;
-          opacity: 1;
-          transform: none;
-        }
-
-        #section0 .content-wrapper {
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          position: relative;
-        }
-
-        #section0 .scroll-title {
-          display: none;
-        }
-
-        #section0 .intro-text {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: clamp(1.5rem, 4vw, 2.5rem);
-          color: rgb(255, 251, 240);
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-          font-family: "Urbanist", Arial, sans-serif;
-        }
-
-        #section0 .text-part {
-          opacity: 0;
-          transform: translateY(20px);
-          transition: all 0.8s ease-out;
-          font-family: "Urbanist", Arial, sans-serif;
-          filter: blur(2px); /* 이미지와 동일한 블러 효과 */
-        }
-
-        #section0 .separator {
-          width: 2px;
-          height: 60px;
-          background-color: white;
-          margin: 0 20px;
-          opacity: 0;
-          transform: scaleY(0);
-          transform-origin: center;
-          transition: all 0.5s ease-out;
-        }
-
-        #section0 .bold-text {
-          font-weight: 600;
-          font-size: 1.2em;
-          font-family: "Urbanist", Arial, sans-serif;
-        }
-
-        @media (max-width: 768px) {
-          #section0 .intro-text {
-            flex-direction: column;
-          }
-          
-          #section0 .separator {
-            width: 60px;
-            height: 2px;
-            margin: 10px 0;
-          }
-        }
-
-        /* 섹션1 스타일 */
-        #section1 {
-          justify-content: center;
-        }
-
-        #section1 .content-wrapper {
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        #section1 .text-content {
-          text-align: left;
-        }
-
-        #section1 .scroll-image {
-          max-width: 200%;
-          max-height: 80vh;
-        }
-
-        @media (max-width: 768px) {
-          #section1 .content-wrapper {
-            flex-direction: column;
-            gap: 30px;
-          }
-
-          #section1 .text-content {
-            text-align: center;
-          }
-        }
-
-        /* 섹션2 스타일 */
-        #section2 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-        }
-
-        #section2 .text-content {
-          text-align: center;
-        }
-
-        #section2 .image-container {
-          order: 1;
-        }
-
-        #section2 .text-content {
-          order: 2;
-        }
-
-        #section2 .scroll-text {
-          font-size: clamp(1.5rem, 4vw, 2.5rem);
-        }
-
-        /* 섹션3 스타일 */
-        #section3 .content-wrapper {
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        #section3 .text-content {
-          text-align: right;
-        }
-
-        #section3 .image-container {
-          justify-content: flex-start;
-        }
-
-        @media (max-width: 768px) {
-          #section3 .content-wrapper {
-            flex-direction: column;
-            gap: 30px;
-          }
-
-          #section3 .text-content {
-            text-align: center;
-          }
-        }
-
-        /* 섹션4 스타일 */
-        #section4 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-        }
-
-        #section4 .text-content {
-          text-align: left;
-          width: 60%;
-          order: 2;
-        }
-
-        #section4 .image-container {
-          order: 1;
-        }
-
-        /* 섹션5 스타일 */
-        #section5 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-        }
-
-        #section5 .text-content {
-          flex: 1;
-          text-align: center;
-        }
-
-        /* 섹션6 스타일 */
-        #section6 {
-          justify-content: center;
-        }
-
-        #section6 .content-wrapper {
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        #section6 .text-content {
-          text-align: left;
-        }
-
-        #section6 .scroll-image {
-          max-width: 200%;
-          max-height: 140vh;
-        }
-
-        @media (max-width: 768px) {
-          #section6 .content-wrapper {
-            flex-direction: column;
-            gap: 30px;
-          }
-
-          #section6 .text-content {
-            text-align: center;
-          }
-        }
-
-        /* 섹션7 스타일 */
-        #section7 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-          width: 100%;
-        }
-
-        #section7 .text-content {
-          text-align: left;
-          order: 2;
-          width: 60%;
-          max-width: 1200px;
-        }
-
-        #section7 .image-container {
-          order: 1;
-          width: 100%;
-        }
-        
-
-        /* 섹션8 스타일 */
-        #section8 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-          width: 100%;
-        }
-
-        #section8 .text-content {
-          text-align: left;
-          order: 2;
-          width: 60%;
-          max-width: 1200px;
-        }
-
-        #section8 .image-container {
-          order: 1;
-          width: 100%;
-        }
-
-        /* 섹션9 스타일 */
-        #section9 .content-wrapper {
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        #section9 .text-content {
-          text-align: right;
-        }
-
-        #section9 .image-container {
-          justify-content: flex-start;
-        }
-
-        @media (max-width: 768px) {
-          #section9 .content-wrapper {
-            flex-direction: column;
-            gap: 30px;
-          }
-
-          #section9 .text-content {
-            text-align: center;
-          }
-        }
-
-        /* 섹션10 스타일 */
-        #section10 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        #section10 .text-content {
-          text-align: center;
-          order: 1;
-          gap: 20px;
-        }
-
-        #section10 .image-container {
-          order: 2;
-        }
-
-        #section10 .scroll-text {
-          font-size: clamp(1.5rem, 4vw, 2.5rem);
-        }
-        
-        /* 섹션11 스타일 */
-        #section11 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        #section11 .text-content {
-          text-align: center;
-          order: 1;
-          width: 60%;
-          gap: 20px;
-          max-width: 1200px;
-        }
-
-        /* 섹션12 스타일 */
-        #section12 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-        }
-
-        #section12 .text-content {
-          text-align: left;
-          order: 2;
-          width: 60%;
-          gap: 20px;
-          max-width: 1200px;
-        }
-
-        #section12 .image-container {
-          order: 1;
-          width: 100%;
-        }
-        
-        /* 섹션13 스타일 */
-        #section13 .content-wrapper {
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        #section13 .text-content {
-          text-align: right;
-        }
-
-        #section13 .image-container {
-          justify-content: flex-start;
-        }
-
-        @media (max-width: 768px) {
-          #section13 .content-wrapper {
-            flex-direction: column;
-            gap: 30px;
-          }
-
-          #section13 .text-content {
-            text-align: center;
-          }
-        }        
-
-        /* 섹션14 스타일 */
-        #section14 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-        }
-
-        #section14 .image-container {
-          order: 1;
-        }
-
-        /* 섹션15 스타일 */
-        #section15 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-        }
-
-        #section15 .image-container {
-          order: 1;
-        }        
-
-        /* 섹션16 스타일 */
-        #section16 .content-wrapper {
-          flex-direction: row;
-          justify-content: space-between;
-          align-items: center;
-        }
-
-        #section16 .text-content {
-          text-align: right;
-        }
-
-        #section16 .image-container {
-          justify-content: flex-start;
-        }
-
-        @media (max-width: 768px) {
-          #section16 .content-wrapper {
-            flex-direction: column;
-            gap: 30px;
-          }
-
-          #section16 .text-content {
-            text-align: center;
-          }
-        }
-
-        /* 섹션17 스타일 */
-        #section17 .content-wrapper {
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 40px;
-        }
-
-        #section17 .text-content {
-          text-align: center;
-          order: 1;
-        }
-
-        /* 반응형 공통 스타일 */
-        @media (max-width: 768px) {
-          .text-content,
-          .image-container {
-            max-width: 100%;
-          }
-
-          .logo {
-            width: 90px;
-            top: 20px;
-            left: 20px;
-          }
-        }
-      </style>
+  <style>
+    :root {
+      --lens-size: 400px;
+      --content-margin: 5vw;
+      --phone-primary: #0095F6;
+      --phone-secondary: #8A3AB9;
+      --phone-accent: #FCB83F;
+      --phone-bg-color: linear-gradient(135deg, #121212, #1E1E1E, #262626);
+    }
+
+    /* 기본 스타일 */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background-color: black;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+    }
+
+    /* 다음 페이지 이동 버튼 */
+    #next-page-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      font-family: "Urbanist", Arial, sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    #next-page-btn.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #next-page-btn:hover {
+      background-color: #ff5252;
+      transform: translateY(-2px);
+    }
+
+    /* 컨테이너 및 공통 요소 */
+    .container {
+      min-height: 100vh;
+      position: relative;
+      opacity: 1;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      transform: none !important;
+    }
+
+    .circle {
+      position: absolute;
+      width: var(--lens-size);
+      height: var(--lens-size);
+      background: url("images2/BG_Image_02.png") center center no-repeat;
+      background-size: cover;
+      mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+      -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+      transition: 2.0s;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .fadeOut {
+      animation: fadeOut 1.5s forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .scroll-content {
+      position: relative;
+      z-index: 3;
+      padding-top: 100vh;
+      height: 2300vh;
+      min-height: 900vh;
+      padding-left: var(--content-margin);
+      padding-right: var(--content-margin);
+      padding-bottom: 100px;
+    }
+
+    /* 모든 섹션에 일관된 간격 적용 */
+    .scroll-section {
+      min-height: 100vh;
+      display: flex;
+      opacity: 0;
+      transform: translateY(100px);
+      will-change: opacity, transform;
+      align-items: center;
+      margin-bottom: 100px;
+    }
+
+    .content-wrapper {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .text-content {
+      flex: 1;
+    }
+
+    .image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      position: relative;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    /* 동영상 스크롤 애니메이션 */
+    .scroll-video {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      transform: translateY(20px) scale(1.1);
+      opacity: 0;
+      will-change: transform, opacity, filter;
+      filter: blur(2px);
+      transition: all 0.6s ease-out;
+    }
+
+    /* 이미지 스크롤 애니메이션 */
+    .scroll-image {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      transform: translateY(20px) scale(1.1);
+      opacity: 0;
+      will-change: transform, opacity, filter;
+      filter: blur(2px);
+      transition: all 0.6s ease-out;
+    }
+
+    /* 텍스트 스크롤 애니메이션 - 이미지와 동일한 효과 적용 */
+    .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+      filter: blur(2px);
+    }
+
+    .line-space {
+      display: block;
+      margin-top: 30px;
+      line-height: 1.8;
+    }
+
+    .scroll-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+      filter: blur(2px);
+    }
+
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgb(255, 251, 240);
+      font-size: 1rem;
+      z-index: 10;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-10px) translateX(-50%); }
+      60% { transform: translateY(-5px) translateX(-50%); }
+    }
+
+    .logo {
+      position: fixed;
+      top: 40px;
+      left: 60px;
+      z-index: 20;
+      width: 120px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    /* UNICEF 이미지 스타일 */
+    .unicef-image-container {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .unicef-link {
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+
+    .unicef-image {
+      width: 300px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: brightness(0.9);
+    }
+
+    .unicef-image:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    .unicef-caption {
+      color: rgba(255, 251, 240, 0.7);
+      font-size: 1rem;
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    /* StopBullying 이미지 스타일 */
+    .stopbullying-image-container {
+      margin-top: 50px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .stopbullying-link {
+      display: inline-block;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .stopbullying-image {
+      width: 350px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: brightness(0.9);
+    }
+
+    .stopbullying-image:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    /* 섹션0 스타일 */
+    #section0 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 4;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transform: none;
+      margin-bottom: 100px;
+    }
+
+    #section0 .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    #section0 .scroll-title {
+      display: none;
+    }
+
+    #section0 .intro-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: rgb(255, 251, 240);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    #section0 .text-part {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+      filter: blur(2px);
+    }
+
+    #section0 .separator {
+      width: 2px;
+      height: 60px;
+      background-color: white;
+      margin: 0 20px;
+      opacity: 0;
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: all 0.5s ease-out;
+    }
+
+    #section0 .bold-text {
+      font-weight: 600;
+      font-size: 1.2em;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    @media (max-width: 768px) {
+      #section0 .intro-text {
+        flex-direction: column;
+      }
+
+      #section0 .separator {
+        width: 60px;
+        height: 2px;
+        margin: 10px 0;
+      }
+    }
+
+    /* 섹션1 스타일 */
+    #section1 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    #section1 .text-content {
+      text-align: center;
+      order: 1;
+    }
+
+    #section1 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* 섹션2 스타일 */
+    #section2 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    /* 섹션3 스타일 - 왼쪽 정렬 */
+    #section3 .content-wrapper {
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    #section3 .image-container {
+      justify-content: flex-start; /* 왼쪽 정렬 */
+    }
+
+    /* 섹션4 스타일 */
+    #section4 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 섹션5 스타일 - 왼쪽 정렬 */
+    #section5 .content-wrapper {
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    #section5 .image-container {
+      justify-content: flex-start; /* 왼쪽 정렬 */
+    }
+
+    /* 섹션6 스타일 - 오른쪽 정렬 */
+    #section6 .content-wrapper {
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    #section6 .image-container {
+      justify-content: flex-end; /* 오른쪽 정렬 */
+    }
+
+    /* 섹션7 스타일 */
+    #section7 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 섹션8 스타일 */
+    #section8 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    #section8 .text-content {
+      text-align: center;
+      order: 2;
+    }
+
+    #section8 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* 섹션9 스타일 - 왼쪽 정렬 */
+    #section9 .content-wrapper {
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    #section9 .image-container {
+      justify-content: flex-start; /* 왼쪽 정렬 */
+    }
+
+    /* 섹션10 스타일 */
+    #section10 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+    }
+
+    #section10 .text-content {
+      text-align: center;
+      order: 2;
+    }
+
+    #section10 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* 섹션11 스타일 - 오른쪽 정렬 */
+    #section11 .content-wrapper {
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    #section11 .image-container {
+      justify-content: flex-end; /* 오른쪽 정렬 */
+    }
+
+    /* 섹션12 스타일 */
+    #section12 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 섹션13 스타일 */
+    #section13 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    #section13 .text-content {
+      text-align: center;
+      order: 1;
+      width: 60%;
+      gap: 20px;
+      max-width: 1200px;
+    }
+
+    #section13 .image-container {
+      order: 2;
+      width: 100%;
+    }
+
+    /* 섹션14 스타일 */
+    #section14 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+     
+    /* 섹션15 스타일 - 왼쪽 정렬 */
+    #section15 .content-wrapper {
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    #section15 .image-container {
+      justify-content: flex-start; /* 왼쪽 정렬 */
+    }
+
+    /* 섹션16 스타일 */
+    #section16 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* 섹션17 스타일 - 오른쪽 정렬 */
+    #section17 .content-wrapper {
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    #section17 .image-container {
+      justify-content: flex-end; /* 오른쪽 정렬 */
+    }
+
+    /* 섹션18 스타일 */
+    #section18 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    #section18 .text-content {
+      text-align: center;
+      order: 1;
+    }
+
+    #section18 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* 섹션19 스타일 */
+    #section19 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #section19 .text-content {
+      text-align: center;
+      order: 1;
+      gap: 20px;
+    }
+
+    #section19 .image-container {
+      order: 2;
+    }
+
+    /* 섹션20 스타일 - 왼쪽 정렬 */
+    #section20 {
+      margin-bottom: 0;
+      height: 50vh;
+      min-height: 50vh;
+    }
+
+    #section20 .content-wrapper {
+      justify-content: flex-start;
+      align-items: flex-start;
+      height: 100%;
+    }
+
+    #section20 .image-container {
+      justify-content: flex-start; 
+      align-items: flex-start;
+      height: 100%;
+    }
+
+    /* 섹션21 스타일 - 오른쪽 정렬 */
+    #section21 {
+      margin-top: 0;
+      height: 50vh;
+      min-height: 50vh;
+    }
+
+    #section21 .content-wrapper {
+      justify-content: flex-end; 
+      align-items: flex-end; 
+      height: 100%;
+    }
+
+    #section21 .image-container {
+      justify-content: flex-end; 
+      align-items: flex-end;
+      height: 100%;
+    }
+
+    /* 섹션22 스타일 */
+    #section22 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #section22 .text-content {
+      text-align: center;
+      order: 1;
+      gap: 20px;
+    }
+
+    #section22 .image-container {
+      order: 2;
+    }
+
+    /* 섹션23 스타일 */
+    #section23 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #section23 .image-container {
+      order: 2;
+    }
+
+    /* 반응형 공통 스타일 */
+    @media (max-width: 768px) {
+      .text-content,
+      .image-container {
+        max-width: 100%;
+      }
+
+      .logo {
+        width: 90px;
+        top: 20px;
+        left: 20px;
+      }
+
+      #model-container {
+        height: 40vh;
+      }
+
+      #next-page-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+
+      .unicef-image {
+        width: 250px;
+      }
+
+      .unicef-caption {
+        font-size: 0.9rem;
+      }
+
+      .stopbullying-image {
+        width: 280px;
+      }
+
+      /* section3, 5, 9, 15의 반응형 스타일 */
+      #section3 .content-wrapper,
+      #section5 .content-wrapper,
+      #section9 .content-wrapper,
+      #section15 .content-wrapper {
+        justify-content: center;
+      }
+
+      #section3 .image-container,
+      #section5 .image-container,
+      #section9 .image-container,
+      #section15 .image-container {
+        justify-content: center;
+      }
+
+      /* section6, 11, 17, 21의 반응형 스타일 */
+      #section6 .content-wrapper,
+      #section11 .content-wrapper,
+      #section17 .content-wrapper,
+      #section21 .content-wrapper {
+        justify-content: center;
+      }
+
+      #section6 .image-container,
+      #section11 .image-container,
+      #section17 .image-container,
+      #section21 .image-container {
+        justify-content: center;
+      }
+
+      /* section20 반응형 */
+      #section20 .content-wrapper {
+        justify-content: center;
+      }
+
+      #section20 .image-container {
+        justify-content: center;
+      }
+      
+      #section21 {
+        margin-top: -80px; /* 모바일에서도 딱 붙게 */
+      }
+    }
+
+    @media (max-width: 480px) {
+      #section21 {
+        margin-top: -60px; /* 작은 화면에서도 딱 붙게 */
+      }
+
+      .unicef-image {
+        width: 200px;
+      }
+
+      .unicef-caption {
+        font-size: 0.8rem;
+      }
+
+      .stopbullying-image {
+        width: 220px;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- 다음 페이지 이동 버튼 -->
   <button id="next-page-btn">Next Page →</button>
 
   <div class="container">
-    <img src="images/Logo.png" class="logo" alt="Logo" onclick="goToFirstPage()" />
+    <img src="images2/Logo.png" class="logo" alt="Logo" id="logo" />
 
-    <!-- 배경 레이어 -->
+    <!-- WebGL 효과를 위한 배경 레이어 -->
     <div class="webgl-background">
       <video class="video-background" autoplay muted loop>
-        <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
+        <source src="images2/BG_Banner_Vid_03.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div class="circle"></div>
     </div>
-    
+
     <!-- 섹션0 -->
     <div class="scroll-section" id="section0">
       <div class="content-wrapper">
-        <h2 class="scroll-title">The Aftermath</h2>
+        <h2 class="scroll-title">1</h2>
         <div class="intro-text">
-          <span class="text-part">The story continues</span>
+          <span class="text-part"><span class="bold-text">CYBERBULLYING</span></span>
           <span class="separator"></span>
-          <span class="text-part"><span class="bold-text">IMPACT</span> of cyberbullying</span>
+          <span class="text-part">What is it?</span>
         </div>
       </div>
     </div>
@@ -714,10 +787,18 @@
       <div class="scroll-section" id="section1">
         <div class="content-wrapper">
           <div class="text-content">
-            <p class="scroll-text">Emily's story spread across the school,<br>leaving everyone in shock and disbelief.</p>
-          </div>
-          <div class="image-container">
-            <img src="images/page2-image1.jpg" class="scroll-image">
+            <p class="scroll-text">Cyberbullying is bullying with the use of digital technologies.<br>It can take place on social media, messaging platforms,<br>gaming platforms and mobile phones.<br><br>It is repeated behaviour, aimed at scaring,<br>angering or shaming those who are targeted.</p>
+            
+            <!-- UNICEF 이미지 및 링크 -->
+            <div class="unicef-image-container">
+              <a href="https://www.unicef.org/end-violence/how-to-stop-cyberbullying" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="unicef-link"
+                 title="Visit UNICEF's cyberbullying prevention guide">
+                <img src="images2/unicef.png" alt="UNICEF - Stop Cyberbullying" class="scroll-image unicef-image" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -725,57 +806,68 @@
       <!-- 섹션2 -->
       <div class="scroll-section" id="section2">
         <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text"><span class="font-bold">THE INVESTIGATION</span></p>
-          </div>
           <div class="image-container">
-            <img src="images/page2-image2.jpg" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/18.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          
+          <!-- StopBullying.gov 이미지 및 링크 -->
+          <div class="stopbullying-image-container">
+            <a href="https://www.stopbullying.gov/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="stopbullying-link"
+               title="Visit StopBullying.gov for resources and support">
+              <img src="images2/stopbullying.gov.png" alt="StopBullying.gov - Resources and Support" class="scroll-image stopbullying-image" />
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- 섹션3 -->
+      <!-- 섹션3 - 왼쪽 정렬 -->
       <div class="scroll-section" id="section3">
         <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/page2-image3.jpg" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/20.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
-          <p class="scroll-text">School authorities began looking into<br>the cyberbullying incidents,<br><span class="font-bold line-space">but could they find the perpetrators?</span></p>
         </div>
       </div>
 
       <!-- 섹션4 -->
       <div class="scroll-section" id="section4">
         <div class="content-wrapper">
-          <div class="image-container">
-            <img src="images/page2-image4.jpg" class="scroll-image">
-          </div>
-          <div class="text-content">
-            <p class="scroll-text">Parents and community members<br>demanded answers and action.<br><span class="line-space"></span>The school implemented new<br>anti-cyberbullying policies.</p>
-          </div>
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/21.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
         </div>
       </div>
 
-      <!-- 섹션5 -->
+      <!-- 섹션5 - 왼쪽 정렬 -->
       <div class="scroll-section" id="section5">
         <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text">Emily's friends started a movement<br>to raise awareness about<br>cyberbullying prevention.</p>
-          </div>
           <div class="image-container">
-            <img src="images/page2-image5.jpg" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/22.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션6 -->
+      <!-- 섹션6 - 오른쪽 정렬 -->
       <div class="scroll-section" id="section6">
         <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text">They organized workshops and<br>support groups for students<br>affected by online harassment.</p>
-          </div>
           <div class="image-container">
-            <img src="images/page2-image6.jpg" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/23.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -784,10 +876,10 @@
       <div class="scroll-section" id="section7">
         <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/page2-image7.jpg" class="scroll-image">
-          </div>
-          <div class="text-content">
-            <p class="scroll-text">The movement gained national attention,<br>sparking conversations about<br>digital responsibility and mental health.</p>
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/24.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -795,23 +887,20 @@
       <!-- 섹션8 -->
       <div class="scroll-section" id="section8">
         <div class="content-wrapper">
-          <div class="image-container">
-            <img src="images/page2-image8.jpg" class="scroll-image">
-          </div>
           <div class="text-content">
-            <p class="scroll-text">Lawmakers began considering<br>stricter regulations for<br>social media platforms.</p>
+            <p class="scroll-text">Every notification felt like another blow,<br>another reminder that she wasn't good enough.</p>
           </div>
         </div>
       </div>
 
-      <!-- 섹션9 -->
+      <!-- 섹션9 - 왼쪽 정렬 -->
       <div class="scroll-section" id="section9">
         <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/page2-image9.jpg" class="scroll-image">
-          </div>
-          <div class="text-content">
-            <p class="scroll-text">Emily's story became a cautionary tale<br>about the real-world consequences<br>of online actions.</p>
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/25.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -820,21 +909,19 @@
       <div class="scroll-section" id="section10">
         <div class="content-wrapper">
           <div class="text-content">
-            <p class="scroll-text"><span class="font-bold">THE LEGACY</span></p>
-          </div>
-          <div class="image-container">
-            <img src="images/page2-image10.jpg" class="scroll-image">
+            <p class="scroll-text"><span class="font-bold">SHE TRIED...</span></p>
           </div>
         </div>
       </div>
 
-      <!-- 섹션11 -->
+      <!-- 섹션11 - 오른쪽 정렬 -->
       <div class="scroll-section" id="section11">
         <div class="content-wrapper">
           <div class="image-container">
-          </div>
-          <div class="text-content">
-            <p class="scroll-text">Emily's memory lives on through<br>the positive changes she inspired.</p>
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/26.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -843,10 +930,10 @@
       <div class="scroll-section" id="section12">
         <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/page2-image11.jpg" class="scroll-image">
-          </div>
-          <div class="text-content">
-            <p class="scroll-text"><br>Her story reminds us all to be kinder,<br><span class="font-bold line-space">both online and offline.</span></p>
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/27.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -854,50 +941,115 @@
       <!-- 섹션13 -->
       <div class="scroll-section" id="section13">
         <div class="content-wrapper">
-          <div class="image-container">
-            <img src="images/page2-image12.jpg" class="scroll-image">
-          </div>
           <div class="text-content">
-            <p class="scroll-text">The school established an annual<br>anti-bullying award in her name.</p>
+            <p class="scroll-text"><br>She tried to tell someone,<span class="font-bold line-space">but who would listen?</span></p>
           </div>
         </div>
-      </div>      
+      </div>
 
       <!-- 섹션14 -->
       <div class="scroll-section" id="section14">
-        <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/page2-image13.jpg" class="scroll-image">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/28.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
-        </div>
-      </div>
+      </div>      
 
-      <!-- 섹션15 -->
+      <!-- 섹션15 - 왼쪽 정렬 -->
       <div class="scroll-section" id="section15">
         <div class="content-wrapper">
           <div class="image-container">
-            <img src="images/page2-image14.jpg" class="scroll-image">
-          </div>
-        </div>
-      </div>      
-
-      <!-- 섹션16 -->
-      <div class="scroll-section" id="section16">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <img src="images/page2-image15.jpg" class="scroll-image">
-          </div>
-          <div class="text-content">
-            <p class="scroll-text">Students learned to stand up<br>against cyberbullying and<br>support those who are targeted.</p>
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/29.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션17 -->
+      <!-- 섹션16 -->
+      <div class="scroll-section" id="section16">
+          <div class="image-container">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/30.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+      </div>      
+
+      <!-- 섹션17 - 오른쪽 정렬 -->
       <div class="scroll-section" id="section17">
         <div class="content-wrapper">
+          <div class="image-container">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/31.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션18 -->
+      <div class="scroll-section" id="section18">
+        <div class="content-wrapper">
           <div class="text-content">
-            <p class="scroll-text">Emily's tragedy became a catalyst<br>for change, inspiring a generation<br>to create a safer digital world.</p>
+            <p class="scroll-text">The digital world that was supposed to connect her<br>became her prison.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션19 -->
+      <div class="scroll-section" id="section19">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">Each day brought new messages,<br>new rumors,<br><span class="font-bold">new reasons to disappear.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션20 - 왼쪽 정렬 -->
+      <div class="scroll-section" id="section20">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/32.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션21 - 오른쪽 정렬 -->
+      <div class="scroll-section" id="section21">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/33.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션22 -->
+      <div class="scroll-section" id="section22">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">At the age of <span class="font-bold">13...</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션23 -->
+      <div class="scroll-section" id="section23">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/34.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
@@ -912,9 +1064,8 @@
   <script>
     // 다음 페이지로 이동하는 함수
     function goToNextPage() {
-      // 페이지3로 이동 (임시로 alert 표시)
-      alert("페이지 3로 이동합니다. 실제로는 페이지3.html로 리디렉션됩니다.");
-      // 실제 구현 시: window.location.href = "page3.html";
+      // 페이지3으로 이동
+      window.location.href = "index3.html";
     }
 
     // 첫 페이지로 이동하는 함수 (로고 클릭 시)
@@ -922,16 +1073,26 @@
       window.location.href = "index.html";
     }
 
+    // UNICEF 페이지로 이동하는 함수
+    function goToUnicefPage() {
+      window.open('https://www.unicef.org/end-violence/how-to-stop-cyberbullying', '_blank', 'noopener,noreferrer');
+    }
+
+    // StopBullying 페이지로 이동하는 함수
+    function goToStopBullyingPage() {
+      window.open('https://www.stopbullying.gov/', '_blank', 'noopener,noreferrer');
+    }
+
     // 다음 페이지 버튼 설정 함수
     function setupNextPageButton() {
       const nextPageBtn = document.getElementById('next-page-btn');
-      
+
       // 스크롤 이벤트 리스너 추가
       window.addEventListener('scroll', function() {
         const scrollPosition = window.scrollY;
         const windowHeight = window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
-        
+
         // 스크롤이 하단에 가까워지면 버튼 표시
         if (documentHeight - (scrollPosition + windowHeight) < 100) {
           nextPageBtn.classList.add('show');
@@ -939,7 +1100,7 @@
           nextPageBtn.classList.remove('show');
         }
       });
-      
+
       // 버튼 클릭 이벤트 리스너 추가
       nextPageBtn.addEventListener('click', goToNextPage);
     }
@@ -948,35 +1109,41 @@
     function startSection0Animation() {
       const separator = document.querySelector('#section0 .separator');
       const textParts = document.querySelectorAll('#section0 .text-part');
-      
-      gsap.to(separator, {
-        opacity: 1,
-        scaleY: 1,
-        duration: 0.5,
-        delay: 0.5,
-        ease: "power2.out"
-      });
-      
-      gsap.to(textParts[0], {
-        opacity: 1,
-        y: 0,
-        filter: "blur(0)",
-        duration: 0.8,
-        delay: 0.8,
-        ease: "power2.out"
-      });
-      
-      gsap.to(textParts[1], {
-        opacity: 1,
-        y: 0,
-        filter: "blur(0)",
-        duration: 0.8,
-        delay: 1.1,
-        ease: "power2.out"
-      });
+
+      if (separator) {
+        gsap.to(separator, {
+          opacity: 1,
+          scaleY: 1,
+          duration: 0.5,
+          delay: 0.5,
+          ease: "power2.out"
+        });
+      }
+
+      if (textParts.length > 0) {
+        gsap.to(textParts[0], {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0)",
+          duration: 0.8,
+          delay: 0.8,
+          ease: "power2.out"
+        });
+
+        if (textParts.length > 1) {
+          gsap.to(textParts[1], {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0)",
+            duration: 0.8,
+            delay: 1.1,
+            ease: "power2.out"
+          });
+        }
+      }
     }
 
-    // ScrollTrigger 초기화 함수
+    // ScrollTrigger 초기화 함수 - UNICEF 이미지에도 애니메이션 적용
     function initScrollTriggers() {
       // 섹션0 스크롤 트리거 설정
       gsap.to("#section0", {
@@ -994,7 +1161,7 @@
       // 다른 섹션들의 애니메이션
       gsap.utils.toArray(".scroll-section").forEach(section => {
         if (section.id === "section0") return;
-        
+
         gsap.to(section, {
           opacity: 1,
           y: 0,
@@ -1011,13 +1178,14 @@
         const title = section.querySelector(".scroll-title");
         const text = section.querySelector(".scroll-text");
         const img = section.querySelector(".scroll-image");
+        const video = section.querySelector(".scroll-video");
 
         if (title) {
           gsap.to(title, {
             y: 0,
             opacity: 1,
             scale: 1,
-            filter: "blur(0)", // 이미지와 동일한 블러 제거 효과
+            filter: "blur(0)",
             duration: 1,
             delay: 0.3,
             scrollTrigger: {
@@ -1035,7 +1203,7 @@
             y: 0,
             opacity: 1,
             scale: 1,
-            filter: "blur(0)", // 이미지와 동일한 블러 제거 효과
+            filter: "blur(0)",
             duration: 1,
             delay: 0.5,
             scrollTrigger: {
@@ -1065,49 +1233,177 @@
             }
           });
         }
+
+        if (video) {
+          gsap.to(video, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.5,
+            delay: 0.7,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        // UNICEF 이미지 애니메이션
+        const unicefImage = section.querySelector(".unicef-image");
+        if (unicefImage) {
+          gsap.to(unicefImage, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.5,
+            delay: 1.0,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 70%",
+              end: "top 35%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
+
+        // StopBullying 이미지 애니메이션
+        const stopbullyingImage = section.querySelector(".stopbullying-image");
+        if (stopbullyingImage) {
+          gsap.to(stopbullyingImage, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.5,
+            delay: 1.2,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 70%",
+              end: "top 35%",
+              toggleActions: "play none none reverse",
+              scrub: 0.5
+            }
+          });
+        }
       });
     }
 
-    // 마우스 효과
-    document.addEventListener("mousemove", function (e) {
-      const container = document.querySelector(".container");
-      const circle = document.querySelector(".circle");
-      let circleHalf = circle.offsetWidth / 2;
-      
-      const randomSize = 100 + Math.random() * 400;
-      const randomCircleHalf = randomSize / 3;
-      
-      let c = circle.cloneNode(true);
-      c.style.width = randomSize + "px";
-      c.style.height = randomSize + "px";
-      c.style.left = e.pageX - randomCircleHalf + "px";
-      c.style.top = e.pageY - randomCircleHalf + "px";
-      circle.style.left = e.pageX - circleHalf + "px";
-      circle.style.top = e.pageY - circleHalf + "px";
-      c.classList.add("fadeOut");
-      c.addEventListener("animationend", e => e.target.remove());
-      container.appendChild(c);
-    });
-
     // 메인 애플리케이션
     (function () {
-      gsap.registerPlugin(ScrollTrigger);
-      
       // 로고 클릭 이벤트 핸들러
-      document.querySelector('.logo').addEventListener('click', goToFirstPage);
+      const logo = document.getElementById('logo');
+      if (logo) {
+        logo.addEventListener('click', goToFirstPage);
+      }
 
-      // 초기화
-      startSection0Animation();
-      initScrollTriggers();
-      setupNextPageButton();
+      window.scrollTo(0, 0);
+      const circle = document.querySelector(".circle");
+      
+      if (circle) {
+        let circleHalf = circle.offsetWidth / 2;
 
-      window.addEventListener("load", () => {
-        ScrollTrigger.refresh();
-      });
+        // 마우스 위치에 따라 원 효과 - 수정된 버전
+        document.addEventListener("mousemove", function (e) {
+          // 랜덤 크기 변화
+          const randomSize = 100 + Math.random() * 400;
+          const randomCircleHalf = randomSize / 2;
 
-      window.addEventListener("resize", () => {
-        ScrollTrigger.refresh();
-      });
+          let c = circle.cloneNode(true);
+          c.style.width = randomSize + "px";
+          c.style.height = randomSize + "px";
+          c.style.left = (e.pageX - randomCircleHalf) + "px";
+          c.style.top = (e.pageY - randomCircleHalf) + "px";
+          c.style.background = "url('images2/BG_Image_02.png') center center no-repeat";
+          c.style.backgroundSize = "cover";
+          c.style.maskImage = "radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%)";
+          c.style.webkitMaskImage = "radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%)";
+          
+          circle.style.left = (e.pageX - circleHalf) + "px";
+          circle.style.top = (e.pageY - circleHalf) + "px";
+          
+          c.classList.add("fadeOut");
+          c.addEventListener("animationend", function(event) {
+            if (event.target && event.target.parentNode) {
+              event.target.remove();
+            }
+          });
+          document.querySelector('.container').appendChild(c);
+        });
+
+        window.addEventListener("resize", () => {
+          circleHalf = circle.offsetWidth / 2;
+          if (ScrollTrigger.getAll) {
+            ScrollTrigger.refresh();
+          }
+        });
+      }
+
+      if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const videoBackground = document.querySelector('.video-background');
+        if (videoBackground) {
+          gsap.set(videoBackground, { transform: "none" });
+        }
+
+        window.addEventListener("load", () => {
+          if (ScrollTrigger.getAll) {
+            ScrollTrigger.refresh();
+          }
+          
+          // 페이지 로드 시 애니메이션 시작
+          startSection0Animation();
+          
+          // ScrollTrigger 초기화
+          initScrollTriggers();
+          
+          // 다음 페이지 버튼 설정
+          setupNextPageButton();
+        });
+
+        // 이미지가 로드되었는지 확인하고 circle 효과 테스트
+        const testImage = new Image();
+        testImage.onload = function() {
+          console.log('images2/BG_Image_02.png loaded successfully');
+        };
+        testImage.onerror = function() {
+          console.log('Error loading images2/BG_Image_02.png');
+          // 이미지 로드 실패 시 기본 색상 사용
+          const circle = document.querySelector('.circle');
+          if (circle) {
+            circle.style.background = 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)';
+          }
+        };
+        testImage.src = 'images2/BG_Image_02.png';
+
+        // UNICEF 이미지 로드 확인
+        const unicefImage = new Image();
+        unicefImage.onload = function() {
+          console.log('images2/unicef.png loaded successfully');
+        };
+        unicefImage.onerror = function() {
+          console.log('Error loading images2/unicef.png');
+        };
+        unicefImage.src = 'images2/unicef.png';
+
+        // StopBullying 이미지 로드 확인
+        const stopbullyingImage = new Image();
+        stopbullyingImage.onload = function() {
+          console.log('images2/stopbullying.png loaded successfully');
+        };
+        stopbullyingImage.onerror = function() {
+          console.log('Error loading images2/stopbullying.gov.png');
+        };
+        stopbullyingImage.src = 'images2/stopbullying.g.ovpng';
+      } else {
+        console.error('GSAP not loaded');
+      }
     })();
   </script>
 </body>
