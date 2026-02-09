@@ -400,46 +400,71 @@
       gap: 50px;
     }
 
-    /* 섹션3 스타일 - 왼쪽 정렬 */
+    /* 섹션3 스타일 */
     #section3 .content-wrapper {
-      justify-content: flex-start;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-    }
-
-    #section3 .image-container {
-      justify-content: flex-start; /* 왼쪽 정렬 */
+      gap: 50px;
     }
 
     /* 섹션4 스타일 */
     #section4 .content-wrapper {
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: 30px;
     }
 
-    /* 섹션5 스타일 - 왼쪽 정렬 */
+    #section4 .text-content {
+      text-align: center;
+      order: 1;
+    }
+
+    #section4 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* 섹션5 스타일 */
     #section5 .content-wrapper {
-      justify-content: flex-start;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      gap: 30px;
     }
 
-    #section5 .image-container {
-      justify-content: flex-start; /* 왼쪽 정렬 */
+    #section5 .text-content {
+      text-align: center;
+      order: 1;
     }
 
-    /* 섹션6 스타일 - 오른쪽 정렬 */
+    #section5 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* 섹션6 스타일 */
     #section6 .content-wrapper {
-      justify-content: flex-end;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      gap: 30px;
     }
 
-    #section6 .image-container {
-      justify-content: flex-end; /* 오른쪽 정렬 */
+    #section6 .text-content {
+      text-align: center;
+      order: 1;
+    }
+
+    #section6 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
     }
 
     /* 섹션7 스타일 */
     #section7 .content-wrapper {
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      gap: 40px;
     }
 
     /* 섹션8 스타일 */
@@ -450,14 +475,6 @@
       gap: 40px;
     }
 
-    #section8 .text-content {
-      text-align: center;
-      order: 2;
-    }
-
-    #section8 .scroll-text {
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
-    }
 
     /* 섹션9 스타일 - 왼쪽 정렬 */
     #section9 .content-wrapper {
@@ -831,9 +848,20 @@
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/20.mp4" type="video/mp4" />
+              <source src="images2/19.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+          </div>
+          
+          <!-- Megan Meier Foundation 이미지 및 링크 -->
+          <div class="stopbullying-image-container">
+            <a href="https://www.meganmeierfoundation.org/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="stopbullying-link"
+               title="Visit Megan Meier Foundation for resources and support">
+              <img src="images2/megan.png" alt="Megan Meier Foundation - Resources and Support" class="scroll-image stopbullying-image" />
+            </a>
           </div>
         </div>
       </div>
@@ -841,33 +869,40 @@
       <!-- 섹션4 -->
       <div class="scroll-section" id="section4">
         <div class="content-wrapper">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/21.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-        </div>
-      </div>
-
-      <!-- 섹션5 - 왼쪽 정렬 -->
-      <div class="scroll-section" id="section5">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/22.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+          <div class="text-content">
+            <p class="scroll-text"><span class="font-bold">WHAT ARE THE EFFECTS OF CYBERBULLYING?</span></p>
           </div>
         </div>
       </div>
 
-      <!-- 섹션6 - 오른쪽 정렬 -->
-      <div class="scroll-section" id="section6">
+      <!-- 섹션5 -->
+      <div class="scroll-section" id="section5">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/23.mp4" type="video/mp4" />
+              <source src="images2/20.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+          </div>
+          
+          <!-- PMC(National Library of Medicine) 이미지 및 링크 -->
+          <div class="stopbullying-image-container">
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4276384/" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="stopbullying-link"
+               title="Visit PMC (National Library of Medicine) for research articles">
+              <img src="images2/pmc.png" alt="PMC National Library of Medicine - Research Articles" class="scroll-image stopbullying-image" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션6 -->
+      <div class="scroll-section" id="section4">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">So...<span class="font-bold">WHAT NOW?</span></p>
           </div>
         </div>
       </div>
@@ -877,7 +912,7 @@
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/24.mp4" type="video/mp4" />
+              <source src="images2/21.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
@@ -887,8 +922,11 @@
       <!-- 섹션8 -->
       <div class="scroll-section" id="section8">
         <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text">Every notification felt like another blow,<br>another reminder that she wasn't good enough.</p>
+          <div class="image-container">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/22.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
