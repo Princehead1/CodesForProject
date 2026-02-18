@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thread - Page 3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --lens-size: 400px;
+      --content-margin: 5vw;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      background-color: black;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    body::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+    }
+
+    #next-page-btn, #prev-page-btn {
+      position: fixed;
+      bottom: 30px;
+      background: linear-gradient(135deg, #ff6b6b, #ff5252);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 16px 40px;
+      font-size: 1.3rem;
+      font-family: "Urbanist", Arial, sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(30px) scale(0.9);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+      letter-spacing: 1px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    #next-page-btn {
+      right: 30px;
+    }
+
+    #prev-page-btn {
+      left: 30px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    #next-page-btn.show, #prev-page-btn.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .container {
+      min-height: 100vh;
+      position: relative;
+      opacity: 1;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      transform: none !important;
+    }
+
+    .circle {
+      position: absolute;
+      width: var(--lens-size);
+      height: var(--lens-size);
+      background: url("images2/BG_Image_02.png") center center no-repeat;
+      background-size: cover;
+      mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+      -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+      transition: 2.0s;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .fadeOut {
+      animation: fadeOut 1.5s forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .scroll-content {
+      position: relative;
+      z-index: 3;
+      padding-top: 100vh;
+      min-height: 400vh;
+      padding-left: var(--content-margin);
+      padding-right: var(--content-margin);
+      padding-bottom: 150px;
+    }
+
+    .scroll-section {
+      min-height: 100vh;
+      display: flex;
+      opacity: 0;
+      transform: translateY(100px);
+      will-change: opacity, transform;
+      align-items: center;
+      margin-bottom: 150px;
+    }
+
+    .content-wrapper {
+      display: flex;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .text-content {
+      flex: 1;
+    }
+
+    .scroll-video {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      transform: translateY(20px) scale(1.1);
+      opacity: 0;
+      will-change: transform, opacity, filter;
+      filter: blur(2px);
+      transition: all 0.6s ease-out;
+    }
+
+    .scroll-text {
+      font-size: clamp(1.3rem, 3.5vw, 2.0rem);
+      line-height: 1.6;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transform: translateY(20px) scale(0.95);
+      opacity: 0;
+      color: rgb(255, 251, 240);
+      will-change: transform, opacity;
+      transition: all 0.6s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+      filter: blur(2px);
+    }
+
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgb(255, 251, 240);
+      font-size: 1rem;
+      z-index: 10;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+      font-family: "Urbanist", Arial, sans-serif;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .scroll-indicator.hidden {
+      opacity: 0;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-10px) translateX(-50%); }
+      60% { transform: translateY(-5px) translateX(-50%); }
+    }
+
+    .logo {
+      position: fixed;
+      top: 40px;
+      left: 60px;
+      z-index: 20;
+      width: 120px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s, opacity 0.3s;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
+    }
+
+    #section0 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 4;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transform: none;
+      margin-bottom: 100px;
+    }
+
+    #section0 .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    #section0 .intro-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      color: rgb(255, 251, 240);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    #section0 .text-part {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease-out;
+      font-family: "Urbanist", Arial, sans-serif;
+      filter: blur(2px);
+    }
+
+    #section0 .separator {
+      width: 2px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, white, transparent);
+      margin: 0 20px;
+      opacity: 0;
+      transform: scaleY(0);
+      transform-origin: center;
+      transition: all 0.5s ease-out;
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+
+    #section0 .bold-text {
+      font-weight: 700;
+      font-size: 1.2em;
+      font-family: "Urbanist", Arial, sans-serif;
+      color: #ff6b6b;
+      text-shadow: 0 0 15px rgba(255,107,107,0.5);
+    }
+
+    @media (max-width: 768px) {
+      #section0 .intro-text {
+        flex-direction: column;
+      }
+
+      #section0 .separator {
+        width: 60px;
+        height: 2px;
+        margin: 10px 0;
+      }
+    }
+
+    #section1 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+
+    #section1 .text-content {
+      text-align: center;
+      order: 1;
+    }
+
+    #section1 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    #section2 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .map-mockup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      backdrop-filter: blur(10px);
+    }
+
+    .map-mockup-overlay.active {
+      display: flex;
+    }
+
+    .map-mockup-instruction {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+      font-family: "Urbanist", Arial, sans-serif;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .esc-key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #555, #333);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 10px;
+      border: 2px solid #777;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+      margin: 0 10px;
+      min-width: 80px;
+      font-size: 1.2rem;
+    }
+
+    .map-mockup-container {
+      width: 90vw;
+      max-width: 1300px;
+      height: 80vh;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 30px;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .map-mockup-header {
+      text-align: center;
+      margin-bottom: 20px;
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .map-mockup-header span {
+      color: #ff6b6b;
+    }
+
+    .map-wrapper {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      overflow: auto;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #section3 {
+      min-height: 120vh;
+    }
+
+    #section3 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    #section3 .text-content {
+      text-align: center;
+      margin-bottom: 30px;
+      width: 100%;
+    }
+
+    #section3 .scroll-text {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 20px;
+    }
+
+    .map-container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s ease;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 30px;
+      padding: 30px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .map-container:hover {
+      transform: scale(1.02);
+      border-color: rgba(255, 107, 107, 0.3);
+    }
+
+    .map-container.clickable::after {
+      content: "🔍 Click map or press M to enlarge";
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 107, 107, 0.9);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      animation: pulse 2s infinite;
+      z-index: 10;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+    }
+
+    .usa-map-svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+    }
+
+    .map-outline {
+      fill: #1a1a1a;
+      stroke: rgba(255, 255, 255, 0.5);
+      stroke-width: 1.5;
+    }
+
+    .state-dot {
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .state-dot circle {
+      fill: #ff6b6b;
+      r: 8;
+      filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
+      transition: all 0.3s ease;
+    }
+
+    .state-dot:hover circle {
+      fill: #ff3333;
+      r: 14;
+      filter: drop-shadow(0 0 20px rgba(255, 51, 51, 0.8));
+    }
+
+    .state-dot.active circle {
+      fill: #ff0000;
+      r: 14;
+      filter: drop-shadow(0 0 30px rgba(255, 0, 0, 1));
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    .state-dot text {
+      fill: white;
+      font-size: 10px;
+      font-weight: bold;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .state-dot:hover text {
+      opacity: 1;
+    }
+
+    .state-dot.active text {
+      opacity: 1;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { filter: drop-shadow(0 0 30px rgba(255, 0, 0, 1)); }
+      50% { filter: drop-shadow(0 0 50px rgba(255, 0, 0, 0.8)); }
+    }
+
+    .state-tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      border: 2px solid #ff6b6b;
+      border-radius: 20px;
+      padding: 25px;
+      color: rgb(255, 251, 240);
+      max-width: 350px;
+      width: max-content;
+      pointer-events: none;
+      z-index: 1000;
+      box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
+      transition: all 0.3s ease;
+      transform: translate(-50%, -120%);
+    }
+
+    .state-tooltip::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 12px solid #ff6b6b;
+    }
+
+    .tooltip-state-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #ff6b6b;
+      text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+    }
+
+    .tooltip-penalty {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .tooltip-description {
+      font-size: 1rem;
+      opacity: 0.9;
+      line-height: 1.5;
+    }
+
+    .tooltip-note {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      font-style: italic;
+      margin-top: 15px;
+    }
+
+    .page-end-message {
+      text-align: center;
+      color: rgba(255, 251, 240, 0.5);
+      font-size: 1.2rem;
+      margin-top: 100px;
+      padding: 40px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        width: 90px;
+        top: 20px;
+        left: 20px;
+      }
+
+      #next-page-btn, #prev-page-btn {
+        bottom: 20px;
+        padding: 14px 30px;
+        font-size: 1.1rem;
+      }
+
+      #next-page-btn {
+        right: 20px;
+      }
+
+      #prev-page-btn {
+        left: 20px;
+      }
+
+      .map-container.clickable::after {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+        bottom: -35px;
+        white-space: normal;
+        width: 90%;
+      }
+
+      .state-tooltip {
+        max-width: 280px;
+        padding: 20px;
+      }
+
+      .tooltip-state-name {
+        font-size: 1.5rem;
+      }
+
+      .tooltip-penalty {
+        font-size: 1rem;
+      }
+
+      .state-dot circle {
+        r: 6;
+      }
+
+      .state-dot:hover circle {
+        r: 10;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button id="prev-page-btn">← Previous Page</button>
+  <button id="next-page-btn">Next Page →</button>
+
+  <div class="map-mockup-overlay" id="map-mockup-overlay">
+    <div class="map-mockup-instruction">
+      Press <span class="esc-key">ESC</span> to exit map view
+    </div>
+    <div class="map-mockup-container">
+      <div class="map-mockup-header">
+        Cyberbullying Laws <span>by State</span>
+      </div>
+      <div class="map-wrapper" id="map-wrapper-large"></div>
+    </div>
+    <div id="large-map-tooltip" class="state-tooltip" style="display: none;"></div>
+  </div>
+
+  <div id="tooltip" class="state-tooltip" style="display: none;"></div>
+
+  <div class="container">
+    <img src="images2/Logo.png" class="logo" alt="Logo" id="logo" />
+
+    <div class="webgl-background">
+      <video class="video-background" autoplay muted loop>
+        <source src="images2/BG_Banner_Vid_03.mp4" type="video/mp4" />
+      </video>
+      <div class="circle"></div>
+    </div>
+
+    <div class="scroll-section" id="section0">
+      <div class="content-wrapper">
+        <h2 class="scroll-title">3</h2>
+        <div class="intro-text">
+          <span class="text-part"><span class="bold-text">CYBERBULLYING LAWS</span></span>
+          <span class="separator"></span>
+          <span class="text-part">United States</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-content">
+      <div class="scroll-section" id="section1">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">Cyberbullying laws vary across the United States.<br><br>Some states have specific cyberbullying statutes,<br>while others include it under harassment or hate crime laws.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-section" id="section2">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images2/18.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="scroll-section" id="section3">
+        <div class="content-wrapper">
+          <div class="text-content">
+            <p class="scroll-text">Click on any state dot to see<br>cyberbullying penalties</p>
+          </div>
+          
+          <div class="map-container clickable" id="map-container" onclick="activateMapMode()">
+            <svg class="usa-map-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
+              <!-- 정확한 미국 본토 윤곽선 -->
+              <path class="map-outline" d="M180,100 L220,90 L260,85 L300,80 L340,80 L380,82 L420,85 L460,88 L500,90 L540,92 L580,95 L620,98 L660,100 L700,105 L740,110 L780,115 L820,120 L840,125 L860,130 L870,135 L880,140 L885,145 L890,150 L892,155 L894,160 L895,165 L894,170 L892,175 L888,180 L882,185 L875,190 L865,195 L850,200 L830,205 L810,210 L790,215 L770,220 L750,225 L730,230 L710,235 L690,240 L670,245 L650,250 L630,255 L610,260 L590,265 L570,270 L550,275 L530,280 L510,285 L490,290 L470,295 L450,300 L430,305 L410,310 L390,315 L370,320 L350,325 L330,330 L310,335 L290,340 L270,345 L250,350 L230,355 L210,360 L200,355 L190,350 L182,345 L175,340 L170,335 L165,330 L162,325 L160,320 L158,315 L156,310 L154,305 L152,300 L150,295 L148,290 L146,285 L144,280 L142,275 L140,270 L138,265 L136,260 L134,255 L132,250 L130,245 L128,240 L126,235 L124,230 L122,225 L120,220 L118,215 L116,210 L114,205 L112,200 L110,195 L108,190 L106,185 L104,180 L102,175 L100,170 L98,165 L96,160 L94,155 L92,150 L90,145 L92,140 L95,135 L100,130 L110,125 L120,120 L130,115 L140,110 L150,105 L160,100 L170,95 L180,100 Z" />
+              
+              <!-- 플로리다 반도 -->
+              <path class="map-outline" d="M670,340 L680,330 L690,325 L700,330 L710,340 L720,350 L730,360 L735,370 L738,380 L735,390 L730,400 L720,410 L710,415 L700,418 L690,415 L680,410 L670,400 L665,390 L663,380 L665,370 L670,360 L670,340 Z" />
+              
+              <!-- 미시간 상부 반도 -->
+              <path class="map-outline" d="M550,140 L560,130 L570,125 L580,122 L590,120 L600,118 L610,117 L620,116 L630,115 L640,114 L650,113 L660,112 L670,113 L680,115 L685,120 L683,125 L680,130 L675,135 L670,140 L660,142 L650,144 L640,145 L630,146 L620,147 L610,148 L600,149 L590,150 L580,151 L570,150 L560,148 L550,145 L545,142 L550,140 Z" />
+              
+              <!-- 텍사스 리오 그란데 지역 -->
+              <path class="map-outline" d="M350,360 L360,350 L370,345 L380,340 L390,335 L400,330 L410,325 L420,322 L430,320 L440,318 L450,317 L460,316 L470,315 L480,314 L490,313 L500,312 L510,311 L520,310 L530,309 L540,308 L550,307 L560,306 L570,305 L580,304 L590,303 L600,302 L610,301 L620,300 L630,299 L640,298 L650,297 L660,296 L670,295 L680,294 L690,293 L700,292 L710,291 L720,290 L730,289 L740,288 L750,287 L760,286 L770,285 L780,284 L790,283 L800,282 L810,283 L820,285 L825,290 L822,295 L818,300 L812,305 L805,310 L795,315 L785,320 L775,325 L765,330 L755,335 L745,340 L735,345 L725,350 L715,355 L705,360 L695,365 L685,370 L675,375 L665,380 L655,385 L645,390 L635,395 L625,400 L615,405 L605,410 L595,415 L585,420 L575,425 L565,430 L555,435 L545,440 L535,445 L525,450 L515,455 L505,460 L495,465 L485,470 L475,475 L465,480 L455,485 L445,490 L435,495 L425,500 L415,505 L405,510 L395,515 L385,520 L375,525 L365,530 L355,535 L345,540 L335,545 L325,550 L315,555 L305,560 L295,565 L285,570 L275,575 L265,580 L255,585 L245,590 L235,595 L225,600 L215,605 L205,610 L195,615 L185,620 L175,625 L165,630 L155,635 L145,640 L135,645 L125,650 L115,655 L105,660 L95,665 L85,670 L75,675 L65,680 L55,685 L45,690 L35,695 L25,700 L15,705 L5,710 L0,705 L0,690 L5,675 L10,660 L15,645 L20,630 L25,615 L30,600 L35,585 L40,570 L45,555 L50,540 L55,525 L60,510 L65,495 L70,480 L75,465 L80,450 L85,435 L90,420 L95,405 L100,390 L105,375 L110,360 L115,345 L120,330 L125,315 L130,300 L135,285 L140,270 L145,255 L150,240 L155,225 L160,210 L165,195 L170,180 L175,165 L180,150 L185,135 L190,120 L195,105 L200,90 L210,95 L220,100 L230,105 L240,110 L250,115 L260,120 L270,125 L280,130 L290,135 L300,140 L310,145 L320,150 L330,155 L340,160 L350,165 L360,170 L370,175 L380,180 L390,185 L400,190 L410,195 L420,200 L430,205 L440,210 L450,215 L460,220 L470,225 L480,230 L490,235 L500,240 L510,245 L520,250 L530,255 L540,260 L550,265 L560,270 L570,275 L580,280 L590,285 L600,290 L610,295 L620,300 L630,305 L640,310 L650,315 L660,320 L670,325 L680,330 L690,335 L700,340 L710,345 L720,350 L730,355 L740,360 L750,365 L760,370 L770,375 L780,380 L790,385 L800,390 L810,395 L820,400 L830,405 L840,410 L850,415 L860,420 L870,425 L880,430 L890,435 L900,440 L910,445 L920,450 L930,455 L940,460 L950,465 L960,470 L970,475 L980,480 L990,485 L1000,490 L1000,500 L990,505 L980,510 L970,515 L960,520 L950,525 L940,530 L930,535 L920,540 L910,545 L900,550 L890,555 L880,560 L870,565 L860,570 L850,575 L840,580 L830,585 L820,590 L810,595 L800,600 L790,605 L780,610 L770,615 L760,620 L750,625 L740,630 L730,635 L720,640 L710,645 L700,650 L690,655 L680,660 L670,665 L660,670 L650,675 L640,680 L630,685 L620,690 L610,695 L600,700 L590,705 L580,710 L570,715 L560,720 L550,725 L540,730 L530,735 L520,740 L510,745 L500,750 L490,755 L480,760 L470,765 L460,770 L450,775 L440,780 L430,785 L420,790 L410,795 L400,800 L390,805 L380,810 L370,815 L360,820 L350,825 L340,830 L330,835 L320,840 L310,845 L300,850 L290,855 L280,860 L270,865 L260,870 L250,875 L240,880 L230,885 L220,890 L210,895 L200,900 L190,905 L180,910 L170,915 L160,920 L150,925 L140,930 L130,935 L120,940 L110,945 L100,950 L90,955 L80,960 L70,965 L60,970 L50,975 L40,980 L30,985 L20,990 L10,995 L0,1000 L0,0 L1000,0 L1000,500 L990,495 L980,490 L970,485 L960,480 L950,475 L940,470 L930,465 L920,460 L910,455 L900,450 L890,445 L880,440 L870,435 L860,430 L850,425 L840,420 L830,415 L820,410 L810,405 L800,400 L790,395 L780,390 L770,385 L760,380 L750,375 L740,370 L730,365 L720,360 L710,355 L700,350 L690,345 L680,340 L670,335 L660,330 L650,325 L640,320 L630,315 L620,310 L610,305 L600,300 L590,295 L580,290 L570,285 L560,280 L550,275 L540,270 L530,265 L520,260 L510,255 L500,250 L490,245 L480,240 L470,235 L460,230 L450,225 L440,220 L430,215 L420,210 L410,205 L400,200 L390,195 L380,190 L370,185 L360,180 L350,175 L340,170 L330,165 L320,160 L310,155 L300,150 L290,145 L280,140 L270,135 L260,130 L250,125 L240,120 L230,115 L220,110 L210,105 L200,100 L190,95 L180,90 L170,85 L160,80 L150,75 L140,70 L130,65 L120,60 L110,55 L100,50 L90,45 L80,40 L70,35 L60,30 L50,25 L40,20 L30,15 L20,10 L10,5 L0,0 L0,0 Z" />
+              
+              <!-- 알래스카 -->
+              <path class="map-outline" d="M80,450 L120,440 L160,430 L200,420 L220,430 L240,440 L250,450 L255,460 L250,470 L240,480 L220,490 L200,495 L180,500 L160,505 L140,510 L120,515 L100,520 L80,525 L60,530 L40,535 L20,540 L10,545 L0,550 L0,530 L10,520 L20,510 L30,500 L40,490 L50,480 L60,470 L70,460 L80,450 Z" />
+              
+              <!-- 하와이 -->
+              <path class="map-outline" d="M200,520 L220,515 L240,510 L260,512 L270,520 L268,530 L260,538 L250,542 L240,545 L230,547 L220,548 L210,547 L200,545 L190,542 L182,538 L178,530 L180,520 L190,515 L200,520 Z" />
+              
+              <!-- State Dots with initials -->
+              <g class="state-dots">
+                <!-- West Coast -->
+                <g class="state-dot" data-state="Washington" data-penalty="Up to 364 days jail, $5,000 fine" data-description="Cyber-harassment is a gross misdemeanor." transform="translate(210,110)">
+                  <circle />
+                  <text>WA</text>
+                </g>
+                <g class="state-dot" data-state="Oregon" data-penalty="Up to 1 year jail, $6,250 fine" data-description="Harassment includes electronic communication. Class A misdemeanor." transform="translate(200,150)">
+                  <circle />
+                  <text>OR</text>
+                </g>
+                <g class="state-dot" data-state="California" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Cyber-harassment is a misdemeanor. Felony for threats." transform="translate(190,230)">
+                  <circle />
+                  <text>CA</text>
+                </g>
+                
+                <!-- Southwest -->
+                <g class="state-dot" data-state="Nevada" data-penalty="Up to 6 months jail, $1,000 fine" data-description="Cyber-harassment is a misdemeanor." transform="translate(230,180)">
+                  <circle />
+                  <text>NV</text>
+                </g>
+                <g class="state-dot" data-state="Arizona" data-penalty="Up to 6 months jail, $2,500 fine" data-description="Cyber-harassment is a Class 1 misdemeanor." transform="translate(250,250)">
+                  <circle />
+                  <text>AZ</text>
+                </g>
+                <g class="state-dot" data-state="Utah" data-penalty="Up to 1 year jail, $2,500 fine" data-description="Cyber-harassment is a Class A misdemeanor." transform="translate(280,190)">
+                  <circle />
+                  <text>UT</text>
+                </g>
+                <g class="state-dot" data-state="New Mexico" data-penalty="Up to 1 year jail, $1,000 fine" data-description="Harassment includes electronic communication. Misdemeanor." transform="translate(300,260)">
+                  <circle />
+                  <text>NM</text>
+                </g>
+                
+                <!-- Rocky Mountains -->
+                <g class="state-dot" data-state="Montana" data-penalty="Up to 6 months jail, $500 fine" data-description="Cyber-harassment is a misdemeanor." transform="translate(330,100)">
+                  <circle />
+                  <text>MT</text>
+                </g>
+                <g class="state-dot" data-state="Idaho" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Harassment includes electronic communication. Misdemeanor." transform="translate(300,140)">
+                  <circle />
+                  <text>ID</text>
+                </g>
+                <g class="state-dot" data-state="Wyoming" data-penalty="Up to 6 months jail, $750 fine" data-description="Cyber-harassment is a misdemeanor." transform="translate(350,150)">
+                  <circle />
+                  <text>WY</text>
+                </g>
+                <g class="state-dot" data-state="Colorado" data-penalty="Up to 18 months jail, $5,000 fine" data-description="Cyber-harassment is a Class 1 misdemeanor." transform="translate(370,200)">
+                  <circle />
+                  <text>CO</text>
+                </g>
+                
+                <!-- Midwest -->
+                <g class="state-dot" data-state="North Dakota" data-penalty="Up to 1 year jail, $3,000 fine" data-description="Cyber-harassment is a Class A misdemeanor." transform="translate(410,80)">
+                  <circle />
+                  <text>ND</text>
+                </g>
+                <g class="state-dot" data-state="South Dakota" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Harassment by electronic means is a Class 1 misdemeanor." transform="translate(420,120)">
+                  <circle />
+                  <text>SD</text>
+                </g>
+                <g class="state-dot" data-state="Nebraska" data-penalty="Up to 1 year jail, $1,000 fine" data-description="Cyber-harassment is a Class I misdemeanor." transform="translate(430,160)">
+                  <circle />
+                  <text>NE</text>
+                </g>
+                <g class="state-dot" data-state="Kansas" data-penalty="Up to 1 year jail, $2,500 fine" data-description="Cyberstalking is a Class A misdemeanor." transform="translate(440,210)">
+                  <circle />
+                  <text>KS</text>
+                </g>
+                <g class="state-dot" data-state="Iowa" data-penalty="Up to 2 years jail, $6,250 fine" data-description="Harassment includes electronic communication." transform="translate(480,150)">
+                  <circle />
+                  <text>IA</text>
+                </g>
+                <g class="state-dot" data-state="Missouri" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Harassment includes cyberbullying." transform="translate(490,200)">
+                  <circle />
+                  <text>MO</text>
+                </g>
+                <g class="state-dot" data-state="Minnesota" data-penalty="Up to 5 years jail, $10,000 fine" data-description="Cyber-harassment is a gross misdemeanor." transform="translate(470,100)">
+                  <circle />
+                  <text>MN</text>
+                </g>
+                <g class="state-dot" data-state="Wisconsin" data-penalty="Up to 9 months jail, $10,000 fine" data-description="Unlawful use of computerized communication systems." transform="translate(520,130)">
+                  <circle />
+                  <text>WI</text>
+                </g>
+                <g class="state-dot" data-state="Illinois" data-penalty="Up to 3 years jail, $25,000 fine" data-description="Cyberstalking is a Class 4 felony." transform="translate(530,170)">
+                  <circle />
+                  <text>IL</text>
+                </g>
+                
+                <!-- Texas and Oklahoma -->
+                <g class="state-dot" data-state="Texas" data-penalty="Up to 1 year jail, $4,000 fine" data-description="Cyberbullying is a Class A misdemeanor." transform="translate(330,320)">
+                  <circle />
+                  <text>TX</text>
+                </g>
+                <g class="state-dot" data-state="Oklahoma" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Cyber-harassment is a misdemeanor." transform="translate(410,250)">
+                  <circle />
+                  <text>OK</text>
+                </g>
+                
+                <!-- South -->
+                <g class="state-dot" data-state="Arkansas" data-penalty="Up to 1 year jail, $2,500 fine" data-description="Cyber-harassment is a Class A misdemeanor." transform="translate(460,240)">
+                  <circle />
+                  <text>AR</text>
+                </g>
+                <g class="state-dot" data-state="Louisiana" data-penalty="Up to 6 months jail, $500 fine" data-description="Cyberbullying is a misdemeanor." transform="translate(480,290)">
+                  <circle />
+                  <text>LA</text>
+                </g>
+                <g class="state-dot" data-state="Mississippi" data-penalty="Up to 6 months jail, $500 fine" data-description="Cyber-harassment is a misdemeanor." transform="translate(520,270)">
+                  <circle />
+                  <text>MS</text>
+                </g>
+                <g class="state-dot" data-state="Alabama" data-penalty="Up to 1 year jail, $6,000 fine" data-description="Harassment includes electronic communications." transform="translate(560,260)">
+                  <circle />
+                  <text>AL</text>
+                </g>
+                <g class="state-dot" data-state="Georgia" data-penalty="Up to 12 months jail, $1,000 fine" data-description="Cyberbullying is a misdemeanor." transform="translate(600,250)">
+                  <circle />
+                  <text>GA</text>
+                </g>
+                <g class="state-dot" data-state="Florida" data-penalty="Up to 1 year jail, $1,000 fine" data-description="Cyber-harassment is a first-degree misdemeanor." transform="translate(680,320)">
+                  <circle />
+                  <text>FL</text>
+                </g>
+                
+                <!-- Great Lakes -->
+                <g class="state-dot" data-state="Michigan" data-penalty="Up to 5 years jail, $10,000 fine" data-description="Cyberbullying is a felony for repeat offenders." transform="translate(570,100)">
+                  <circle />
+                  <text>MI</text>
+                </g>
+                <g class="state-dot" data-state="Ohio" data-penalty="Up to 180 days jail, $1,000 fine" data-description="Cyberbullying is a first-degree misdemeanor." transform="translate(610,160)">
+                  <circle />
+                  <text>OH</text>
+                </g>
+                <g class="state-dot" data-state="Indiana" data-penalty="Up to 1 year jail, $5,000 fine" data-description="Harassment includes electronic communications." transform="translate(560,190)">
+                  <circle />
+                  <text>IN</text>
+                </g>
+                <g class="state-dot" data-state="Kentucky" data-penalty="Up to 12 months jail, $500 fine" data-description="Harassment includes electronic communication." transform="translate(600,200)">
+                  <circle />
+                  <text>KY</text>
+                </g>
+                <g class="state-dot" data-state="Tennessee" data-penalty="Up to 11 months jail, $2,500 fine" data-description="Cyber-harassment is a Class A misdemeanor." transform="translate(580,230)">
+                  <circle />
+                  <text>TN</text>
+                </g>
+                
+                <!-- Southeast -->
+                <g class="state-dot" data-state="Virginia" data-penalty="Up to 12 months jail, $2,500 fine" data-description="Harassment by electronic means is a Class 1 misdemeanor." transform="translate(670,180)">
+                  <circle />
+                  <text>VA</text>
+                </g>
+                <g class="state-dot" data-state="West Virginia" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Cyberbullying falls under harassment laws." transform="translate(630,190)">
+                  <circle />
+                  <text>WV</text>
+                </g>
+                <g class="state-dot" data-state="North Carolina" data-penalty="Up to 120 days jail, $1,000 fine" data-description="Cyber-bullying is a Class 2 misdemeanor." transform="translate(680,220)">
+                  <circle />
+                  <text>NC</text>
+                </g>
+                <g class="state-dot" data-state="South Carolina" data-penalty="Up to 3 years jail, $500 fine" data-description="Harassment in the first degree is a felony." transform="translate(670,250)">
+                  <circle />
+                  <text>SC</text>
+                </g>
+                
+                <!-- Northeast -->
+                <g class="state-dot" data-state="New York" data-penalty="Up to 1 year jail, $1,000 fine" data-description="Aggravated harassment includes cyberbullying." transform="translate(720,130)">
+                  <circle />
+                  <text>NY</text>
+                </g>
+                <g class="state-dot" data-state="Pennsylvania" data-penalty="Up to 5 years jail, $10,000 fine" data-description="Cyber harassment of a child is a third-degree felony." transform="translate(690,160)">
+                  <circle />
+                  <text>PA</text>
+                </g>
+                <g class="state-dot" data-state="Vermont" data-penalty="Up to 1 year jail, $1,000 fine" data-description="Specific cyberbullying law for students." transform="translate(730,110)">
+                  <circle />
+                  <text>VT</text>
+                </g>
+                <g class="state-dot" data-state="New Hampshire" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Cyberbullying falls under harassment statutes." transform="translate(750,120)">
+                  <circle />
+                  <text>NH</text>
+                </g>
+                <g class="state-dot" data-state="Maine" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Criminal harassment includes cyberbullying." transform="translate(780,100)">
+                  <circle />
+                  <text>ME</text>
+                </g>
+                <g class="state-dot" data-state="Massachusetts" data-penalty="Up to 2.5 years jail, $1,000 fine" data-description="Criminal harassment includes electronic communication." transform="translate(740,140)">
+                  <circle />
+                  <text>MA</text>
+                </g>
+                <g class="state-dot" data-state="Rhode Island" data-penalty="Up to 1 year jail, $1,000 fine" data-description="Cyberstalking and cyberharassment are specific crimes." transform="translate(735,155)">
+                  <circle />
+                  <text>RI</text>
+                </g>
+                <g class="state-dot" data-state="Connecticut" data-penalty="Up to 5 years jail, $5,000 fine" data-description="First-degree harassment by electronic means." transform="translate(730,160)">
+                  <circle />
+                  <text>CT</text>
+                </g>
+                <g class="state-dot" data-state="New Jersey" data-penalty="Up to 18 months jail, $10,000 fine" data-description="Cyber-harassment is a crime of the fourth degree." transform="translate(720,175)">
+                  <circle />
+                  <text>NJ</text>
+                </g>
+                <g class="state-dot" data-state="Delaware" data-penalty="Up to 1 year jail, $2,300 fine" data-description="Cyberbullying and harassment are Class A misdemeanors." transform="translate(705,185)">
+                  <circle />
+                  <text>DE</text>
+                </g>
+                <g class="state-dot" data-state="Maryland" data-penalty="Up to 3 years jail, $5,000 fine" data-description="Harassment and cyberbullying are misdemeanors." transform="translate(690,195)">
+                  <circle />
+                  <text>MD</text>
+                </g>
+                
+                <!-- Alaska & Hawaii -->
+                <g class="state-dot" data-state="Alaska" data-penalty="Up to 1 year jail, $10,000 fine" data-description="Harassment includes electronic communication." transform="translate(120,480)">
+                  <circle />
+                  <text>AK</text>
+                </g>
+                <g class="state-dot" data-state="Hawaii" data-penalty="Up to 1 year jail, $2,000 fine" data-description="Cyber-harassment is a misdemeanor." transform="translate(220,540)">
+                  <circle />
+                  <text>HI</text>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-end-message">
+        Scroll down to continue to Page 4 →
+      </div>
+    </div>
+
+    <div class="scroll-indicator">Scroll Down</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
+
+  <script>
+    function goToNextPage() {
+      window.location.href = "index4.html";
+    }
+
+    function goToPrevPage() {
+      window.location.href = "index2.html";
+    }
+
+    function goToFirstPage() {
+      window.location.href = "index.html";
+    }
+
+    let isMapModeActive = false;
+    let originalScrollTriggers = [];
+    let activeDot = null;
+
+    function setupDotInteractions(container, tooltipElement) {
+      const dots = container.querySelectorAll('.state-dot');
+      
+      dots.forEach(dot => {
+        dot.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          if (activeDot === this) {
+            tooltipElement.style.display = 'none';
+            this.classList.remove('active');
+            activeDot = null;
+            return;
+          }
+          
+          const stateName = this.getAttribute('data-state') || 'Unknown';
+          const penalty = this.getAttribute('data-penalty') || 'Penalty information not available';
+          const description = this.getAttribute('data-description') || 'No description available';
+          
+          tooltipElement.innerHTML = `
+            <div class="tooltip-state-name">${stateName}</div>
+            <div class="tooltip-penalty">${penalty}</div>
+            <div class="tooltip-description">${description}</div>
+            <div class="tooltip-note">Click again to close</div>
+          `;
+          
+          const rect = this.querySelector('circle').getBoundingClientRect();
+          tooltipElement.style.display = 'block';
+          tooltipElement.style.left = (rect.left + rect.width / 2) + 'px';
+          tooltipElement.style.top = (rect.top - 20) + 'px';
+          
+          dots.forEach(d => d.classList.remove('active'));
+          this.classList.add('active');
+          activeDot = this;
+        });
+      });
+
+      container.addEventListener('click', function(e) {
+        if (!e.target.closest('.state-dot')) {
+          tooltipElement.style.display = 'none';
+          dots.forEach(d => d.classList.remove('active'));
+          activeDot = null;
+        }
+      });
+    }
+
+    function activateMapMode() {
+      if (isMapModeActive) return;
+
+      isMapModeActive = true;
+      const overlay = document.getElementById('map-mockup-overlay');
+      const mapWrapperLarge = document.getElementById('map-wrapper-large');
+
+      originalScrollTriggers = ScrollTrigger.getAll();
+      originalScrollTriggers.forEach(trigger => trigger.disable());
+
+      document.body.style.overflow = 'hidden';
+
+      const smallMapSvg = document.querySelector('.usa-map-svg');
+      if (smallMapSvg) {
+        mapWrapperLarge.innerHTML = '';
+        const largeSvg = smallMapSvg.cloneNode(true);
+        largeSvg.classList.add('usa-map-svg');
+        largeSvg.setAttribute('width', '100%');
+        largeSvg.setAttribute('height', '100%');
+        largeSvg.style.minWidth = '900px';
+        mapWrapperLarge.appendChild(largeSvg);
+        setupDotInteractions(mapWrapperLarge, document.getElementById('large-map-tooltip'));
+      }
+
+      overlay.classList.add('active');
+    }
+
+    function deactivateMapMode() {
+      if (!isMapModeActive) return;
+
+      isMapModeActive = false;
+      const overlay = document.getElementById('map-mockup-overlay');
+
+      originalScrollTriggers.forEach(trigger => trigger.enable());
+      document.body.style.overflow = '';
+      overlay.classList.remove('active');
+      
+      document.getElementById('tooltip').style.display = 'none';
+      document.getElementById('large-map-tooltip').style.display = 'none';
+      
+      document.querySelectorAll('.state-dot').forEach(d => d.classList.remove('active'));
+      activeDot = null;
+    }
+
+    function setupNavigationButtons() {
+      const nextPageBtn = document.getElementById('next-page-btn');
+      const prevPageBtn = document.getElementById('prev-page-btn');
+      const scrollIndicator = document.querySelector('.scroll-indicator');
+
+      window.addEventListener('scroll', function() {
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+
+        if (documentHeight - (scrollPosition + windowHeight) < 200) {
+          nextPageBtn.classList.add('show');
+          scrollIndicator.classList.add('hidden');
+        } else {
+          nextPageBtn.classList.remove('show');
+          scrollIndicator.classList.remove('hidden');
+        }
+
+        if (scrollPosition > 100) {
+          prevPageBtn.classList.add('show');
+        } else {
+          prevPageBtn.classList.remove('show');
+        }
+      });
+
+      nextPageBtn.addEventListener('click', goToNextPage);
+      prevPageBtn.addEventListener('click', goToPrevPage);
+    }
+
+    function startSection0Animation() {
+      const separator = document.querySelector('#section0 .separator');
+      const textParts = document.querySelectorAll('#section0 .text-part');
+
+      if (separator) {
+        gsap.to(separator, {
+          opacity: 1,
+          scaleY: 1,
+          duration: 0.8,
+          delay: 0.5,
+          ease: "power2.out"
+        });
+      }
+
+      if (textParts.length > 0) {
+        gsap.to(textParts[0], {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0)",
+          duration: 1,
+          delay: 0.8,
+          ease: "power2.out"
+        });
+
+        if (textParts.length > 1) {
+          gsap.to(textParts[1], {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0)",
+            duration: 1,
+            delay: 1.2,
+            ease: "power2.out"
+          });
+        }
+      }
+    }
+
+    function initScrollTriggers() {
+      gsap.to("#section0", {
+        opacity: 0,
+        duration: 1.5,
+        scrollTrigger: {
+          trigger: "#section1",
+          start: "top 80%",
+          end: "top 20%",
+          toggleActions: "play none none reverse",
+          scrub: 0.8
+        }
+      });
+
+      gsap.utils.toArray(".scroll-section").forEach(section => {
+        if (section.id === "section0") return;
+
+        gsap.to(section, {
+          opacity: 1,
+          y: 0,
+          duration: 1.5,
+          scrollTrigger: {
+            trigger: section,
+            start: "top bottom",
+            end: "top 30%",
+            toggleActions: "play none none reverse",
+            scrub: 0.8
+          }
+        });
+
+        const text = section.querySelector(".scroll-text");
+        const video = section.querySelector(".scroll-video");
+
+        if (text) {
+          gsap.to(text, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.2,
+            delay: 0.5,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              end: "top 45%",
+              toggleActions: "play none none reverse",
+              scrub: 0.6
+            }
+          });
+        }
+
+        if (video) {
+          gsap.to(video, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.8,
+            delay: 0.7,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.6
+            }
+          });
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if ((e.key === 'm' || e.key === 'M') && !isMapModeActive) {
+        activateMapMode();
+        e.preventDefault();
+      }
+
+      if (e.key === 'Escape' && isMapModeActive) {
+        deactivateMapMode();
+        e.preventDefault();
+      }
+    });
+
+    (function () {
+      const logo = document.getElementById('logo');
+      if (logo) logo.addEventListener('click', goToFirstPage);
+
+      window.scrollTo(0, 0);
+      
+      const circle = document.querySelector(".circle");
+      
+      if (circle) {
+        let circleHalf = circle.offsetWidth / 2;
+
+        document.addEventListener("mousemove", function (e) {
+          if (isMapModeActive) return;
+
+          const randomSize = 100 + Math.random() * 400;
+          const randomCircleHalf = randomSize / 2;
+
+          let c = circle.cloneNode(true);
+          c.style.width = randomSize + "px";
+          c.style.height = randomSize + "px";
+          c.style.left = (e.pageX - randomCircleHalf) + "px";
+          c.style.top = (e.pageY - randomCircleHalf) + "px";
+          c.style.background = "url('images2/BG_Image_02.png') center center no-repeat";
+          c.style.backgroundSize = "cover";
+          c.style.maskImage = "radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%)";
+          c.style.webkitMaskImage = "radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%)";
+          
+          circle.style.left = (e.pageX - circleHalf) + "px";
+          circle.style.top = (e.pageY - circleHalf) + "px";
+          
+          c.classList.add("fadeOut");
+          c.addEventListener("animationend", function(event) {
+            if (event.target && event.target.parentNode) event.target.remove();
+          });
+          document.querySelector('.container').appendChild(c);
+        });
+
+        window.addEventListener("resize", () => {
+          circleHalf = circle.offsetWidth / 2;
+          if (ScrollTrigger.getAll) ScrollTrigger.refresh();
+        });
+      }
+
+      if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        
+        window.addEventListener("load", () => {
+          if (ScrollTrigger.getAll) ScrollTrigger.refresh();
+          
+          startSection0Animation();
+          initScrollTriggers();
+          setupNavigationButtons();
+          
+          setupDotInteractions(document.getElementById('map-container'), document.getElementById('tooltip'));
+
+          setTimeout(() => ScrollTrigger.refresh(), 500);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
