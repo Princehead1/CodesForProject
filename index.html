@@ -736,6 +736,8 @@
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       transition: transform 0.3s ease;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .phone-mockup:hover {
@@ -945,6 +947,8 @@
       transition: all 0.3s ease;
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.2);
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .form-input::placeholder {
@@ -972,6 +976,8 @@
       margin-top: 10px;
       font-family: "Urbanist", Arial, sans-serif;
       box-shadow: 0 4px 10px rgba(0, 149, 246, 0.3);
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .login-button:hover {
@@ -1008,6 +1014,7 @@
       font-size: 22px;
       font-weight: 700;
       text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      pointer-events: none;
     }
 
     /* 외모 평가 데모 스타일 - 개선된 버전 */
@@ -1093,6 +1100,9 @@
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       z-index: 30;
+      -webkit-appearance: none;
+      appearance: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .rate-btn:hover {
@@ -1367,6 +1377,52 @@
       0%, 100% { transform: translateX(0) translateY(0); }
       10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) translateY(-2px); }
       20%, 40%, 60%, 80% { transform: translateX(2px) translateY(2px); }
+    }
+
+    /* 로그인 성공 메시지 스타일 - 목업 디자인과 일치 */
+    .login-success-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, var(--phone-primary), var(--phone-secondary));
+      color: white;
+      padding: 20px 40px;
+      border-radius: 30px;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      z-index: 100;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      animation: messagePopIn 0.5s ease-out;
+      white-space: nowrap;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      letter-spacing: 1px;
+      min-width: 200px;
+    }
+
+    @keyframes messagePopIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    /* 더블탭 안내 메시지 */
+    .double-tap-hint {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 12px;
+      pointer-events: none;
+      z-index: 50;
     }
 
     /* 섹션6 스타일 */
@@ -1769,6 +1825,10 @@
         font-size: 14px;
         margin-bottom: 30px;
       }
+
+      .double-tap-hint {
+        font-size: 10px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1838,6 +1898,10 @@
         font-size: 12px;
         margin-bottom: 25px;
       }
+
+      .double-tap-hint {
+        font-size: 9px;
+      }
     }
   </style>
 </head>
@@ -1885,12 +1949,12 @@
   <!-- 다음 페이지 이동 버튼 -->
   <button id="next-page-btn">Next Page →</button>
 
-  <!-- 휴대폰 모드 오버레이 -->
+  <!-- 휴대폰 모드 오버레이 (A 모드) -->
   <div class="phone-mode-overlay" id="phone-mode-overlay">
     <div class="phone-mode-instruction">
-      Press <span class="esc-key">ESC</span> to exit phone mode
+      <span class="double-tap-hint">Double-tap to exit</span>
     </div>
-    <div class="phone-mockup">
+    <div class="phone-mockup" id="phone-mode-mockup">
       <div class="phone-screen">
         <!-- 모션 그래픽 인트로 -->
         <div class="intro-animation" id="intro-animation">
@@ -1934,14 +1998,14 @@
     </div>
   </div>
 
-  <!-- 외모 평가 데모 오버레이 -->
+  <!-- 외모 평가 데모 오버레이 (S 모드) -->
   <div class="hot-or-not-overlay" id="hot-or-not-overlay">
     <div class="hot-or-not-instruction">
-      Press <span class="esc-key">ESC</span> to exit rating mode
+      <span class="double-tap-hint">Double-tap to exit</span>
     </div>
-    <div class="phone-mockup">
+    <div class="phone-mockup" id="hot-or-not-phone-mockup">
       <div class="phone-screen">
-        <div class="hot-or-not-container">
+        <div class="hot-or-not-container" id="hot-or-not-container">
           <div class="title-background">
             <div class="hot-or-not-title">Rate This Person</div>
           </div>
@@ -1952,18 +2016,18 @@
             </video>
           </div>
           <div class="rating-buttons-overlay">
-            <button class="rate-btn hot-btn" onclick="rateProfile('hot')">❤️</button>
-            <button class="rate-btn not-btn" onclick="rateProfile('not')">👎</button>
+            <button class="rate-btn hot-btn" onclick="event.stopPropagation(); rateProfileInOverlay('hot')">❤️</button>
+            <button class="rate-btn not-btn" onclick="event.stopPropagation(); rateProfileInOverlay('not')">👎</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 섹션 17 - 사이버불링 휴대폰 화면 -->
+  <!-- 섹션 17 - 사이버불링 휴대폰 화면 (D 모드) -->
   <div class="cyberbullying-phone-overlay" id="cyberbullying-phone-overlay">
     <div class="cyberbullying-instruction">
-      Press <span class="esc-key">ESC</span> to exit message mode
+      <span class="double-tap-hint">Double-tap to exit</span>
     </div>
     <div class="phone-mockup" id="cyberbullying-phone">
       <div class="phone-screen">
@@ -2060,14 +2124,14 @@
         </div>
       </div>
 
-      <!-- 섹션5 -->
+      <!-- 섹션5 - A 모드 (로그인) -->
       <div class="scroll-section" id="section5">
         <div class="content-wrapper">
           <div class="text-content"></div>
-          <div class="phone-mockup" onclick="activatePhoneMode()">
+          <div class="phone-mockup" id="phone-mode-trigger">
             <div class="phone-screen">
               <div class="default-message">
-                <p>Click "A" to log in to social media</p>
+                <p>Press "A" to open<br>social media login<br>[Mobile "Tab"]</p>
               </div>
             </div>
           </div>
@@ -2096,14 +2160,14 @@
         </div>
       </div>
 
-      <!-- 섹션8 -->
+      <!-- 섹션8 - S 모드 (외모 평가) -->
       <div class="scroll-section" id="section8">
         <div class="content-wrapper">
-          <div class="phone-mockup" onclick="activateHotOrNotMode()">
+          <div class="phone-mockup" id="hot-or-not-trigger">
             <div class="phone-screen">
               <div class="hot-or-not-container">
                 <div class="title-background">
-                  <div class="hot-or-not-title">Rate This Person<br>[press "S" button]</div>
+                  <div class="hot-or-not-title">Press "S" to open<br>[Mobile "Tab"]</div>
                 </div>
                 <div class="fullscreen-video-container">
                   <video class="fullscreen-video" autoplay muted loop playsinline>
@@ -2198,16 +2262,16 @@
           </div>
       </div>      
 
-      <!-- 섹션17 -->
+      <!-- 섹션17 - D 모드 (사이버불링) -->
       <div class="scroll-section" id="section17">
         <div class="content-wrapper">
           <div class="text-content">
             <p class="scroll-text">Her phone was flooded with<br>hateful messages from strangers,<br>each one more vicious than the last.</p>
           </div>
-          <div class="phone-mockup" onclick="activateCyberbullyingMode()">
+          <div class="phone-mockup" id="cyberbullying-trigger">
             <div class="phone-screen">
               <div class="default-message">
-                <p>Click "D" to see the messages</p>
+                <p>Press "D" to open<br>[Mobile "Tab"]</p>
               </div>
             </div>
           </div>
@@ -2258,7 +2322,7 @@
       </div>
 
       <!-- 섹션22 -->
-      <div class="scroll-section" id="section10">
+      <div class="scroll-section" id="section22">
         <div class="content-wrapper">
           <div class="text-content">
             <p class="scroll-text">At the age of <span class="font-bold">13...</span></p>
@@ -2294,6 +2358,10 @@
     let userVisitTime = null;
     let hasTriggerWarningBeenShown = false;
     let currentPage = 1;
+
+    // 더블탭 관련 변수
+    let lastTapTime = 0;
+    const doubleTapDelay = 300; // 300ms 내에 두 번 탭하면 더블탭으로 인식
 
     // 랜덤 이름 데이터베이스
     const fakeNames = [
@@ -2493,6 +2561,32 @@
       }, 3000);
     }
 
+    // 로그인 성공 메시지 표시 함수 (개선)
+    function showLoginSuccessMessage() {
+      const loginContainer = document.getElementById('login-container');
+      const existingMessage = document.querySelector('.login-success-message');
+      
+      // 기존 메시지가 있다면 제거
+      if (existingMessage) {
+        existingMessage.remove();
+      }
+      
+      // 새 메시지 생성
+      const successMessage = document.createElement('div');
+      successMessage.className = 'login-success-message';
+      successMessage.textContent = 'Login successful ✓';
+      
+      // 로그인 컨테이너에 메시지 추가
+      loginContainer.appendChild(successMessage);
+      
+      // 2초 후 메시지 제거
+      setTimeout(() => {
+        if (successMessage.parentNode) {
+          successMessage.remove();
+        }
+      }, 2000);
+    }
+
     // 외모 평가 기능 - 개선된 버전 (두 곳 모두 적용)
     function rateProfile(rating, containerId = 'section8') {
       const container = document.getElementById(containerId);
@@ -2521,6 +2615,35 @@
           reaction.remove();
         }
       }, 2500);
+    }
+
+    // 외모 평가 오버레이에서 사용할 함수
+    function rateProfileInOverlay(rating) {
+      const container = document.getElementById('hot-or-not-container');
+      const reaction = document.createElement('div');
+      reaction.classList.add('reaction');
+
+      if (rating === 'hot') {
+        reaction.innerHTML = '❤️';
+        reaction.classList.add('heart');
+        reaction.style.animation = 'heartReaction 2.5s ease-out forwards';
+      } else {
+        reaction.innerHTML = '👎';
+        reaction.classList.add('thumbs-down');
+        reaction.style.animation = 'thumbsDownReaction 2.5s ease-out forwards';
+      }
+
+      container.appendChild(reaction);
+
+      // 2.5초 후 리액션 요소 제거
+      setTimeout(() => {
+        if (reaction.parentNode) {
+          reaction.remove();
+        }
+      }, 2500);
+
+      // 이벤트 전파 중지 (부모로 더블탭 이벤트가 전달되지 않도록)
+      event.stopPropagation();
     }
 
     // 메시지 알림 기능 개선
@@ -2567,7 +2690,7 @@
       }, 90000);
     }
 
-    // 휴대폰 모드 제어 함수 - SNS 로그인 화면
+    // 휴대폰 모드 제어 함수 - SNS 로그인 화면 (A 모드)
     function activatePhoneMode() {
       if (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive) return;
 
@@ -2613,7 +2736,7 @@
       overlay.classList.remove('active');
     }
 
-    // 외모 평가 모드 제어 함수
+    // 외모 평가 모드 제어 함수 (S 모드)
     function activateHotOrNotMode() {
       if (isHotOrNotModeActive || isPhoneModeActive || isCyberbullyingModeActive) return;
 
@@ -2651,7 +2774,7 @@
       overlay.classList.remove('active');
     }
 
-    // 사이버불링 모드 제어 함수
+    // 사이버불링 모드 제어 함수 (D 모드)
     function activateCyberbullyingMode() {
       if (isCyberbullyingModeActive || isPhoneModeActive || isHotOrNotModeActive) return;
 
@@ -2693,6 +2816,28 @@
 
       // 메시지 스트림 중지
       clearInterval(window.messageStreamInterval);
+    }
+
+    // 더블탭 감지 함수
+    function handleDoubleTap(event, modeType) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTapTime;
+      
+      if (tapLength < doubleTapDelay && tapLength > 0) {
+        // 더블탭 감지됨
+        if (modeType === 'phone' && isPhoneModeActive) {
+          deactivatePhoneMode();
+        } else if (modeType === 'hotornot' && isHotOrNotModeActive) {
+          deactivateHotOrNotMode();
+        } else if (modeType === 'cyberbullying' && isCyberbullyingModeActive) {
+          deactivateCyberbullyingMode();
+        }
+        event.preventDefault();
+        lastTapTime = 0;
+      } else {
+        // 첫 번째 탭
+        lastTapTime = currentTime;
+      }
     }
 
     // 사이버불링 메시지 스트림 함수
@@ -2810,7 +2955,68 @@
       }
     }
 
-    // 키보드 이벤트 리스너
+    // 터치 이벤트 리스너 설정 (모바일)
+    function setupTouchListeners() {
+      // A 모드 트리거
+      const phoneTrigger = document.getElementById('phone-mode-trigger');
+      if (phoneTrigger) {
+        phoneTrigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          activatePhoneMode();
+        });
+      }
+
+      // S 모드 트리거
+      const hotOrNotTrigger = document.getElementById('hot-or-not-trigger');
+      if (hotOrNotTrigger) {
+        hotOrNotTrigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          activateHotOrNotMode();
+        });
+      }
+
+      // D 모드 트리거
+      const cyberbullyingTrigger = document.getElementById('cyberbullying-trigger');
+      if (cyberbullyingTrigger) {
+        cyberbullyingTrigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          activateCyberbullyingMode();
+        });
+      }
+
+      // 오버레이들의 더블탭 이벤트 처리
+      const phoneOverlay = document.getElementById('phone-mode-overlay');
+      const hotOrNotOverlay = document.getElementById('hot-or-not-overlay');
+      const cyberbullyingOverlay = document.getElementById('cyberbullying-phone-overlay');
+
+      if (phoneOverlay) {
+        phoneOverlay.addEventListener('click', function(e) {
+          // 목업 내부의 버튼이나 입력 필드 클릭 시에는 더블탭 종료하지 않음
+          if (e.target.closest('.login-button') || e.target.closest('.form-input') || e.target.closest('.forgot-password a')) {
+            return;
+          }
+          handleDoubleTap(e, 'phone');
+        });
+      }
+
+      if (hotOrNotOverlay) {
+        hotOrNotOverlay.addEventListener('click', function(e) {
+          // 좋아요/싫어요 버튼 클릭 시에는 더블탭 종료하지 않음
+          if (e.target.closest('.rate-btn')) {
+            return;
+          }
+          handleDoubleTap(e, 'hotornot');
+        });
+      }
+
+      if (cyberbullyingOverlay) {
+        cyberbullyingOverlay.addEventListener('click', function(e) {
+          handleDoubleTap(e, 'cyberbullying');
+        });
+      }
+    }
+
+    // 키보드 이벤트 리스너 (데스크톱용 - 유지)
     document.addEventListener('keydown', function(e) {
       // A키로 휴대폰 모드 활성화
       if ((e.key === 'a' || e.key === 'A') && !isPhoneModeActive && !isHotOrNotModeActive && !isCyberbullyingModeActive) {
@@ -2830,7 +3036,7 @@
         e.preventDefault();
       }
 
-      // ESC키로 모드 비활성화
+      // ESC키로 모드 비활성화 (데스크톱용)
       if (e.key === 'Escape' && (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive)) {
         if (isPhoneModeActive) {
           deactivatePhoneMode();
@@ -3073,7 +3279,7 @@
       const circle = document.querySelector(".circle");
       let circleHalf = circle.offsetWidth / 2;
 
-      // 마우스 위치에 따라 원 효과
+      // 마우스 위치에 따라 원 효과 (데스크톱용)
       document.addEventListener("mousemove", function (e) {
         if (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive) return;
 
@@ -3110,11 +3316,14 @@
       if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
           e.preventDefault();
+          e.stopPropagation();
           const username = document.getElementById('username').value;
           const password = document.getElementById('password').value;
           
           if (username && password) {
-            // 팝업창 없이 간단한 피드백
+            // 로그인 성공 메시지 표시
+            showLoginSuccessMessage();
+            
             const loginButton = document.querySelector('.login-button');
             const originalText = loginButton.textContent;
             
@@ -3164,6 +3373,9 @@
           progressInterval = setInterval(updateLoadingProgress, 100);
         });
       }
+
+      // 터치 이벤트 리스너 설정 (모바일)
+      setupTouchListeners();
     })();
   </script>
 </body>
