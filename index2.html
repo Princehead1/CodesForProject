@@ -121,42 +121,57 @@
       opacity: 1;
     }
 
-    .video-background {
+    /* 배경 레이어 - 가장 아래 */
+    .background-layer {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
       z-index: 0;
+    }
+
+    .video-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       transform: none !important;
     }
 
-    .circle {
-      position: absolute;
-      width: var(--lens-size);
-      height: var(--lens-size);
-      background: url("images2/BG_Image_02.png") center center no-repeat;
-      background-size: cover;
-      mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
-      -webkit-mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
-      transition: 2.0s;
-      z-index: 0;
-      pointer-events: none;
+    /* 로고 스타일 - 가장 위에 */
+    .logo-layer {
+      position: fixed;
+      top: 80px;
+      left: 60px;
+      z-index: 30;
+      pointer-events: auto;
     }
 
-    .fadeOut {
-      animation: fadeOut 1.5s forwards;
+    .logo {
+      width: 120px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.3s, opacity 0.3s;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      pointer-events: auto;
     }
 
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
+    .logo:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
+    }
+
+    /* 콘텐츠 레이어 */
+    .content-layer {
+      position: relative;
+      z-index: 20;
+      min-height: 100vh;
     }
 
     .scroll-content {
-      position: relative;
-      z-index: 3;
       padding-top: 100vh;
       min-height: 500vh;
       padding-left: var(--content-margin);
@@ -183,6 +198,133 @@
       padding: 20px;
       box-sizing: border-box;
     }
+
+    /* 섹션 15-18을 위한 새로운 레이아웃 클래스 */
+    .section-left .content-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 30px;
+    }
+
+    .section-left .image-container {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .section-left .text-content {
+      width: 100%;
+      text-align: left;
+    }
+
+    .section-left .external-link-container {
+      width: 100%;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    .section-right .content-wrapper {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 30px;
+    }
+
+    .section-right .image-container {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .section-right .text-content {
+      width: 100%;
+      text-align: right;
+    }
+
+    .section-right .external-link-container {
+      width: 100%;
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    .section-center .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .section-center .image-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .section-center .text-content {
+      width: 100%;
+      text-align: center; /* 기본은 중앙 정렬 */
+    }
+
+    /* 섹션18 텍스트만 왼쪽 정렬 */
+    #section18 .text-content {
+      text-align: left;
+    }
+
+    .section-center .external-link-container {
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* 외부 링크 이미지 스타일 */
+    .external-image {
+      max-width: 200px;
+      max-height: 60px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: brightness(0.9);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 16px;
+    }
+
+    .external-image:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* 반응형 */
+    @media (max-width: 768px) {
+      .section-left .content-wrapper,
+      .section-right .content-wrapper,
+      .section-center .content-wrapper {
+        align-items: center !important;
+      }
+      
+      .section-left .image-container,
+      .section-right .image-container,
+      .section-center .image-container {
+        justify-content: center !important;
+      }
+      
+      .section-left .text-content,
+      .section-right .text-content,
+      .section-center .text-content {
+        text-align: center !important;
+      }
+      
+      .section-left .external-link-container,
+      .section-right .external-link-container,
+      .section-center .external-link-container {
+        text-align: center !important;
+      }
+      
+      .external-image {
+        max-width: 150px;
+        max-height: 50px;
+      }
+    }
+
 
     .text-content {
       flex: 1;
@@ -264,7 +406,7 @@
       transform: translateX(-50%);
       color: rgb(255, 251, 240);
       font-size: 1rem;
-      z-index: 10;
+      z-index: 30;
       opacity: 0.7;
       animation: bounce 2s infinite;
       font-family: "Urbanist", Arial, sans-serif;
@@ -276,28 +418,31 @@
       opacity: 0;
     }
 
+    .circle {
+      position: absolute;
+      width: var(--lens-size);
+      height: var(--lens-size);
+      background: url("images2/BG_Image_02.png") center center no-repeat fixed;
+      background-size: cover;
+      mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+      transition: 2.0s;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .fadeOut {
+      animation: fadeOut 1.5s forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
     @keyframes bounce {
       0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
       40% { transform: translateY(-10px) translateX(-50%); }
       60% { transform: translateY(-5px) translateX(-50%); }
-    }
-
-    /* 로고 스타일 - 아래로 내림 */
-    .logo {
-      position: fixed;
-      top: 80px;
-      left: 60px;
-      z-index: 20;
-      width: 120px;
-      height: auto;
-      cursor: pointer;
-      transition: transform 0.3s, opacity 0.3s;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
     }
 
     /* UNICEF 이미지 스타일 */
@@ -658,12 +803,13 @@
       left: 0;
       width: 100%;
       height: 100vh;
-      z-index: 4;
+      z-index: 25;
       justify-content: center;
       align-items: center;
       opacity: 1;
       transform: none;
       margin-bottom: 100px;
+      pointer-events: none;
     }
 
     #section0 .content-wrapper {
@@ -732,12 +878,81 @@
       font-size: clamp(1.5rem, 4vw, 2.5rem);
     }
 
-    /* 섹션2,3,5,7,8,9 등 기존 스타일 유지 */
-    #section2 .content-wrapper,
-    #section3 .content-wrapper,
-    #section5 .content-wrapper,
-    #section7 .content-wrapper,
-    #section8 .content-wrapper,
+    /* section2 */
+    #section2 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    /* section3 */
+    #section3 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    /* section4 */
+    #section4 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+
+    #section4 .text-content {
+      text-align: center;
+      order: 1;
+    }
+
+    #section4 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* section5 */
+    #section5 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    /* section6 */
+    #section6 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+
+    #section6 .text-content {
+      text-align: center;
+      order: 1;
+    }
+
+    #section6 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* section7 */
+    #section7 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    /* section8 */
+    #section8 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    /* section9 */
     #section9 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -745,39 +960,31 @@
       gap: 50px;
     }
 
-    #section4 .content-wrapper,
-    #section6 .content-wrapper,
-    #section10 .content-wrapper,
-    #section18 .content-wrapper {
+    /* section10 */
+    #section10 .content-wrapper {
       flex-direction: column;
       justify-content: center;
       align-items: center;
       gap: 30px;
     }
 
-    #section4 .text-content,
-    #section6 .text-content,
-    #section10 .text-content,
-    #section18 .text-content {
+    #section10 .text-content {
       text-align: center;
       order: 1;
     }
 
-    #section4 .scroll-text,
-    #section6 .scroll-text,
-    #section10 .scroll-text,
-    #section18 .scroll-text {
+    #section10 .scroll-text {
       font-size: clamp(1.5rem, 4vw, 2.5rem);
     }
 
-    #section12 .content-wrapper,
-    #section14 .content-wrapper,
-    #section16 .content-wrapper {
+    /* section12 */
+    #section12 .content-wrapper {
       justify-content: center;
       align-items: center;
       gap: 40px;
     }
 
+    /* section13 */
     #section13 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -793,14 +1000,54 @@
       max-width: 1200px;
     }
 
-    #section15 .content-wrapper,
-    #section17 .content-wrapper,
-    #section20 .content-wrapper,
-    #section21 .content-wrapper {
+    /* section14 */
+    #section14 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* section16 */
+    #section16 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* section17 */
+    #section17 .content-wrapper {
       justify-content: center;
       align-items: center;
     }
 
+    /* section18 */
+    #section18 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+
+    #section18 .text-content {
+      text-align: left !important;
+      max-width: 900px !important;
+      margin-left: auto !important;
+      margin-right: 0 !important;
+    }
+
+    #section18 .image-container {
+      order: 1 !important;
+    }
+
+    #section18 .text-content {
+      order: 2 !important;
+    }
+
+    #section18 .external-link-container {
+      order: 3 !important;
+    }
+
+    /* section19 */
     #section19 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -813,18 +1060,31 @@
       gap: 20px;
     }
 
+    /* section20 */
     #section20 {
       margin-bottom: 0;
       height: 50vh;
       min-height: 50vh;
     }
 
+    #section20 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* section21 */
     #section21 {
       margin-top: 0;
       height: 50vh;
       min-height: 50vh;
     }
 
+    #section21 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* section22 */
     #section22 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -837,6 +1097,7 @@
       gap: 20px;
     }
 
+    /* section23 */
     #section23 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -878,9 +1139,12 @@
     }
 
     @media (max-width: 768px) {
-      .logo {
+      .logo-layer {
         top: 60px;
         left: 30px;
+      }
+      
+      .logo {
         width: 90px;
       }
 
@@ -956,12 +1220,31 @@
       .stopbullying-image {
         width: 280px;
       }
+
+      .section-left .content-wrapper,
+      .section-right .content-wrapper {
+        flex-direction: column !important;
+        gap: 30px;
+      }
+
+      .section-left .text-content,
+      .section-right .text-content {
+        text-align: center !important;
+      }
+
+      .section-left .external-link-container,
+      .section-right .external-link-container {
+        text-align: center !important;
+      }
     }
 
     @media (max-width: 480px) {
-      .logo {
+      .logo-layer {
         top: 50px;
         left: 20px;
+      }
+      
+      .logo {
         width: 80px;
       }
 
@@ -1010,496 +1293,562 @@
   <button id="next-page-btn">Next Page →</button>
 
   <div class="container">
-    <img src="images2/Logo.png" class="logo" alt="Logo" id="logo" />
-
-    <!-- WebGL 효과를 위한 배경 레이어 -->
-    <div class="webgl-background">
+    <!-- 배경 레이어 (가장 아래) -->
+    <div class="background-layer">
       <video class="video-background" autoplay muted loop>
         <source src="images2/BG_Banner_Vid_03.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div class="circle"></div>
     </div>
 
-    <!-- 섹션0 -->
-    <div class="scroll-section" id="section0">
-      <div class="content-wrapper">
-        <h2 class="scroll-title">1</h2>
-        <div class="intro-text">
-          <span class="text-part"><span class="bold-text">CYBERBULLYING</span></span>
-          <span class="separator"></span>
-          <span class="text-part">What is it?</span>
+    <!-- circle 요소 - 첫 번째 페이지 스타일 그대로 유지 -->
+    <div class="circle"></div>
+
+    <!-- 로고 레이어 (가장 위) -->
+    <div class="logo-layer">
+      <img src="images2/Logo.png" class="logo" alt="Logo" id="logo" />
+    </div>
+
+    <!-- 콘텐츠 레이어 -->
+    <div class="content-layer">
+      <!-- 섹션0 -->
+      <div class="scroll-section" id="section0">
+        <div class="content-wrapper">
+          <h2 class="scroll-title">1</h2>
+          <div class="intro-text">
+            <span class="text-part"><span class="bold-text">CYBERBULLYING</span></span>
+            <span class="separator"></span>
+            <span class="text-part">What is it?</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="scroll-content">
-      <!-- 섹션1 -->
-      <div class="scroll-section" id="section1">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text">Cyberbullying is bullying with the use of digital technologies.<br>It can take place on social media, messaging platforms,<br>gaming platforms and mobile phones.<br><br>It is repeated behaviour, aimed at scaring,<br>angering or shaming those who are targeted.</p>
+      <div class="scroll-content">
+        <!-- 섹션1 -->
+        <div class="scroll-section" id="section1">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p class="scroll-text">Cyberbullying is bullying with the use of digital technologies.<br>It can take place on social media, messaging platforms,<br>gaming platforms and mobile phones.<br><br>It is repeated behaviour, aimed at scaring,<br>angering or shaming those who are targeted.</p>
+              
+              <!-- UNICEF 이미지 및 링크 -->
+              <div class="unicef-image-container">
+                <a href="https://www.unicef.org/end-violence/how-to-stop-cyberbullying" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="unicef-link"
+                   title="Visit UNICEF's cyberbullying prevention guide">
+                  <img src="images2/unicef.png" alt="UNICEF - Stop Cyberbullying" class="scroll-image unicef-image" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션2 -->
+        <div class="scroll-section" id="section2">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/18.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
             
-            <!-- UNICEF 이미지 및 링크 -->
-            <div class="unicef-image-container">
-              <a href="https://www.unicef.org/end-violence/how-to-stop-cyberbullying" 
+            <!-- StopBullying.gov 이미지 및 링크 -->
+            <div class="stopbullying-image-container">
+              <a href="https://www.stopbullying.gov/" 
                  target="_blank" 
                  rel="noopener noreferrer" 
-                 class="unicef-link"
-                 title="Visit UNICEF's cyberbullying prevention guide">
-                <img src="images2/unicef.png" alt="UNICEF - Stop Cyberbullying" class="scroll-image unicef-image" />
+                 class="stopbullying-link"
+                 title="Visit StopBullying.gov for resources and support">
+                <img src="images2/stopbullying.gov.png" alt="StopBullying.gov - Resources and Support" class="scroll-image stopbullying-image" />
               </a>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- 섹션2 -->
-      <div class="scroll-section" id="section2">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/18.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-          
-          <!-- StopBullying.gov 이미지 및 링크 -->
-          <div class="stopbullying-image-container">
-            <a href="https://www.stopbullying.gov/" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="stopbullying-link"
-               title="Visit StopBullying.gov for resources and support">
-              <img src="images2/stopbullying.gov.png" alt="StopBullying.gov - Resources and Support" class="scroll-image stopbullying-image" />
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션3 -->
-      <div class="scroll-section" id="section3">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/19.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-          
-          <!-- Megan Meier Foundation 이미지 및 링크 -->
-          <div class="stopbullying-image-container">
-            <a href="https://www.meganmeierfoundation.org/" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="stopbullying-link"
-               title="Visit Megan Meier Foundation for resources and support">
-              <img src="images2/megan.png" alt="Megan Meier Foundation - Resources and Support" class="scroll-image stopbullying-image" />
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션4 -->
-      <div class="scroll-section" id="section4">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text"><span class="font-bold">WHAT ARE THE EFFECTS OF CYBERBULLYING?</span></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션5 -->
-      <div class="scroll-section" id="section5">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/20.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-          
-          <!-- PMC(National Library of Medicine) 이미지 및 링크 -->
-          <div class="stopbullying-image-container">
-            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4276384/" 
-               target="_blank" 
-               rel="noopener noreferrer" 
-               class="stopbullying-link"
-               title="Visit PMC (National Library of Medicine) for research articles">
-              <img src="images2/pmc.png" alt="PMC National Library of Medicine - Research Articles" class="scroll-image stopbullying-image" />
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션6 -->
-      <div class="scroll-section" id="section6">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text">So...<span class="font-bold">WHAT NOW?</span></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션7 -->
-      <div class="scroll-section" id="section7">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/21.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션8 -->
-      <div class="scroll-section" id="section8">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/22.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션9 -->
-      <div class="scroll-section" id="section9">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/23.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션10 -->
-      <div class="scroll-section" id="section10">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text"><span class="font-bold">There's more.</span></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션11 - 중앙 정렬 차트 (수정된 버전) -->
-      <div class="scroll-section" id="section11">
-        <div class="content-wrapper">
-          <div class="chart-container">
-            <h3 class="chart-title">Recent Cyberbullying Over Time</h3>
-            <p class="chart-subtitle">Nationally representative samples of U.S. 13- to 17-year-olds</p>
-            
-            <!-- 차트 영역 -->
-            <div class="chart-wrapper">
-              <!-- 범례 -->
-              <div class="chart-legend">
-                <div class="legend-item">
-                  <span class="legend-color" style="background: #ff6b6b;"></span>
-                  <span class="legend-label">Victims (Experienced Cyberbullying)</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-color" style="background: #ffb347;"></span>
-                  <span class="legend-label">Offenders (Cyberbullied Others)</span>
-                </div>
-              </div>
-              
-              <!-- 차트 그리드 -->
-              <div class="chart-grid">
-                <!-- Y축 눈금 -->
-                <div class="y-axis">
-                  <div class="y-tick" style="bottom: 0%;"><span>0%</span></div>
-                  <div class="y-tick" style="bottom: 14.3%;"><span>5%</span></div>
-                  <div class="y-tick" style="bottom: 28.6%;"><span>10%</span></div>
-                  <div class="y-tick" style="bottom: 42.9%;"><span>15%</span></div>
-                  <div class="y-tick" style="bottom: 57.1%;"><span>20%</span></div>
-                  <div class="y-tick" style="bottom: 71.4%;"><span>25%</span></div>
-                  <div class="y-tick" style="bottom: 85.7%;"><span>30%</span></div>
-                  <div class="y-tick" style="bottom: 100%;"><span>35%</span></div>
-                </div>
-                
-                <!-- 그리드 라인 -->
-                <div class="grid-lines">
-                  <div class="grid-line" style="bottom: 0%;"></div>
-                  <div class="grid-line" style="bottom: 14.3%;"></div>
-                  <div class="grid-line" style="bottom: 28.6%;"></div>
-                  <div class="grid-line" style="bottom: 42.9%;"></div>
-                  <div class="grid-line" style="bottom: 57.1%;"></div>
-                  <div class="grid-line" style="bottom: 71.4%;"></div>
-                  <div class="grid-line" style="bottom: 85.7%;"></div>
-                  <div class="grid-line" style="bottom: 100%;"></div>
-                </div>
-                
-                <!-- 데이터 포인트들 -->
-                <div class="data-points">
-                  <!-- 2016년 -->
-                  <div class="year-group" style="left: 10%;">
-                    <div class="points-container">
-                      <!-- 피해자 (16.7%) -->
-                      <div class="data-point victim-point" style="bottom: 47.7%;" data-percent="16.7">
-                        <span class="point-value">16.7%</span>
-                      </div>
-                      <!-- 가해자 (5.7%) -->
-                      <div class="data-point offender-point" style="bottom: 16.3%;" data-percent="5.7">
-                        <span class="point-value">5.7%</span>
-                      </div>
-                      <!-- 연결선 -->
-                      <div class="connector-line" style="height: 31.4%; top: 16.3%;"></div>
-                    </div>
-                  </div>
-                  
-                  <!-- 2019년 -->
-                  <div class="year-group" style="left: 30%;">
-                    <div class="points-container">
-                      <!-- 피해자 (17.2%) -->
-                      <div class="data-point victim-point" style="bottom: 49.1%;" data-percent="17.2">
-                        <span class="point-value">17.2%</span>
-                      </div>
-                      <!-- 가해자 (6.6%) -->
-                      <div class="data-point offender-point" style="bottom: 18.9%;" data-percent="6.6">
-                        <span class="point-value">6.6%</span>
-                      </div>
-                      <!-- 연결선 -->
-                      <div class="connector-line" style="height: 30.2%; top: 18.9%;"></div>
-                    </div>
-                  </div>
-                  
-                  <!-- 2021년 -->
-                  <div class="year-group" style="left: 50%;">
-                    <div class="points-container">
-                      <!-- 피해자 (23.2%) -->
-                      <div class="data-point victim-point" style="bottom: 66.3%;" data-percent="23.2">
-                        <span class="point-value">23.2%</span>
-                      </div>
-                      <!-- 가해자 (4.9%) -->
-                      <div class="data-point offender-point" style="bottom: 14.0%;" data-percent="4.9">
-                        <span class="point-value">4.9%</span>
-                      </div>
-                      <!-- 연결선 -->
-                      <div class="connector-line" style="height: 52.3%; top: 14.0%;"></div>
-                    </div>
-                  </div>
-                  
-                  <!-- 2023년 -->
-                  <div class="year-group" style="left: 70%;">
-                    <div class="points-container">
-                      <!-- 피해자 (26.5%) -->
-                      <div class="data-point victim-point" style="bottom: 75.7%;" data-percent="26.5">
-                        <span class="point-value">26.5%</span>
-                      </div>
-                      <!-- 가해자 (10.5%) -->
-                      <div class="data-point offender-point" style="bottom: 30.0%;" data-percent="10.5">
-                        <span class="point-value">10.5%</span>
-                      </div>
-                      <!-- 연결선 -->
-                      <div class="connector-line" style="height: 45.7%; top: 30.0%;"></div>
-                    </div>
-                  </div>
-                  
-                  <!-- 2025년 -->
-                  <div class="year-group" style="left: 90%;">
-                    <div class="points-container">
-                      <!-- 피해자 (32.7%) -->
-                      <div class="data-point victim-point" style="bottom: 93.4%;" data-percent="32.7">
-                        <span class="point-value">32.7%</span>
-                      </div>
-                      <!-- 가해자 (16.1%) -->
-                      <div class="data-point offender-point" style="bottom: 46.0%;" data-percent="16.1">
-                        <span class="point-value">16.1%</span>
-                      </div>
-                      <!-- 연결선 -->
-                      <div class="connector-line" style="height: 47.4%; top: 46.0%;"></div>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- 트렌드 라인 -->
-                <svg class="trend-lines" width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none;">
-                  <!-- 피해자 트렌드 라인 -->
-                  <polyline points="
-                    calc(10% + 40px), calc(100% - 47.7%)
-                    calc(30% + 40px), calc(100% - 49.1%)
-                    calc(50% + 40px), calc(100% - 66.3%)
-                    calc(70% + 40px), calc(100% - 75.7%)
-                    calc(90% + 40px), calc(100% - 93.4%)
-                  " fill="none" stroke="#ff6b6b" stroke-width="3" stroke-dasharray="8,6" opacity="0.6"/>
-                  
-                  <!-- 가해자 트렌드 라인 -->
-                  <polyline points="
-                    calc(10% + 40px), calc(100% - 16.3%)
-                    calc(30% + 40px), calc(100% - 18.9%)
-                    calc(50% + 40px), calc(100% - 14.0%)
-                    calc(70% + 40px), calc(100% - 30.0%)
-                    calc(90% + 40px), calc(100% - 46.0%)
-                  " fill="none" stroke="#ffb347" stroke-width="3" stroke-dasharray="8,6" opacity="0.6"/>
-                </svg>
-              </div>
-              
-              <!-- X축 레이블 -->
-              <div class="x-axis">
-                <span style="left: 10%;">2016</span>
-                <span style="left: 30%;">2019</span>
-                <span style="left: 50%;">2021</span>
-                <span style="left: 70%;">2023</span>
-                <span style="left: 90%;">2025</span>
-              </div>
+        <!-- 섹션3 -->
+        <div class="scroll-section" id="section3">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/19.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
             
-            <!-- 출처 정보 -->
-            <div class="chart-source">
-              <p>Justin W. Patchin and Sameer Hinduja<br>Cyberbullying Research Center</p>
+            <!-- Megan Meier Foundation 이미지 및 링크 -->
+            <div class="stopbullying-image-container">
+              <a href="https://www.meganmeierfoundation.org/" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="stopbullying-link"
+                 title="Visit Megan Meier Foundation for resources and support">
+                <img src="images2/megan.png" alt="Megan Meier Foundation - Resources and Support" class="scroll-image stopbullying-image" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션4 -->
+        <div class="scroll-section" id="section4">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p class="scroll-text"><span class="font-bold">WHAT ARE THE EFFECTS OF CYBERBULLYING?</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션5 -->
+        <div class="scroll-section" id="section5">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/20.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            
+            <!-- PMC(National Library of Medicine) 이미지 및 링크 -->
+            <div class="stopbullying-image-container">
+              <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4276384/" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 class="stopbullying-link"
+                 title="Visit PMC (National Library of Medicine) for research articles">
+                <img src="images2/pmc.png" alt="PMC National Library of Medicine - Research Articles" class="scroll-image stopbullying-image" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션6 -->
+        <div class="scroll-section" id="section6">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p class="scroll-text">So...<span class="font-bold">WHAT NOW?</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션7 -->
+        <div class="scroll-section" id="section7">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/21.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션8 -->
+        <div class="scroll-section" id="section8">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/22.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션9 -->
+        <div class="scroll-section" id="section9">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/23.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션10 -->
+        <div class="scroll-section" id="section10">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p class="scroll-text"><span class="font-bold">There's more.</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션11 - 중앙 정렬 차트 (수정된 버전) -->
+        <div class="scroll-section" id="section11">
+          <div class="content-wrapper">
+            <div class="chart-container">
+              <h3 class="chart-title">Recent Cyberbullying Over Time</h3>
+              <p class="chart-subtitle">Nationally representative samples of U.S. 13- to 17-year-olds</p>
               
-              <!-- Cyberbullying.org 로고 및 링크 -->
-              <div class="cyberbullying-logo-container">
-                <a href="https://cyberbullying.org/summary-of-our-cyberbullying-research" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   class="cyberbullying-link"
-                   title="Visit Cyberbullying Research Center">
-                  <img src="images2/cyberbullying.org.png" alt="Cyberbullying Research Center" class="cyberbullying-logo" />
-                </a>
-                <p class="source-link">Source: <a href="https://cyberbullying.org/summary-of-our-cyberbullying-research" target="_blank" rel="noopener noreferrer">cyberbullying.org/research</a></p>
+              <!-- 차트 영역 -->
+              <div class="chart-wrapper">
+                <!-- 범례 -->
+                <div class="chart-legend">
+                  <div class="legend-item">
+                    <span class="legend-color" style="background: #ff6b6b;"></span>
+                    <span class="legend-label">Victims (Experienced Cyberbullying)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-color" style="background: #ffb347;"></span>
+                    <span class="legend-label">Offenders (Cyberbullied Others)</span>
+                  </div>
+                </div>
+                
+                <!-- 차트 그리드 -->
+                <div class="chart-grid">
+                  <!-- Y축 눈금 -->
+                  <div class="y-axis">
+                    <div class="y-tick" style="bottom: 0%;"><span>0%</span></div>
+                    <div class="y-tick" style="bottom: 14.3%;"><span>5%</span></div>
+                    <div class="y-tick" style="bottom: 28.6%;"><span>10%</span></div>
+                    <div class="y-tick" style="bottom: 42.9%;"><span>15%</span></div>
+                    <div class="y-tick" style="bottom: 57.1%;"><span>20%</span></div>
+                    <div class="y-tick" style="bottom: 71.4%;"><span>25%</span></div>
+                    <div class="y-tick" style="bottom: 85.7%;"><span>30%</span></div>
+                    <div class="y-tick" style="bottom: 100%;"><span>35%</span></div>
+                  </div>
+                  
+                  <!-- 그리드 라인 -->
+                  <div class="grid-lines">
+                    <div class="grid-line" style="bottom: 0%;"></div>
+                    <div class="grid-line" style="bottom: 14.3%;"></div>
+                    <div class="grid-line" style="bottom: 28.6%;"></div>
+                    <div class="grid-line" style="bottom: 42.9%;"></div>
+                    <div class="grid-line" style="bottom: 57.1%;"></div>
+                    <div class="grid-line" style="bottom: 71.4%;"></div>
+                    <div class="grid-line" style="bottom: 85.7%;"></div>
+                    <div class="grid-line" style="bottom: 100%;"></div>
+                  </div>
+                  
+                  <!-- 데이터 포인트들 -->
+                  <div class="data-points">
+                    <!-- 2016년 -->
+                    <div class="year-group" style="left: 10%;">
+                      <div class="points-container">
+                        <!-- 피해자 (16.7%) -->
+                        <div class="data-point victim-point" style="bottom: 47.7%;" data-percent="16.7">
+                          <span class="point-value">16.7%</span>
+                        </div>
+                        <!-- 가해자 (5.7%) -->
+                        <div class="data-point offender-point" style="bottom: 16.3%;" data-percent="5.7">
+                          <span class="point-value">5.7%</span>
+                        </div>
+                        <!-- 연결선 -->
+                        <div class="connector-line" style="height: 31.4%; top: 16.3%;"></div>
+                      </div>
+                    </div>
+                    
+                    <!-- 2019년 -->
+                    <div class="year-group" style="left: 30%;">
+                      <div class="points-container">
+                        <!-- 피해자 (17.2%) -->
+                        <div class="data-point victim-point" style="bottom: 49.1%;" data-percent="17.2">
+                          <span class="point-value">17.2%</span>
+                        </div>
+                        <!-- 가해자 (6.6%) -->
+                        <div class="data-point offender-point" style="bottom: 18.9%;" data-percent="6.6">
+                          <span class="point-value">6.6%</span>
+                        </div>
+                        <!-- 연결선 -->
+                        <div class="connector-line" style="height: 30.2%; top: 18.9%;"></div>
+                      </div>
+                    </div>
+                    
+                    <!-- 2021년 -->
+                    <div class="year-group" style="left: 50%;">
+                      <div class="points-container">
+                        <!-- 피해자 (23.2%) -->
+                        <div class="data-point victim-point" style="bottom: 66.3%;" data-percent="23.2">
+                          <span class="point-value">23.2%</span>
+                        </div>
+                        <!-- 가해자 (4.9%) -->
+                        <div class="data-point offender-point" style="bottom: 14.0%;" data-percent="4.9">
+                          <span class="point-value">4.9%</span>
+                        </div>
+                        <!-- 연결선 -->
+                        <div class="connector-line" style="height: 52.3%; top: 14.0%;"></div>
+                      </div>
+                    </div>
+                    
+                    <!-- 2023년 -->
+                    <div class="year-group" style="left: 70%;">
+                      <div class="points-container">
+                        <!-- 피해자 (26.5%) -->
+                        <div class="data-point victim-point" style="bottom: 75.7%;" data-percent="26.5">
+                          <span class="point-value">26.5%</span>
+                        </div>
+                        <!-- 가해자 (10.5%) -->
+                        <div class="data-point offender-point" style="bottom: 30.0%;" data-percent="10.5">
+                          <span class="point-value">10.5%</span>
+                        </div>
+                        <!-- 연결선 -->
+                        <div class="connector-line" style="height: 45.7%; top: 30.0%;"></div>
+                      </div>
+                    </div>
+                    
+                    <!-- 2025년 -->
+                    <div class="year-group" style="left: 90%;">
+                      <div class="points-container">
+                        <!-- 피해자 (32.7%) -->
+                        <div class="data-point victim-point" style="bottom: 93.4%;" data-percent="32.7">
+                          <span class="point-value">32.7%</span>
+                        </div>
+                        <!-- 가해자 (16.1%) -->
+                        <div class="data-point offender-point" style="bottom: 46.0%;" data-percent="16.1">
+                          <span class="point-value">16.1%</span>
+                        </div>
+                        <!-- 연결선 -->
+                        <div class="connector-line" style="height: 47.4%; top: 46.0%;"></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- 트렌드 라인 -->
+                  <svg class="trend-lines" width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none;">
+                    <!-- 피해자 트렌드 라인 -->
+                    <polyline points="
+                      calc(10% + 40px), calc(100% - 47.7%)
+                      calc(30% + 40px), calc(100% - 49.1%)
+                      calc(50% + 40px), calc(100% - 66.3%)
+                      calc(70% + 40px), calc(100% - 75.7%)
+                      calc(90% + 40px), calc(100% - 93.4%)
+                    " fill="none" stroke="#ff6b6b" stroke-width="3" stroke-dasharray="8,6" opacity="0.6"/>
+                    
+                    <!-- 가해자 트렌드 라인 -->
+                    <polyline points="
+                      calc(10% + 40px), calc(100% - 16.3%)
+                      calc(30% + 40px), calc(100% - 18.9%)
+                      calc(50% + 40px), calc(100% - 14.0%)
+                      calc(70% + 40px), calc(100% - 30.0%)
+                      calc(90% + 40px), calc(100% - 46.0%)
+                    " fill="none" stroke="#ffb347" stroke-width="3" stroke-dasharray="8,6" opacity="0.6"/>
+                  </svg>
+                </div>
+                
+                <!-- X축 레이블 -->
+                <div class="x-axis">
+                  <span style="left: 10%;">2016</span>
+                  <span style="left: 30%;">2019</span>
+                  <span style="left: 50%;">2021</span>
+                  <span style="left: 70%;">2023</span>
+                  <span style="left: 90%;">2025</span>
+                </div>
+              </div>
+              
+              <!-- 출처 정보 -->
+              <div class="chart-source">
+                <p>Justin W. Patchin and Sameer Hinduja<br>Cyberbullying Research Center</p>
+                
+                <!-- Cyberbullying.org 로고 및 링크 -->
+                <div class="cyberbullying-logo-container">
+                  <a href="https://cyberbullying.org/summary-of-our-cyberbullying-research" 
+                     target="_blank" 
+                     rel="noopener noreferrer" 
+                     class="cyberbullying-link"
+                     title="Visit Cyberbullying Research Center">
+                    <img src="images2/cyberbullying.org.png" alt="Cyberbullying Research Center" class="cyberbullying-logo" />
+                  </a>
+                  <p class="source-link">Source: <a href="https://cyberbullying.org/summary-of-our-cyberbullying-research" target="_blank" rel="noopener noreferrer">cyberbullying.org/research</a></p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- 섹션12 -->
-      <div class="scroll-section" id="section12">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/24.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+        <!-- 섹션12 -->
+        <div class="scroll-section" id="section12">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/24.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션13 -->
+        <div class="scroll-section" id="section13">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/25.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>     
+
+        <!-- 섹션14 -->
+        <div class="scroll-section" id="section14">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p class="scroll-text">Let's take a closer look at<br><span class="font-bold">these escalating cases of cyberbullying.</span></p>
+            </div>
+          </div>
+        </div> 
+
+        <!-- 섹션15 - LEFT ALIGNMENT (동영상-본문-링크 순서 유지, 왼쪽 정렬) -->
+        <div class="scroll-section section-left" id="section15">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/26.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <div class="text-content">
+              <p class="scroll-text">In 2010, Tyler Clementi,<br>a freshman at Rutgers University in New Jersey,<br>committed suicide after his roommate<br>secretly streamed his same-sex encounter<br>and mocked him online.</p>
+            </div>
+
+            <div class="external-link-container">
+              <a href="https://www.nytimes.com/topic/person/tyler-clementi" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="external-link"
+                title="Visit NY Times article about Tyler Clementi">
+                <img src="images2/nytimes.png" alt="Tyler Clementi - The New York Times" class="external-image" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션16 - RIGHT ALIGNMENT (동영상-본문-링크 순서 유지, 오른쪽 정렬) -->
+        <div class="scroll-section section-right" id="section16">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/27.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <div class="text-content">
+              <p class="scroll-text">In 2012, 15-year-old Amanda Todd took her<br>own life after enduring online stalking and<br>cyberbullying.<br>She posted a video on YouTube<br>sharing her experiences, but the harassment<br>continued afterward.</p>
+            </div>
+
+            <div class="external-link-container">
+              <a href="https://www.thecanadianencyclopedia.ca/en/article/amanda-todd-case/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="external-link"
+                title="Visit Amanda Todd Story">
+                <img src="images2/canadaen.png" alt="Amanda Todd Legacy story" class="external-image" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션17 - LEFT ALIGNMENT (동영상-본문-링크 순서 유지, 왼쪽 정렬) -->
+        <div class="scroll-section section-left" id="section17">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/28.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <div class="text-content">
+              <p class="scroll-text">In 2013, 12-year-old Rebecca Sedwick from<br>Florida took her own life after enduring<br>prolonged cyberbullying from schoolmates.<br>One of the perpetrators posted a message<br>saying, "I can brag that I killed her."</p>
+            </div>
+
+            <div class="external-link-container">
+              <a href="https://www.cnn.com/2013/10/15/justice/rebecca-sedwick-bullying-death-arrests/index.html" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="external-link"
+                title="CNN">
+                <img src="images2/cnn.png" alt="CNN" class="external-image" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션18 - CENTER ALIGNMENT (콘텐츠는 중앙, 텍스트는 왼쪽 정렬) -->
+        <div class="scroll-section section-center" id="section18">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/29.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            <div class="text-content">
+              <p class="scroll-text">In 2016, 18-year-old Brandi Belle from Texas<br>experienced severe stress due to persistent<br>cyberbullying, body shaming, and fake online<br>dating profiles. The perpetrators leaked her<br>personal information and sent insulting<br>messages. Eventually, she took her own life in<br>front of her family.</p>
+            </div>
+
+            <div class="external-link-container">
+              <a href="https://www.cbsnews.com/news/cyberbullying-pushed-texas-teen-commit-suicide-family/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="external-link"
+                title="CBS">
+                <img src="images2/cbs.png" alt="CBS" class="external-image" />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션19 -->
+        <div class="scroll-section" id="section19">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p class="scroll-text">Each day brought new messages,<br>new rumors,<br><span class="font-bold">new reasons to disappear.</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션20 -->
+        <div class="scroll-section" id="section20">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/32.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션21 -->
+        <div class="scroll-section" id="section21">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/33.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션22 -->
+        <div class="scroll-section" id="section22">
+          <div class="content-wrapper">
+            <div class="text-content">
+              <p class="scroll-text">At the age of <span class="font-bold">13...</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 섹션23 -->
+        <div class="scroll-section" id="section23">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <video class="scroll-video" autoplay muted loop playsinline>
+                <source src="images2/34.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </div>
         </div>
       </div>
-
-      <!-- 섹션13 -->
-      <div class="scroll-section" id="section13">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text"><br>She tried to tell someone,<span class="font-bold line-space">but who would listen?</span></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션14 -->
-      <div class="scroll-section" id="section14">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/28.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>      
-
-      <!-- 섹션15 -->
-      <div class="scroll-section" id="section15">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/29.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션16 -->
-      <div class="scroll-section" id="section16">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/30.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>      
-
-      <!-- 섹션17 -->
-      <div class="scroll-section" id="section17">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/31.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션18 -->
-      <div class="scroll-section" id="section18">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text">The digital world that was supposed to connect her<br>became her prison.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션19 -->
-      <div class="scroll-section" id="section19">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text">Each day brought new messages,<br>new rumors,<br><span class="font-bold">new reasons to disappear.</span></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션20 -->
-      <div class="scroll-section" id="section20">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/32.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션21 -->
-      <div class="scroll-section" id="section21">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/33.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션22 -->
-      <div class="scroll-section" id="section22">
-        <div class="content-wrapper">
-          <div class="text-content">
-            <p class="scroll-text">At the age of <span class="font-bold">13...</span></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 섹션23 -->
-      <div class="scroll-section" id="section23">
-        <div class="content-wrapper">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images2/34.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </div>
-
     </div>
 
     <div class="scroll-indicator">Scroll Down</div>
@@ -1509,6 +1858,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
 
   <script>
+    // 첫 번째 페이지에서 사용하던 모드 변수들 (호환성을 위해 선언)
+    let isPhoneModeActive = false;
+    let isHotOrNotModeActive = false;
+    let isCyberbullyingModeActive = false;
+
     // 다음 페이지로 이동하는 함수
     function goToNextPage() {
       window.location.href = "index3.html";
@@ -1537,10 +1891,10 @@
 
         if (documentHeight - (scrollPosition + windowHeight) < 200) {
           nextPageBtn.classList.add('show');
-          scrollIndicator.classList.add('hidden');
+          if (scrollIndicator) scrollIndicator.classList.add('hidden');
         } else {
           nextPageBtn.classList.remove('show');
-          scrollIndicator.classList.remove('hidden');
+          if (scrollIndicator) scrollIndicator.classList.remove('hidden');
         }
 
         if (scrollPosition > 100) {
@@ -1628,6 +1982,7 @@
         const text = section.querySelector(".scroll-text");
         const img = section.querySelector(".scroll-image");
         const video = section.querySelector(".scroll-video");
+        const externalImage = section.querySelector(".external-image");
 
         if (title) {
           gsap.to(title, {
@@ -1695,6 +2050,24 @@
               trigger: section,
               start: "top 75%",
               end: "top 40%",
+              toggleActions: "play none none reverse",
+              scrub: 0.6
+            }
+          });
+        }
+
+        if (externalImage) {
+          gsap.to(externalImage, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0)",
+            duration: 1.8,
+            delay: 1.0,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 70%",
+              end: "top 35%",
               toggleActions: "play none none reverse",
               scrub: 0.6
             }
@@ -1838,6 +2211,9 @@
       }
 
       window.scrollTo(0, 0);
+      
+      // === 마우스 효과 코드 시작 ===
+      const container = document.querySelector(".container");
       const circle = document.querySelector(".circle");
       
       if (circle) {
@@ -1845,28 +2221,18 @@
 
         document.addEventListener("mousemove", function (e) {
           const randomSize = 100 + Math.random() * 400;
-          const randomCircleHalf = randomSize / 2;
+          const randomCircleHalf = randomSize / 3;
 
           let c = circle.cloneNode(true);
           c.style.width = randomSize + "px";
           c.style.height = randomSize + "px";
-          c.style.left = (e.pageX - randomCircleHalf) + "px";
-          c.style.top = (e.pageY - randomCircleHalf) + "px";
-          c.style.background = "url('images2/BG_Image_02.png') center center no-repeat";
-          c.style.backgroundSize = "cover";
-          c.style.maskImage = "radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%)";
-          c.style.webkitMaskImage = "radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%)";
-          
-          circle.style.left = (e.pageX - circleHalf) + "px";
-          circle.style.top = (e.pageY - circleHalf) + "px";
-          
+          c.style.left = e.pageX - randomCircleHalf + "px";
+          c.style.top = e.pageY - randomCircleHalf + "px";
+          circle.style.left = e.pageX - circleHalf + "px";
+          circle.style.top = e.pageY - circleHalf + "px";
           c.classList.add("fadeOut");
-          c.addEventListener("animationend", function(event) {
-            if (event.target && event.target.parentNode) {
-              event.target.remove();
-            }
-          });
-          document.querySelector('.container').appendChild(c);
+          c.addEventListener("animationend", e => e.target.remove());
+          container.appendChild(c);
         });
 
         window.addEventListener("resize", () => {
@@ -1876,6 +2242,7 @@
           }
         });
       }
+      // === 마우스 효과 코드 끝 ===
 
       if (typeof gsap !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);

@@ -11,15 +11,12 @@
     :root {
       --lens-size: 400px;
       --content-margin: 5vw;
-      /* 목업 전용 컬러 (새로운 색상) */
       --phone-primary: #0095F6;
       --phone-secondary: #8A3AB9;
       --phone-accent: #FCB83F;
-      /* 기존 컬러 유지 */
       --phone-bg-color: linear-gradient(135deg, #121212, #1E1E1E, #262626);
     }
 
-    /* 기본 스타일 */
     html, body {
       margin: 0;
       padding: 0;
@@ -38,7 +35,6 @@
       border-radius: 4px;
     }
 
-    /* 로딩 화면 스타일 - 개선됨 */
     #loading-screen {
       position: fixed;
       top: 0;
@@ -104,7 +100,6 @@
       letter-spacing: 1px;
     }
 
-    /* 트리거 경고 화면 스타일 - 간격 조정 및 줄 제거 */
     #trigger-warning {
       position: fixed;
       top: 0;
@@ -280,7 +275,6 @@
       animation: pulse 2s infinite ease-in-out;
     }
 
-    /* 모바일 반응형 개선 */
     @media (max-width: 768px) {
       #loading-progress {
         width: 250px;
@@ -355,7 +349,6 @@
       }
     }
 
-    /* 다음 페이지 이동 버튼 */
     #next-page-btn {
       position: fixed;
       bottom: 30px;
@@ -386,7 +379,6 @@
       transform: translateY(-2px);
     }
 
-    /* 컨테이너 및 공통 요소 */
     .container {
       min-height: 100vh;
       position: relative;
@@ -430,14 +422,13 @@
       position: relative;
       z-index: 3;
       padding-top: 100vh;
-      height: 2300vh;
+      height: auto;
       min-height: 900vh;
       padding-left: var(--content-margin);
       padding-right: var(--content-margin);
       padding-bottom: 100px;
     }
 
-    /* 모든 섹션에 일관된 간격 적용 */
     .scroll-section {
       min-height: 100vh;
       display: flex;
@@ -473,7 +464,6 @@
       font-weight: 700;
     }
 
-    /* 동영상 스크롤 애니메이션 */
     .scroll-video {
       max-width: 100%;
       max-height: 70vh;
@@ -485,7 +475,6 @@
       transition: all 0.6s ease-out;
     }
 
-    /* 이미지 스크롤 애니메이션 */
     .scroll-image {
       max-width: 100%;
       max-height: 70vh;
@@ -497,7 +486,6 @@
       transition: all 0.6s ease-out;
     }
 
-    /* 텍스트 스크롤 애니메이션 - 이미지와 동일한 효과 적용 */
     .scroll-text {
       font-size: clamp(1.3rem, 3.5vw, 2.0rem);
       line-height: 1.6;
@@ -564,7 +552,6 @@
       transform: scale(1.05);
     }
 
-    /* 섹션0 스타일 */
     #section0 {
       position: fixed;
       top: 0;
@@ -637,35 +624,28 @@
       }
     }
 
-    /* 섹션1 스타일 */
-    #section1 .content-wrapper {
+    #section1 .content-wrapper,
+    #section2 .content-wrapper,
+    #section4 .content-wrapper,
+    #section6 .content-wrapper,
+    #section7 .content-wrapper,
+    #section11 .content-wrapper,
+    #section13 .content-wrapper,
+    #section15 .content-wrapper,
+    #section18 .content-wrapper {
       justify-content: center;
       align-items: center;
     }
 
-    /* 섹션2 스타일 */
-    #section2 .content-wrapper {
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* 섹션3 스타일 - 왼쪽 정렬 */
     #section3 .content-wrapper {
       justify-content: flex-start;
       align-items: center;
     }
 
     #section3 .image-container {
-      justify-content: flex-start; /* 왼쪽 정렬 */
+      justify-content: flex-start;
     }
 
-    /* 섹션4 스타일 */
-    #section4 .content-wrapper {
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* 섹션5 스타일 - Snapchat 인터페이스 */
     #section5 {
       position: relative;
       z-index: 100;
@@ -683,7 +663,6 @@
       text-align: center;
     }
 
-    /* 휴대폰 모드 활성화 시 전체 오버레이 */
     .phone-mode-overlay {
       position: fixed;
       top: 0;
@@ -725,7 +704,6 @@
       min-width: 60px;
     }
 
-    /* Snapchat 스타일 인터페이스 */
     .phone-mockup {
       width: 300px;
       height: 600px;
@@ -744,7 +722,6 @@
       transform: scale(1.02);
     }
 
-    /* 모든 휴대폰 화면 배경색 통일 */
     .phone-screen {
       width: 100%;
       height: 100%;
@@ -753,7 +730,6 @@
       overflow: hidden;
     }
 
-    /* 모션 그래픽 인트로 스타일 - 통합된 디자인 */
     .intro-animation {
       width: 100%;
       height: 100%;
@@ -872,7 +848,6 @@
       }
     }
 
-    /* 첫 번째 목업 - SNS 로그인 화면 (간소화된 버전) */
     .login-container {
       width: 100%;
       height: 100%;
@@ -1017,7 +992,6 @@
       pointer-events: none;
     }
 
-    /* 외모 평가 데모 스타일 - 개선된 버전 */
     .hot-or-not-container {
       width: 100%;
       height: 100%;
@@ -1029,7 +1003,6 @@
       overflow: hidden;
     }
 
-    /* "Rate This Person" 텍스트 배경 */
     .title-background {
       position: absolute;
       top: 40px;
@@ -1057,7 +1030,6 @@
       position: relative;
     }
 
-    /* 전체 화면을 차지하는 동영상 컨테이너 */
     .fullscreen-video-container {
       position: absolute;
       top: 0;
@@ -1073,7 +1045,6 @@
       object-fit: cover;
     }
 
-    /* 버튼들을 동영상 위에 배치 */
     .rating-buttons-overlay {
       position: absolute;
       bottom: 80px;
@@ -1143,7 +1114,6 @@
       color: #2f3542;
     }
 
-    /* 반응형 리액션 애니메이션 */
     @keyframes heartReaction {
       0% {
         opacity: 0;
@@ -1182,7 +1152,6 @@
       }
     }
 
-    /* 외모 평가 데모 오버레이 */
     .hot-or-not-overlay {
       position: fixed;
       top: 0;
@@ -1209,7 +1178,6 @@
       font-family: "Urbanist", Arial, sans-serif;
     }
 
-    /* 메시지 알림 스타일 */
     .message-notification {
       position: fixed;
       bottom: 20px;
@@ -1276,7 +1244,6 @@
       color: #888;
     }
 
-    /* 섹션 17 - 사이버불링 휴대폰 화면 */
     .cyberbullying-phone-overlay {
       position: fixed;
       top: 0;
@@ -1303,7 +1270,6 @@
       font-family: "Urbanist", Arial, sans-serif;
     }
 
-    /* 사이버불링 모드 메시지 스크린 - 스크롤 숨김 */
     .message-screen {
       width: 100%;
       height: 100%;
@@ -1379,7 +1345,6 @@
       20%, 40%, 60%, 80% { transform: translateX(2px) translateY(2px); }
     }
 
-    /* 로그인 성공 메시지 스타일 - 목업 디자인과 일치 */
     .login-success-message {
       position: absolute;
       top: 50%;
@@ -1412,7 +1377,6 @@
       }
     }
 
-    /* 더블탭 안내 메시지 */
     .double-tap-hint {
       position: absolute;
       bottom: 10px;
@@ -1425,19 +1389,12 @@
       z-index: 50;
     }
 
-    /* 섹션6 스타일 */
-    #section6 .content-wrapper {
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* 섹션7 스타일 */
+    #section6 .content-wrapper,
     #section7 .content-wrapper {
       justify-content: center;
       align-items: center;
     }
 
-    /* 섹션8 스타일 */
     #section8 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -1454,17 +1411,15 @@
       font-size: clamp(1.5rem, 4vw, 2.5rem);
     }
 
-    /* 섹션9 스타일 - 오른쪽 정렬 */
     #section9 .content-wrapper {
       justify-content: flex-end;
       align-items: center;
     }
 
     #section9 .image-container {
-      justify-content: flex-end; /* 오른쪽 정렬 */
+      justify-content: flex-end;
     }
 
-    /* 섹션10 스타일 */
     #section10 .content-wrapper {
       justify-content: center;
       align-items: center;
@@ -1479,13 +1434,11 @@
       font-size: clamp(1.5rem, 4vw, 2.5rem);
     }
 
-    /* 섹션11 스타일 */
     #section11 .content-wrapper {
       justify-content: center;
       align-items: center;
     }
 
-    /* 섹션12 스타일 */
     #section12 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -1506,31 +1459,27 @@
       width: 100%;
     }
 
-    /* 섹션13 스타일 */
     #section13 .content-wrapper {
       justify-content: center;
       align-items: center;
       gap: 40px;
     }
      
-    /* 섹션14 스타일 - 오른쪽 정렬 */
     #section14 .content-wrapper {
       justify-content: flex-end;
       align-items: center;
     }
 
     #section14 .image-container {
-      justify-content: flex-end; /* 오른쪽 정렬 */
+      justify-content: flex-end;
     }
 
-    /* 섹션15 스타일 */
     #section15 .content-wrapper {
       justify-content: center;
       align-items: center;
       gap: 40px;
     }
 
-    /* 섹션16 스타일 */
     #section16 .content-wrapper {
       flex-direction: row;
       justify-content: space-between;
@@ -1545,7 +1494,6 @@
       justify-content: flex-start;
     }
 
-    /* 섹션17 스타일 */
     #section17 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -1562,7 +1510,6 @@
       order: 2;
     }
 
-    /* 섹션18 스타일 */
     #section18 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -1583,7 +1530,6 @@
       font-size: clamp(1.5rem, 4vw, 2.5rem);
     }
 
-    /* 섹션19 스타일 */
     #section19 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -1600,7 +1546,6 @@
       order: 2;
     }
 
-    /* 섹션20 스타일 - 왼쪽 정렬 */
     #section20 {
       margin-bottom: 0;
       height: 50vh;
@@ -1619,7 +1564,6 @@
       height: 100%;
     }
 
-    /* 섹션21 스타일 - 오른쪽 정렬 */
     #section21 {
       margin-top: 0;
       height: 50vh;
@@ -1638,7 +1582,6 @@
       height: 100%;
     }
 
-    /* 섹션22 스타일 */
     #section22 .content-wrapper {
       flex-direction: column;
       justify-content: center;
@@ -1655,18 +1598,16 @@
       order: 2;
     }
 
-    /* 섹션23 스타일 */
-    #section22 .content-wrapper {
+    #section23 .content-wrapper {
       flex-direction: column;
       justify-content: center;
       align-items: center;
     }
 
-    #section22 .image-container {
+    #section23 .image-container {
       order: 2;
     }
 
-    /* 섹션-phone 스타일 */
     #section-phone .content-wrapper {
       flex-direction: column;
       align-items: center;
@@ -1679,7 +1620,6 @@
       padding-bottom: 100px;
     }
 
-    /* 반응형 공통 스타일 */
     @media (max-width: 768px) {
       .text-content,
       .image-container {
@@ -1749,7 +1689,6 @@
         min-width: 240px;
       }
 
-      /* section3, 9, 14, 21의 반응형 스타일 */
       #section3 .content-wrapper,
       #section9 .content-wrapper,
       #section14 .content-wrapper,
@@ -1764,7 +1703,6 @@
         justify-content: center;
       }
 
-      /* section20 반응형 */
       #section20 .content-wrapper {
         justify-content: center;
       }
@@ -1774,10 +1712,9 @@
       }
       
       #section21 {
-        margin-top: -80px; /* 모바일에서도 딱 붙게 */
+        margin-top: -80px;
       }
 
-      /* 로그인 화면 반응형 */
       .login-container {
         padding: 30px 20px;
       }
@@ -1857,10 +1794,9 @@
       }
 
       #section21 {
-        margin-top: -60px; /* 작은 화면에서도 딱 붙게 */
+        margin-top: -60px;
       }
 
-      /* 로그인 화면 반응형 */
       .app-icon {
         width: 60px;
         height: 60px;
@@ -1906,11 +1842,9 @@
   </style>
 </head>
 <body>
-  <!-- 로딩 화면 -->
   <div id="loading-screen">
     <video id="loading-video" autoplay muted>
       <source src="images/Opening_load_screen.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
     </video>
     <div id="loading-overlay">
       <div id="loading-text">Loading...</div>
@@ -1920,7 +1854,6 @@
     </div>
   </div>
 
-  <!-- 트리거 경고 화면 - 간격 조정 및 줄 제거 -->
   <div id="trigger-warning">
     <div class="warning-content-wrapper">
       <h1 class="warning-title pulse-effect">TRIGGER WARNING</h1>
@@ -1946,17 +1879,14 @@
     </div>
   </div>
 
-  <!-- 다음 페이지 이동 버튼 -->
   <button id="next-page-btn">Next Page →</button>
 
-  <!-- 휴대폰 모드 오버레이 (A 모드) -->
   <div class="phone-mode-overlay" id="phone-mode-overlay">
     <div class="phone-mode-instruction">
       <span class="double-tap-hint">Double-tap to exit</span>
     </div>
     <div class="phone-mockup" id="phone-mode-mockup">
       <div class="phone-screen">
-        <!-- 모션 그래픽 인트로 -->
         <div class="intro-animation" id="intro-animation">
           <div class="logo-animation">
             <div class="app-logo">
@@ -1970,7 +1900,6 @@
           </div>
         </div>
         
-        <!-- 로그인 화면 -->
         <div class="login-container" id="login-container">
           <div class="login-header">
             <div class="app-icon">C</div>
@@ -1998,7 +1927,6 @@
     </div>
   </div>
 
-  <!-- 외모 평가 데모 오버레이 (S 모드) -->
   <div class="hot-or-not-overlay" id="hot-or-not-overlay">
     <div class="hot-or-not-instruction">
       <span class="double-tap-hint">Double-tap to exit</span>
@@ -2012,7 +1940,6 @@
           <div class="fullscreen-video-container">
             <video class="fullscreen-video" autoplay muted loop playsinline>
               <source src="images/07.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
           <div class="rating-buttons-overlay">
@@ -2024,7 +1951,6 @@
     </div>
   </div>
 
-  <!-- 섹션 17 - 사이버불링 휴대폰 화면 (D 모드) -->
   <div class="cyberbullying-phone-overlay" id="cyberbullying-phone-overlay">
     <div class="cyberbullying-instruction">
       <span class="double-tap-hint">Double-tap to exit</span>
@@ -2033,14 +1959,12 @@
       <div class="phone-screen">
         <div class="message-screen">
           <div class="message-container" id="message-container">
-            <!-- 메시지들이 여기에 동적으로 추가됩니다 -->
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 메시지 알림 -->
   <div class="message-notification" id="message-notification">
     <button class="message-close" onclick="closeMessage()">×</button>
     <div class="message-header">
@@ -2056,16 +1980,13 @@
   <div class="container">
     <img src="images/Logo.png" class="logo" alt="Logo" onclick="goToFirstPage()" />
 
-    <!-- WebGL 효과를 위한 배경 레이어 (Three.js 제거됨) -->
     <div class="webgl-background">
       <video class="video-background" autoplay muted loop>
         <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
       <div class="circle"></div>
     </div>
 
-    <!-- 섹션0 -->
     <div class="scroll-section" id="section0">
       <div class="content-wrapper">
         <h2 class="scroll-title">Intro</h2>
@@ -2078,53 +1999,44 @@
     </div>
 
     <div class="scroll-content">
-      <!-- 섹션1 -->
       <div class="scroll-section" id="section1">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/01.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션2 -->
       <div class="scroll-section" id="section2">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/02.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션3 - 왼쪽 정렬 -->
       <div class="scroll-section" id="section3">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/03.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션4 -->
       <div class="scroll-section" id="section4">
         <div class="content-wrapper">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images/04.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+          <video class="scroll-video" autoplay muted loop playsinline>
+            <source src="images/04.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
 
-      <!-- 섹션5 - A 모드 (로그인) -->
       <div class="scroll-section" id="section5">
         <div class="content-wrapper">
           <div class="text-content"></div>
@@ -2138,29 +2050,24 @@
         </div>
       </div>
 
-      <!-- 섹션6 -->
       <div class="scroll-section" id="section6">
         <div class="content-wrapper">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images/05.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+          <video class="scroll-video" autoplay muted loop playsinline>
+            <source src="images/05.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
 
-      <!-- 섹션7 -->
       <div class="scroll-section" id="section7">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/06.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션8 - S 모드 (외모 평가) -->
       <div class="scroll-section" id="section8">
         <div class="content-wrapper">
           <div class="phone-mockup" id="hot-or-not-trigger">
@@ -2172,7 +2079,6 @@
                 <div class="fullscreen-video-container">
                   <video class="fullscreen-video" autoplay muted loop playsinline>
                     <source src="images/07.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
                   </video>
                 </div>
                 <div class="rating-buttons-overlay">
@@ -2188,19 +2094,16 @@
         </div>
       </div>
 
-      <!-- 섹션9 - 오른쪽 정렬 -->
       <div class="scroll-section" id="section9">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/08.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션10 -->
       <div class="scroll-section" id="section10">
         <div class="content-wrapper">
           <div class="text-content">
@@ -2209,19 +2112,16 @@
         </div>
       </div>
 
-      <!-- 섹션11 -->
       <div class="scroll-section" id="section11">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/09.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션12 -->
       <div class="scroll-section" id="section12">
         <div class="content-wrapper">
           <div class="text-content">
@@ -2230,39 +2130,36 @@
         </div>
       </div>
 
-      <!-- 섹션13 -->
       <div class="scroll-section" id="section13">
-          <div class="image-container">
-            <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images/11.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-      </div>      
-
-      <!-- 섹션14 - 오른쪽 정렬 -->
-      <div class="scroll-section" id="section14">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
-              <source src="images/12.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
+              <source src="images/11.mp4" type="video/mp4" />
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션15 -->
+      <div class="scroll-section" id="section14">
+        <div class="content-wrapper">
+          <div class="image-container">
+            <video class="scroll-video" autoplay muted loop playsinline>
+              <source src="images/12.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+
       <div class="scroll-section" id="section15">
+        <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/13.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
-      </div>      
+        </div>
+      </div>
 
-      <!-- 섹션17 - D 모드 (사이버불링) -->
       <div class="scroll-section" id="section17">
         <div class="content-wrapper">
           <div class="text-content">
@@ -2278,17 +2175,16 @@
         </div>
       </div>
 
-      <!-- 섹션18 -->
       <div class="scroll-section" id="section18">
+        <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/14.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
+        </div>
       </div>
-      
-      <!-- 섹션19 -->
+
       <div class="scroll-section" id="section19">
         <div class="content-wrapper">
           <div class="text-content">
@@ -2297,31 +2193,26 @@
         </div>
       </div>
 
-      <!-- 섹션20 - 왼쪽 정렬, 15.mp4 -->
       <div class="scroll-section" id="section20">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/15.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션21 - 오른쪽 정렬, 16.mp4 -->
       <div class="scroll-section" id="section21">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/16.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
 
-      <!-- 섹션22 -->
       <div class="scroll-section" id="section22">
         <div class="content-wrapper">
           <div class="text-content">
@@ -2330,17 +2221,16 @@
         </div>
       </div>
 
-      <!-- 섹션23 -->
       <div class="scroll-section" id="section23">
         <div class="content-wrapper">
           <div class="image-container">
             <video class="scroll-video" autoplay muted loop playsinline>
               <source src="images/17.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
             </video>
           </div>
         </div>
       </div>
+    </div>
 
     <div class="scroll-indicator">Scroll Down</div>
   </div>
@@ -2349,7 +2239,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
 
   <script>
-    // 전역 변수
     let isPhoneModeActive = false;
     let isHotOrNotModeActive = false;
     let isCyberbullyingModeActive = false;
@@ -2359,23 +2248,21 @@
     let hasTriggerWarningBeenShown = false;
     let currentPage = 1;
 
-    // 더블탭 관련 변수
     let lastTapTime = 0;
-    const doubleTapDelay = 300; // 300ms 내에 두 번 탭하면 더블탭으로 인식
+    const doubleTapDelay = 300;
 
-    // 랜덤 이름 데이터베이스
     const fakeNames = [
-      "Alex", "Jordan", "Taylor", "Casey", "Riley", "Morgan", "Quinn", "Dakota", "Avery", "Cameron",
-      "Peyton", "Skyler", "Blake", "Drew", "Emerson", "Finley", "Hayden", "Jamie", "Kai", "Logan",
-      "Marley", "Nico", "Parker", "Reese", "Rowan", "Sage", "Sawyer", "Shiloh", "Spencer", "Tatum",
-      "Teagan", "Tristan", "Winter", "Zion", "Addison", "Aiden", "Bailey", "Brooklyn", "Caden", "Carter",
-      "Charlie", "Dylan", "Elliot", "Evan", "Harley", "Hunter", "Jaden", "Jaxon", "Kaden", "Kai",
-      "Lennon", "Mackenzie", "Maddox", "Mason", "Micah", "Noah", "Oakley", "Phoenix", "River", "Ryan",
-      "Sawyer", "Sidney", "Sydney", "Tyler", "Weston", "Zane", "Ashley", "Brianna", "Chelsea", "Destiny",
-      "Hailey", "Jasmine", "Jessica", "Kayla", "Madison", "Megan", "Olivia", "Samantha", "Sarah", "Victoria"
+      "Sage", "Indigo", "Wren", "Arden", "Ellery", "Briar", "Cypress", "Aster", "Jules", "Onyx",
+      "Rue", "Zephyr", "Lark", "Sol", "Echo", "Roux", "Flint", "Saffron", "Cove", "Orion",
+      "Rain", "Lake", "Snow", "Storm", "Waverly", "Blue", "Cosmo", "Dune", "Fable", "Glenn",
+      "Harbor", "Ione", "Jazz", "Kestrel", "Lyric", "Merit", "Navy", "Oakes", "Palmer", "Quest",
+      "Raven", "Salem", "Terra", "Umber", "Vale", "Wilde", "Xen", "Yarrow", "Zephyrine", "Auden",
+      "Bellamy", "Ciel", "Dove", "Elowen", "Fifer", "Grey", "Hollis", "Iris", "Jorah", "Kael",
+      "Linden", "Marlow", "Nova", "Oberon", "Peregrine", "Quill", "Remi", "Solace", "Tru", "Ursa",
+      "Vesper", "Winter", "Xanthe", "Yael", "Zora", "Ambrose", "Blythe", "Calla", "Dempsey", "Eira",
+      "Fen", "Garnet", "Halcyon", "Ivo", "Juna", "Kiva", "Leif", "Moss", "Nix", "Olive"
     ];
 
-    // 사이버불링 메시지 데이터베이스
     const bullyingMessages = [
       { text: "Can't believe you showed up looking like that lol." },
       { text: "You seriously think anyone likes you? Wake up." },
@@ -2409,11 +2296,9 @@
       { text: "Everyone decided it's better without you. Sorry." }
     ];
 
-    // 메시지에 랜덤 이름 할당 함수
     function assignRandomNamesToMessages() {
       return bullyingMessages.map(message => {
         const senderName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-        
         return {
           text: message.text,
           sender: senderName
@@ -2421,17 +2306,14 @@
       });
     }
 
-    // 랜덤 이름이 적용된 메시지 배열 생성
     const bullyingMessagesWithNames = assignRandomNamesToMessages();
 
-    // 트리거 경고 화면 애니메이션 함수
     function animateTriggerWarning() {
       const warningTitle = document.querySelector('.warning-title');
       const warningDescription = document.querySelector('.warning-description');
       const warningList = document.querySelector('.warning-list');
       const warningButtons = document.querySelector('.warning-buttons');
 
-      // 각 요소에 순차적 애니메이션 적용
       const elements = [
         { el: warningTitle, delay: 0.2, duration: 1.0 },
         { el: warningDescription, delay: 0.6, duration: 0.8 },
@@ -2452,7 +2334,6 @@
       });
     }
 
-    // 트리거 경고 화면 관련 함수들
     function showTriggerWarning() {
       if (hasTriggerWarningBeenShown) return;
 
@@ -2460,14 +2341,12 @@
       triggerWarning.classList.add('active');
       hasTriggerWarningBeenShown = true;
       
-      // 애니메이션 시작
       setTimeout(() => {
         animateTriggerWarning();
       }, 300);
     }
 
     function hideTriggerWarning() {
-      // 먼저 요소들을 페이드 아웃
       const elements = document.querySelectorAll('#trigger-warning .warning-title, #trigger-warning .warning-description, #trigger-warning .warning-list, #trigger-warning .warning-buttons');
       
       gsap.to(elements, {
@@ -2479,26 +2358,17 @@
           const triggerWarning = document.getElementById('trigger-warning');
           triggerWarning.classList.remove('active');
           
-          // 메인 컨테이너 표시
           document.querySelector('.container').style.opacity = '1';
 
-          // 섹션0 애니메이션 시작
           startSection0Animation();
-
-          // 메시지 타이머 시작
           startMessageTimer();
-
-          // ScrollTrigger 초기화
           initScrollTriggers();
-
-          // 다음 페이지 버튼 표시 설정
           setupNextPageButton();
         }
       });
     }
 
     function exitSite() {
-      // 애니메이션 효과와 함께 사이트 종료
       const triggerWarning = document.getElementById('trigger-warning');
       gsap.to(triggerWarning, {
         opacity: 0,
@@ -2510,28 +2380,22 @@
       });
     }
 
-    // 다음 페이지로 이동하는 함수
     function goToNextPage() {
-      // 페이지2로 이동
       window.location.href = "index2.html";
     }
 
-    // 첫 페이지로 이동하는 함수 (로고 클릭 시)
     function goToFirstPage() {
       window.location.href = "index.html";
     }
 
-    // 다음 페이지 버튼 설정 함수
     function setupNextPageButton() {
       const nextPageBtn = document.getElementById('next-page-btn');
 
-      // 스크롤 이벤트 리스너 추가
       window.addEventListener('scroll', function() {
         const scrollPosition = window.scrollY;
         const windowHeight = window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
 
-        // 스크롤이 하단에 가까워지면 버튼 표시
         if (documentHeight - (scrollPosition + windowHeight) < 100) {
           nextPageBtn.classList.add('show');
         } else {
@@ -2539,20 +2403,16 @@
         }
       });
 
-      // 버튼 클릭 이벤트 리스너 추가
       nextPageBtn.addEventListener('click', goToNextPage);
     }
 
-    // 모션 그래픽 인트로 표시 함수
     function showIntroAnimation() {
       const introAnimation = document.getElementById('intro-animation');
       const loginContainer = document.getElementById('login-container');
       
-      // 먼저 모션 그래픽 인트로를 표시
       introAnimation.classList.remove('hidden');
       loginContainer.classList.remove('visible');
       
-      // 3초 후에 인트로를 숨기고 로그인 화면 표시
       setTimeout(() => {
         introAnimation.classList.add('hidden');
         setTimeout(() => {
@@ -2561,25 +2421,20 @@
       }, 3000);
     }
 
-    // 로그인 성공 메시지 표시 함수 (개선)
     function showLoginSuccessMessage() {
       const loginContainer = document.getElementById('login-container');
       const existingMessage = document.querySelector('.login-success-message');
       
-      // 기존 메시지가 있다면 제거
       if (existingMessage) {
         existingMessage.remove();
       }
       
-      // 새 메시지 생성
       const successMessage = document.createElement('div');
       successMessage.className = 'login-success-message';
       successMessage.textContent = 'Login successful ✓';
       
-      // 로그인 컨테이너에 메시지 추가
       loginContainer.appendChild(successMessage);
       
-      // 2초 후 메시지 제거
       setTimeout(() => {
         if (successMessage.parentNode) {
           successMessage.remove();
@@ -2587,7 +2442,6 @@
       }, 2000);
     }
 
-    // 외모 평가 기능 - 개선된 버전 (두 곳 모두 적용)
     function rateProfile(rating, containerId = 'section8') {
       const container = document.getElementById(containerId);
       const hotOrNotContainer = container ? 
@@ -2609,7 +2463,6 @@
 
       hotOrNotContainer.appendChild(reaction);
 
-      // 2.5초 후 리액션 요소 제거
       setTimeout(() => {
         if (reaction.parentNode) {
           reaction.remove();
@@ -2617,7 +2470,6 @@
       }, 2500);
     }
 
-    // 외모 평가 오버레이에서 사용할 함수
     function rateProfileInOverlay(rating) {
       const container = document.getElementById('hot-or-not-container');
       const reaction = document.createElement('div');
@@ -2635,25 +2487,21 @@
 
       container.appendChild(reaction);
 
-      // 2.5초 후 리액션 요소 제거
       setTimeout(() => {
         if (reaction.parentNode) {
           reaction.remove();
         }
       }, 2500);
 
-      // 이벤트 전파 중지 (부모로 더블탭 이벤트가 전달되지 않도록)
       event.stopPropagation();
     }
 
-    // 메시지 알림 기능 개선
     function showRandomMessage() {
       const notification = document.getElementById('message-notification');
       const messageContent = document.getElementById('message-content');
       const messageSender = document.querySelector('.message-sender');
       const messageAvatar = document.querySelector('.message-avatar');
       
-      // 랜덤 이름이 적용된 메시지 선택
       const randomMessageObj = bullyingMessagesWithNames[Math.floor(Math.random() * bullyingMessagesWithNames.length)];
       const randomMessage = randomMessageObj.text;
       const senderName = randomMessageObj.sender;
@@ -2664,12 +2512,10 @@
       
       notification.classList.add('show');
 
-      // 8초 후 2초에 걸쳐 사라짐
       setTimeout(() => {
         notification.style.transition = 'transform 2s ease';
         notification.classList.remove('show');
 
-        // 다음 메시지를 위해 트랜지션 초기화
         setTimeout(() => {
           notification.style.transition = 'transform 0.5s ease';
         }, 2000);
@@ -2682,37 +2528,29 @@
     }
 
     function startMessageTimer() {
-      // 2분(120000ms) 후부터 메시지 표시 시작
       setTimeout(() => {
         showRandomMessage();
-        // 그 후 15-25초 간격으로 메시지 표시
         messageTimer = setInterval(showRandomMessage, 10000 + Math.random() * 10000);
       }, 90000);
     }
 
-    // 휴대폰 모드 제어 함수 - SNS 로그인 화면 (A 모드)
     function activatePhoneMode() {
       if (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive) return;
 
       isPhoneModeActive = true;
       const overlay = document.getElementById('phone-mode-overlay');
 
-      // 모든 ScrollTrigger 비활성화
       originalScrollTriggers = ScrollTrigger.getAll();
       originalScrollTriggers.forEach(trigger => {
         trigger.disable();
       });
 
-      // 스크롤 비활성화
       document.body.style.overflow = 'hidden';
 
-      // 오버레이 표시
       overlay.classList.add('active');
 
-      // 모션 그래픽 인트로 표시
       showIntroAnimation();
 
-      // 로그인 폼에 포커스
       setTimeout(() => {
         document.getElementById('username').focus();
       }, 3800);
@@ -2724,35 +2562,28 @@
       isPhoneModeActive = false;
       const overlay = document.getElementById('phone-mode-overlay');
 
-      // ScrollTrigger 다시 활성화
       originalScrollTriggers.forEach(trigger => {
         trigger.enable();
       });
 
-      // 스크롤 활성화
       document.body.style.overflow = '';
 
-      // 오버레이 숨기기
       overlay.classList.remove('active');
     }
 
-    // 외모 평가 모드 제어 함수 (S 모드)
     function activateHotOrNotMode() {
       if (isHotOrNotModeActive || isPhoneModeActive || isCyberbullyingModeActive) return;
 
       isHotOrNotModeActive = true;
       const overlay = document.getElementById('hot-or-not-overlay');
 
-      // 모든 ScrollTrigger 비활성화
       originalScrollTriggers = ScrollTrigger.getAll();
       originalScrollTriggers.forEach(trigger => {
         trigger.disable();
       });
 
-      // 스크롤 비활성화
       document.body.style.overflow = 'hidden';
 
-      // 오버레이 표시
       overlay.classList.add('active');
     }
 
@@ -2762,38 +2593,30 @@
       isHotOrNotModeActive = false;
       const overlay = document.getElementById('hot-or-not-overlay');
 
-      // ScrollTrigger 다시 활성화
       originalScrollTriggers.forEach(trigger => {
         trigger.enable();
       });
 
-      // 스크롤 활성화
       document.body.style.overflow = '';
 
-      // 오버레이 숨기기
       overlay.classList.remove('active');
     }
 
-    // 사이버불링 모드 제어 함수 (D 모드)
     function activateCyberbullyingMode() {
       if (isCyberbullyingModeActive || isPhoneModeActive || isHotOrNotModeActive) return;
 
       isCyberbullyingModeActive = true;
       const overlay = document.getElementById('cyberbullying-phone-overlay');
 
-      // 모든 ScrollTrigger 비활성화
       originalScrollTriggers = ScrollTrigger.getAll();
       originalScrollTriggers.forEach(trigger => {
         trigger.disable();
       });
 
-      // 스크롤 비활성화
       document.body.style.overflow = 'hidden';
 
-      // 오버레이 표시
       overlay.classList.add('active');
 
-      // 메시지 스트림 시작
       startMessageStream();
     }
 
@@ -2803,28 +2626,22 @@
       isCyberbullyingModeActive = false;
       const overlay = document.getElementById('cyberbullying-phone-overlay');
 
-      // ScrollTrigger 다시 활성화
       originalScrollTriggers.forEach(trigger => {
         trigger.enable();
       });
 
-      // 스크롤 활성화
       document.body.style.overflow = '';
 
-      // 오버레이 숨기기
       overlay.classList.remove('active');
 
-      // 메시지 스트림 중지
       clearInterval(window.messageStreamInterval);
     }
 
-    // 더블탭 감지 함수
     function handleDoubleTap(event, modeType) {
       const currentTime = new Date().getTime();
       const tapLength = currentTime - lastTapTime;
       
       if (tapLength < doubleTapDelay && tapLength > 0) {
-        // 더블탭 감지됨
         if (modeType === 'phone' && isPhoneModeActive) {
           deactivatePhoneMode();
         } else if (modeType === 'hotornot' && isHotOrNotModeActive) {
@@ -2835,17 +2652,14 @@
         event.preventDefault();
         lastTapTime = 0;
       } else {
-        // 첫 번째 탭
         lastTapTime = currentTime;
       }
     }
 
-    // 사이버불링 메시지 스트림 함수
     function startMessageStream() {
       const messageContainer = document.getElementById('message-container');
       messageContainer.innerHTML = '';
 
-      // 랜덤 이름으로 메시지 스트림 생성
       const streamMessages = [
         { text: "Hey, did you see Emily's new post?" },
         { text: "Yeah, she looks so desperate for attention" },
@@ -2880,17 +2694,14 @@
         { text: "Me neither. This is too fun" }
       ];
 
-      // 항상 랜덤 이름 할당
       const streamMessagesWithNames = streamMessages.map(msg => {
         const senderName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
-        
         return {
           text: msg.text,
           sender: senderName
         };
       });
 
-      // 메시지 추가
       let delay = 0;
       streamMessagesWithNames.forEach(msg => {
         setTimeout(() => {
@@ -2899,7 +2710,6 @@
         delay += 500;
       });
 
-      // 흔들림 효과 타이머 시작
       let shakeCount = 0;
       const maxShakes = 10;
       const shakeInterval = setInterval(() => {
@@ -2911,7 +2721,6 @@
         const phone = document.getElementById('cyberbullying-phone');
         phone.classList.add('phone-shake');
 
-        // 흔들림 효과 제거
         setTimeout(() => {
           phone.classList.remove('phone-shake');
         }, 500);
@@ -2920,7 +2729,6 @@
       }, 2000);
     }
 
-    // 메시지 추가 함수
     function addMessage(text, type, senderName) {
       const messageContainer = document.getElementById('message-container');
       const messageDiv = document.createElement('div');
@@ -2942,9 +2750,7 @@
       messageContainer.appendChild(messageDiv);
     }
 
-    // SNS 로그인 관련 함수들
     function forgotPassword() {
-      // 팝업창 없이 간단한 처리 (알림창도 표시하지 않음)
       const usernameInput = document.getElementById('username');
       if (usernameInput.value.trim() === '') {
         usernameInput.focus();
@@ -2955,9 +2761,7 @@
       }
     }
 
-    // 터치 이벤트 리스너 설정 (모바일)
     function setupTouchListeners() {
-      // A 모드 트리거
       const phoneTrigger = document.getElementById('phone-mode-trigger');
       if (phoneTrigger) {
         phoneTrigger.addEventListener('click', function(e) {
@@ -2966,7 +2770,6 @@
         });
       }
 
-      // S 모드 트리거
       const hotOrNotTrigger = document.getElementById('hot-or-not-trigger');
       if (hotOrNotTrigger) {
         hotOrNotTrigger.addEventListener('click', function(e) {
@@ -2975,7 +2778,6 @@
         });
       }
 
-      // D 모드 트리거
       const cyberbullyingTrigger = document.getElementById('cyberbullying-trigger');
       if (cyberbullyingTrigger) {
         cyberbullyingTrigger.addEventListener('click', function(e) {
@@ -2984,14 +2786,12 @@
         });
       }
 
-      // 오버레이들의 더블탭 이벤트 처리
       const phoneOverlay = document.getElementById('phone-mode-overlay');
       const hotOrNotOverlay = document.getElementById('hot-or-not-overlay');
       const cyberbullyingOverlay = document.getElementById('cyberbullying-phone-overlay');
 
       if (phoneOverlay) {
         phoneOverlay.addEventListener('click', function(e) {
-          // 목업 내부의 버튼이나 입력 필드 클릭 시에는 더블탭 종료하지 않음
           if (e.target.closest('.login-button') || e.target.closest('.form-input') || e.target.closest('.forgot-password a')) {
             return;
           }
@@ -3001,7 +2801,6 @@
 
       if (hotOrNotOverlay) {
         hotOrNotOverlay.addEventListener('click', function(e) {
-          // 좋아요/싫어요 버튼 클릭 시에는 더블탭 종료하지 않음
           if (e.target.closest('.rate-btn')) {
             return;
           }
@@ -3016,27 +2815,22 @@
       }
     }
 
-    // 키보드 이벤트 리스너 (데스크톱용 - 유지)
     document.addEventListener('keydown', function(e) {
-      // A키로 휴대폰 모드 활성화
       if ((e.key === 'a' || e.key === 'A') && !isPhoneModeActive && !isHotOrNotModeActive && !isCyberbullyingModeActive) {
         activatePhoneMode();
         e.preventDefault();
       }
 
-      // S키로 외모 평가 모드 활성화
       if ((e.key === 's' || e.key === 'S') && !isPhoneModeActive && !isHotOrNotModeActive && !isCyberbullyingModeActive) {
         activateHotOrNotMode();
         e.preventDefault();
       }
 
-      // D키로 사이버불링 모드 활성화
       if ((e.key === 'd' || e.key === 'D') && !isPhoneModeActive && !isHotOrNotModeActive && !isCyberbullyingModeActive) {
         activateCyberbullyingMode();
         e.preventDefault();
       }
 
-      // ESC키로 모드 비활성화 (데스크톱용)
       if (e.key === 'Escape' && (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive)) {
         if (isPhoneModeActive) {
           deactivatePhoneMode();
@@ -3049,7 +2843,6 @@
       }
     });
 
-    // 섹션0 애니메이션 시작 함수
     function startSection0Animation() {
       const separator = document.querySelector('#section0 .separator');
       const textParts = document.querySelectorAll('#section0 .text-part');
@@ -3081,9 +2874,7 @@
       });
     }
 
-    // ScrollTrigger 초기화 함수
     function initScrollTriggers() {
-      // 섹션0 스크롤 트리거 설정
       gsap.to("#section0", {
         opacity: 0,
         duration: 1,
@@ -3096,7 +2887,6 @@
         }
       });
 
-      // 다른 섹션들의 애니메이션
       gsap.utils.toArray(".scroll-section").forEach(section => {
         if (section.id === "section0") return;
 
@@ -3209,12 +2999,9 @@
       });
     }
 
-    // 메인 애플리케이션
     (function () {
-      // 사용자 방문 시간 기록
       userVisitTime = new Date();
 
-      // 로딩 화면 요소
       const loadingScreen = document.getElementById('loading-screen');
       const loadingVideo = document.getElementById('loading-video');
       const loadingProgress = document.getElementById('loading-progress-bar');
@@ -3222,19 +3009,15 @@
       const container = document.querySelector(".container");
       const logo = document.querySelector('.logo');
 
-      // 트리거 경고 버튼 이벤트 리스너
       document.getElementById('continue-btn').addEventListener('click', hideTriggerWarning);
       document.getElementById('exit-btn').addEventListener('click', exitSite);
 
-      // 로고 클릭 이벤트 핸들러
       logo.addEventListener('click', goToFirstPage);
 
-      // 로딩 타이머 설정 - 7초 후 TRIGGER WARNING 표시
       let loadingStartTime = Date.now();
       let progressInterval;
       let minLoadingTime = 7000;
 
-      // 천천히 증가하는 로딩 바 업데이트 함수
       function updateLoadingProgress() {
         const elapsed = Date.now() - loadingStartTime;
         const progress = Math.min((elapsed / minLoadingTime) * 100, 100);
@@ -3242,14 +3025,12 @@
         loadingProgress.style.width = `${progress}%`;
         loadingText.textContent = `Loading... ${Math.round(progress)}%`;
 
-        // 7초가 지나면 로딩 완료
         if (elapsed >= minLoadingTime) {
           clearInterval(progressInterval);
           completeLoading();
         }
       }
 
-      // 로딩 완료 처리 함수
       function completeLoading() {
         loadingScreen.style.opacity = '0';
         setTimeout(() => {
@@ -3258,32 +3039,24 @@
         }, 800);
       }
 
-      // 로딩 동영상 이벤트 리스너
       loadingVideo.addEventListener('loadedmetadata', function() {
-        // 로딩 시작
         progressInterval = setInterval(updateLoadingProgress, 100);
       });
 
       loadingVideo.addEventListener('error', function() {
-        // 비디오 로드 실패시에도 타이머 시작
         progressInterval = setInterval(updateLoadingProgress, 100);
       });
 
-      // 비디오 로드 확인
       const video = document.querySelector('.video-background');
-      video.oncanplay = function() {
-        // 배경 비디오가 로드되면 별도로 처리하지 않음
-      };
+      video.oncanplay = function() {};
 
       window.scrollTo(0, 0);
       const circle = document.querySelector(".circle");
       let circleHalf = circle.offsetWidth / 2;
 
-      // 마우스 위치에 따라 원 효과 (데스크톱용)
       document.addEventListener("mousemove", function (e) {
         if (isPhoneModeActive || isHotOrNotModeActive || isCyberbullyingModeActive) return;
 
-        // 랜덤 크기 변화
         const randomSize = 100 + Math.random() * 400;
         const randomCircleHalf = randomSize / 3;
 
@@ -3311,7 +3084,6 @@
         ScrollTrigger.refresh();
       });
 
-      // SNS 로그인 폼 처리 (팝업창 없이 처리)
       const loginForm = document.getElementById('login-form');
       if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
@@ -3321,7 +3093,6 @@
           const password = document.getElementById('password').value;
           
           if (username && password) {
-            // 로그인 성공 메시지 표시
             showLoginSuccessMessage();
             
             const loginButton = document.querySelector('.login-button');
@@ -3339,7 +3110,6 @@
                 loginButton.style.opacity = '1';
                 loginButton.style.background = 'linear-gradient(135deg, var(--phone-primary), var(--phone-secondary))';
                 
-                // 2초 후 폼 초기화
                 setTimeout(() => {
                   document.getElementById('username').value = '';
                   document.getElementById('password').value = '';
@@ -3348,7 +3118,6 @@
               }, 1500);
             }, 1500);
           } else {
-            // 필드 강조 표시
             if (!username) {
               document.getElementById('username').style.borderColor = '#ff4757';
               setTimeout(() => {
@@ -3365,7 +3134,6 @@
         });
       }
 
-      // 초기 로딩 시작
       if (loadingVideo.readyState >= 3) {
         progressInterval = setInterval(updateLoadingProgress, 100);
       } else {
@@ -3374,7 +3142,6 @@
         });
       }
 
-      // 터치 이벤트 리스너 설정 (모바일)
       setupTouchListeners();
     })();
   </script>
