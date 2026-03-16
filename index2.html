@@ -1060,19 +1060,192 @@
       gap: 20px;
     }
 
-    /* section20 */
+    /* ========== 섹션20 - 수정된 지도 (30개 주, 간격 넓게, 오른쪽 이동) ========= */
     #section20 {
       margin-bottom: 0;
-      height: 50vh;
-      min-height: 50vh;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
     }
-
+    
     #section20 .content-wrapper {
       justify-content: center;
       align-items: center;
+      width: 100%;
     }
 
-    /* section21 */
+    .map-container {
+      position: relative;
+      width: 1000px;
+      max-width: 100%;
+      margin: 0 auto;
+      border-radius: 48px;
+      background: rgba(20, 20, 30, 0.35);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      padding: 30px 20px 20px 20px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s;
+    }
+    
+    .map-heading {
+      text-align: center;
+      color: rgb(255, 251, 240);
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin: 0 0 10px 0;
+      text-shadow: 0 2px 15px black;
+      letter-spacing: 1px;
+    }
+    
+    .map-sub {
+      text-align: center;
+      color: rgba(255, 245, 230, 0.8);
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      font-style: italic;
+      border-bottom: 1px solid rgba(255,255,240,0.15);
+      padding-bottom: 20px;
+    }
+    
+    .map-background {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .map-background img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: blur(5px) brightness(0.7);
+      border-radius: 40px;
+      transition: filter 0.3s;
+      border: 2px solid rgba(255,255,240,0.1);
+    }
+    
+    .map-overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    
+    .state-marker {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 90, 90, 0.5);
+      border: 3px solid rgba(255, 180, 180, 0.8);
+      box-shadow: 0 0 20px rgba(255, 80, 80, 0.9);
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      pointer-events: auto;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.1rem;
+      text-shadow: 0 2px 5px black;
+    }
+    
+    .state-marker:hover {
+      background: rgba(255, 100, 100, 0.9);
+      border-color: #ffb3b3;
+      box-shadow: 0 0 45px #ff6666, 0 0 25px #ff4d4d;
+      width: 50px;
+      height: 50px;
+    }
+    
+    .state-marker.selected {
+      background: rgba(255, 80, 80, 0.95);
+      border-color: #ffcccc;
+      box-shadow: 0 0 55px #ff4d4d, 0 0 30px #ff3333;
+      width: 50px;
+      height: 50px;
+    }
+    
+    .info-card {
+      position: absolute;
+      background: rgba(18, 18, 24, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 150, 150, 0.5);
+      border-radius: 36px;
+      padding: 22px 26px;
+      min-width: 300px;
+      max-width: 360px;
+      color: #fff7ec;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 0 2px rgba(255,130,130,0.2);
+      pointer-events: none;
+      z-index: 200;
+      transition: opacity 0.2s, transform 0.2s;
+      font-size: 1rem;
+      line-height: 1.5;
+      transform: translate(-50%, -120%);
+      left: 50%;
+      top: 50%;
+    }
+    
+    .info-card h4 {
+      margin: 0 0 12px 0;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #ff9f7c;
+      border-bottom: 2px solid #ff906b;
+      display: inline-block;
+      padding-right: 20px;
+    }
+    
+    .info-card p {
+      margin: 10px 0;
+      font-weight: 400;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    
+    .penalty-badge {
+      background: #ff5e4a;
+      border-radius: 60px;
+      padding: 8px 14px;
+      font-weight: 700;
+      color: black;
+      background: linear-gradient(145deg, #ff7f66, #ff5e4a);
+      display: inline-block;
+      margin-top: 12px;
+      box-shadow: 0 4px 15px #ff5e4a80;
+      border: 1px solid #ffccb3;
+    }
+    
+    .info-card a {
+      color: #ffb3a2;
+      text-decoration: underline wavy rgba(255,150,120,0.4);
+      font-weight: 600;
+    }
+    
+    .info-card a:hover { color: white; }
+    
+    .info-card.hidden {
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -100%);
+    }
+    
+    .map-footer {
+      text-align: center;
+      color: rgba(255,255,240,0.6);
+      margin-top: 24px;
+      font-size: 0.95rem;
+    }
+
+    /* section21 ~ section23은 원본 그대로 유지 */
     #section21 {
       margin-top: 0;
       height: 50vh;
@@ -1114,7 +1287,7 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* 반응형 */
+    /* 반응형 (기존 유지) */
     @media (max-width: 1200px) {
       .chart-container {
         max-width: 900px;
@@ -1236,6 +1409,25 @@
       .section-right .external-link-container {
         text-align: center !important;
       }
+
+      /* 지도 반응형 */
+      .map-heading {
+        font-size: 1.8rem;
+      }
+      .state-marker {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+      }
+      .state-marker:hover,
+      .state-marker.selected {
+        width: 40px;
+        height: 40px;
+      }
+      .info-card {
+        min-width: 250px;
+        padding: 18px 20px;
+      }
     }
 
     @media (max-width: 480px) {
@@ -1284,6 +1476,17 @@
         padding: 12px 24px;
         font-size: 1rem;
       }
+
+      .state-marker {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+      }
+      .state-marker:hover,
+      .state-marker.selected {
+        width: 34px;
+        height: 34px;
+      }
     }
   </style>
 </head>
@@ -1301,10 +1504,10 @@
       </video>
     </div>
 
-    <!-- circle 요소 - 첫 번째 페이지 스타일 그대로 유지 -->
+    <!-- circle 요소 -->
     <div class="circle"></div>
 
-    <!-- 로고 레이어 (가장 위) -->
+    <!-- 로고 레이어 -->
     <div class="logo-layer">
       <img src="images2/Logo.png" class="logo" alt="Logo" id="logo" />
     </div>
@@ -1324,6 +1527,7 @@
       </div>
 
       <div class="scroll-content">
+        <!-- 섹션1 ~ 섹션19는 원본 그대로 유지 (변경 없음) -->
         <!-- 섹션1 -->
         <div class="scroll-section" id="section1">
           <div class="content-wrapper">
@@ -1476,16 +1680,14 @@
           </div>
         </div>
 
-        <!-- 섹션11 - 중앙 정렬 차트 (수정된 버전) -->
+        <!-- 섹션11 - 중앙 정렬 차트 -->
         <div class="scroll-section" id="section11">
           <div class="content-wrapper">
             <div class="chart-container">
               <h3 class="chart-title">Recent Cyberbullying Over Time</h3>
               <p class="chart-subtitle">Nationally representative samples of U.S. 13- to 17-year-olds</p>
               
-              <!-- 차트 영역 -->
               <div class="chart-wrapper">
-                <!-- 범례 -->
                 <div class="chart-legend">
                   <div class="legend-item">
                     <span class="legend-color" style="background: #ff6b6b;"></span>
@@ -1497,9 +1699,7 @@
                   </div>
                 </div>
                 
-                <!-- 차트 그리드 -->
                 <div class="chart-grid">
-                  <!-- Y축 눈금 -->
                   <div class="y-axis">
                     <div class="y-tick" style="bottom: 0%;"><span>0%</span></div>
                     <div class="y-tick" style="bottom: 14.3%;"><span>5%</span></div>
@@ -1511,7 +1711,6 @@
                     <div class="y-tick" style="bottom: 100%;"><span>35%</span></div>
                   </div>
                   
-                  <!-- 그리드 라인 -->
                   <div class="grid-lines">
                     <div class="grid-line" style="bottom: 0%;"></div>
                     <div class="grid-line" style="bottom: 14.3%;"></div>
@@ -1523,92 +1722,69 @@
                     <div class="grid-line" style="bottom: 100%;"></div>
                   </div>
                   
-                  <!-- 데이터 포인트들 -->
                   <div class="data-points">
-                    <!-- 2016년 -->
                     <div class="year-group" style="left: 10%;">
                       <div class="points-container">
-                        <!-- 피해자 (16.7%) -->
                         <div class="data-point victim-point" style="bottom: 47.7%;" data-percent="16.7">
                           <span class="point-value">16.7%</span>
                         </div>
-                        <!-- 가해자 (5.7%) -->
                         <div class="data-point offender-point" style="bottom: 16.3%;" data-percent="5.7">
                           <span class="point-value">5.7%</span>
                         </div>
-                        <!-- 연결선 -->
                         <div class="connector-line" style="height: 31.4%; top: 16.3%;"></div>
                       </div>
                     </div>
                     
-                    <!-- 2019년 -->
                     <div class="year-group" style="left: 30%;">
                       <div class="points-container">
-                        <!-- 피해자 (17.2%) -->
                         <div class="data-point victim-point" style="bottom: 49.1%;" data-percent="17.2">
                           <span class="point-value">17.2%</span>
                         </div>
-                        <!-- 가해자 (6.6%) -->
                         <div class="data-point offender-point" style="bottom: 18.9%;" data-percent="6.6">
                           <span class="point-value">6.6%</span>
                         </div>
-                        <!-- 연결선 -->
                         <div class="connector-line" style="height: 30.2%; top: 18.9%;"></div>
                       </div>
                     </div>
                     
-                    <!-- 2021년 -->
                     <div class="year-group" style="left: 50%;">
                       <div class="points-container">
-                        <!-- 피해자 (23.2%) -->
                         <div class="data-point victim-point" style="bottom: 66.3%;" data-percent="23.2">
                           <span class="point-value">23.2%</span>
                         </div>
-                        <!-- 가해자 (4.9%) -->
                         <div class="data-point offender-point" style="bottom: 14.0%;" data-percent="4.9">
                           <span class="point-value">4.9%</span>
                         </div>
-                        <!-- 연결선 -->
                         <div class="connector-line" style="height: 52.3%; top: 14.0%;"></div>
                       </div>
                     </div>
                     
-                    <!-- 2023년 -->
                     <div class="year-group" style="left: 70%;">
                       <div class="points-container">
-                        <!-- 피해자 (26.5%) -->
                         <div class="data-point victim-point" style="bottom: 75.7%;" data-percent="26.5">
                           <span class="point-value">26.5%</span>
                         </div>
-                        <!-- 가해자 (10.5%) -->
                         <div class="data-point offender-point" style="bottom: 30.0%;" data-percent="10.5">
                           <span class="point-value">10.5%</span>
                         </div>
-                        <!-- 연결선 -->
                         <div class="connector-line" style="height: 45.7%; top: 30.0%;"></div>
                       </div>
                     </div>
                     
-                    <!-- 2025년 -->
                     <div class="year-group" style="left: 90%;">
                       <div class="points-container">
-                        <!-- 피해자 (32.7%) -->
                         <div class="data-point victim-point" style="bottom: 93.4%;" data-percent="32.7">
                           <span class="point-value">32.7%</span>
                         </div>
-                        <!-- 가해자 (16.1%) -->
                         <div class="data-point offender-point" style="bottom: 46.0%;" data-percent="16.1">
                           <span class="point-value">16.1%</span>
                         </div>
-                        <!-- 연결선 -->
                         <div class="connector-line" style="height: 47.4%; top: 46.0%;"></div>
                       </div>
                     </div>
                   </div>
                   
-                  <!-- 트렌드 라인 -->
                   <svg class="trend-lines" width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none;">
-                    <!-- 피해자 트렌드 라인 -->
                     <polyline points="
                       calc(10% + 40px), calc(100% - 47.7%)
                       calc(30% + 40px), calc(100% - 49.1%)
@@ -1617,7 +1793,6 @@
                       calc(90% + 40px), calc(100% - 93.4%)
                     " fill="none" stroke="#ff6b6b" stroke-width="3" stroke-dasharray="8,6" opacity="0.6"/>
                     
-                    <!-- 가해자 트렌드 라인 -->
                     <polyline points="
                       calc(10% + 40px), calc(100% - 16.3%)
                       calc(30% + 40px), calc(100% - 18.9%)
@@ -1628,7 +1803,6 @@
                   </svg>
                 </div>
                 
-                <!-- X축 레이블 -->
                 <div class="x-axis">
                   <span style="left: 10%;">2016</span>
                   <span style="left: 30%;">2019</span>
@@ -1638,11 +1812,9 @@
                 </div>
               </div>
               
-              <!-- 출처 정보 -->
               <div class="chart-source">
                 <p>Justin W. Patchin and Sameer Hinduja<br>Cyberbullying Research Center</p>
                 
-                <!-- Cyberbullying.org 로고 및 링크 -->
                 <div class="cyberbullying-logo-container">
                   <a href="https://cyberbullying.org/summary-of-our-cyberbullying-research" 
                      target="_blank" 
@@ -1691,7 +1863,7 @@
           </div>
         </div> 
 
-        <!-- 섹션15 - LEFT ALIGNMENT (동영상-본문-링크 순서 유지, 왼쪽 정렬) -->
+        <!-- 섹션15 -->
         <div class="scroll-section section-left" id="section15">
           <div class="content-wrapper">
             <div class="image-container">
@@ -1717,7 +1889,7 @@
           </div>
         </div>
 
-        <!-- 섹션16 - RIGHT ALIGNMENT (동영상-본문-링크 순서 유지, 오른쪽 정렬) -->
+        <!-- 섹션16 -->
         <div class="scroll-section section-right" id="section16">
           <div class="content-wrapper">
             <div class="image-container">
@@ -1743,7 +1915,7 @@
           </div>
         </div>
 
-        <!-- 섹션17 - LEFT ALIGNMENT (동영상-본문-링크 순서 유지, 왼쪽 정렬) -->
+        <!-- 섹션17 -->
         <div class="scroll-section section-left" id="section17">
           <div class="content-wrapper">
             <div class="image-container">
@@ -1769,7 +1941,7 @@
           </div>
         </div>
 
-        <!-- 섹션18 - CENTER ALIGNMENT (콘텐츠는 중앙, 텍스트는 왼쪽 정렬) -->
+        <!-- 섹션18 -->
         <div class="scroll-section section-center" id="section18">
           <div class="content-wrapper">
             <div class="image-container">
@@ -1799,19 +1971,79 @@
         <div class="scroll-section" id="section19">
           <div class="content-wrapper">
             <div class="text-content">
-              <p class="scroll-text">Each day brought new messages,<br>new rumors,<br><span class="font-bold">new reasons to disappear.</span></p>
+              <p class="scroll-text">In light of this critical situation,<br>what specific penalties are being enforced<br><span class="font-bold">across U.S. states?</span></p>
             </div>
           </div>
         </div>
 
-        <!-- 섹션20 -->
+        <!-- ========== 섹션20 ========= -->
         <div class="scroll-section" id="section20">
           <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images2/32.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+            <div class="map-container">
+              <h2 class="map-heading">State Cyberbullying Penalties</h2>
+              <div class="map-background">
+                <!-- 블러 처리된 USmap.png -->
+                <img src="images2/USmap.png" alt="United States map" id="usMapImage">
+                
+                <!-- 마커 오버레이 - 30개 주요 주, 오른쪽으로 이동 (left 값 증가) -->
+                <div class="map-overlay">
+                  <!-- 서부 (left 값 +5~8% 증가) -->
+                  <div class="state-marker" data-state="WA" style="left: 15%; top: 20%;">WA</div>
+                  <div class="state-marker" data-state="OR" style="left: 16%; top: 30%;">OR</div>
+                  <div class="state-marker" data-state="CA" style="left: 18%; top: 58%;">CA</div>
+                  <div class="state-marker" data-state="NV" style="left: 22%; top: 43%;">NV</div>
+                  <div class="state-marker" data-state="AZ" style="left: 26%; top: 68%;">AZ</div>
+                  <div class="state-marker" data-state="UT" style="left: 25%; top: 50%;">UT</div>
+                  <div class="state-marker" data-state="CO" style="left: 33%; top: 48%;">CO</div>
+                  <div class="state-marker" data-state="NM" style="left: 32%; top: 67%;">NM</div>
+                  
+                  <!-- 중부 (left 값 +5~8% 증가) -->
+                  <div class="state-marker" data-state="ND" style="left: 41%; top: 18%;">ND</div>
+                  <div class="state-marker" data-state="SD" style="left: 43%; top: 26%;">SD</div>
+                  <div class="state-marker" data-state="NE" style="left: 47%; top: 38%;">NE</div>
+                  <div class="state-marker" data-state="KS" style="left: 49%; top: 50%;">KS</div>
+                  <div class="state-marker" data-state="OK" style="left: 47%; top: 65%;">OK</div>
+                  <div class="state-marker" data-state="TX" style="left: 45%; top: 78%;">TX</div>
+                  <div class="state-marker" data-state="MN" style="left: 55%; top: 24%;">MN</div>
+                  <div class="state-marker" data-state="IA" style="left: 55%; top: 38%;">IA</div>
+                  <div class="state-marker" data-state="MO" style="left: 57%; top: 50%;">MO</div>
+                  <div class="state-marker" data-state="AR" style="left: 55%; top: 66%;">AR</div>
+                  <div class="state-marker" data-state="LA" style="left: 53%; top: 80%;">LA</div>
+                  
+                  <!-- 중서부/동부 (left 값 +5~8% 증가) -->
+                  <div class="state-marker" data-state="WI" style="left: 63%; top: 30%;">WI</div>
+                  <div class="state-marker" data-state="IL" style="left: 62%; top: 44%;">IL</div>
+                  <div class="state-marker" data-state="MI" style="left: 68%; top: 30%;">MI</div>
+                  <div class="state-marker" data-state="IN" style="left: 67%; top: 45%;">IN</div>
+                  <div class="state-marker" data-state="OH" style="left: 73%; top: 44%;">OH</div>
+                  <div class="state-marker" data-state="KY" style="left: 70%; top: 55%;">KY</div>
+                  <div class="state-marker" data-state="TN" style="left: 69%; top: 63%;">TN</div>
+                  <div class="state-marker" data-state="AL" style="left: 67%; top: 72%;">AL</div>
+                  <div class="state-marker" data-state="MS" style="left: 62%; top: 72%;">MS</div>
+                  <div class="state-marker" data-state="GA" style="left: 72%; top: 71%;">GA</div>
+                  <div class="state-marker" data-state="FL" style="left: 76%; top: 85%;">FL</div>
+                  
+                  <!-- 북동부 (left 값 +5~8% 증가) -->
+                  <div class="state-marker" data-state="PA" style="left: 79%; top: 42%;">PA</div>
+                  <div class="state-marker" data-state="NY" style="left: 83%; top: 28%;">NY</div>
+                  <div class="state-marker" data-state="MA" style="left: 88%; top: 28%;">MA</div>
+                  <div class="state-marker" data-state="NJ" style="left: 85%; top: 39%;">NJ</div>
+                  <div class="state-marker" data-state="VA" style="left: 79%; top: 53%;">VA</div>
+                  <div class="state-marker" data-state="NC" style="left: 78%; top: 61%;">NC</div>
+                  <div class="state-marker" data-state="SC" style="left: 79%; top: 68%;">SC</div>
+                </div>
+
+                <!-- 정보 카드 -->
+                <div id="dynamicInfoCard" class="info-card hidden">
+                  <h4 id="cardState">State</h4>
+                  <p><span>Criminal Charge: </span><strong id="cardCriminal">—</strong></p>
+                  <p><span>Max. Jail Time: </span><strong id="cardJail">—</strong></p>
+                  <p><span>Max. Fine: </span><strong id="cardFine">—</strong></p>
+                  <p><span>Restitution: </span><strong id="cardRestitution">—</strong></p>
+                  <div class="penalty-badge" id="cardMax">Classification</div>
+                  <p style="margin-top: 14px;"><a href="#" id="cardLink" target="_blank">State Legislature</a></p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1821,7 +2053,7 @@
           <div class="content-wrapper">
             <div class="image-container">
               <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images2/33.mp4" type="video/mp4" />
+                <source src="images2/30.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
@@ -1832,24 +2064,11 @@
         <div class="scroll-section" id="section22">
           <div class="content-wrapper">
             <div class="text-content">
-              <p class="scroll-text">At the age of <span class="font-bold">13...</span></p>
+              <p class="scroll-text">Or is it time to<br><span class="font-bold">do some action?</span></p>
             </div>
           </div>
         </div>
 
-        <!-- 섹션23 -->
-        <div class="scroll-section" id="section23">
-          <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images2/34.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="scroll-indicator">Scroll Down</div>
   </div>
@@ -2120,7 +2339,6 @@
       if (section11) {
         const chartContainer = section11.querySelector('.chart-container');
         if (chartContainer) {
-          // 차트 컨테이너 페이드인
           gsap.to(chartContainer, {
             y: 0,
             opacity: 1,
@@ -2134,7 +2352,6 @@
               end: "top 40%",
               toggleActions: "play none none reverse",
               onEnter: () => {
-                // 데이터 포인트 애니메이션 (페이드인)
                 gsap.to(section11.querySelectorAll('.data-point'), {
                   opacity: 1,
                   scale: 1,
@@ -2143,7 +2360,6 @@
                   delay: 0.5
                 });
                 
-                // 연결선 애니메이션
                 gsap.to(section11.querySelectorAll('.connector-line'), {
                   opacity: 0.4,
                   duration: 1.2,
@@ -2151,7 +2367,6 @@
                   delay: 0.8
                 });
 
-                // 트렌드 라인 애니메이션
                 gsap.to(section11.querySelectorAll('.trend-lines polyline'), {
                   opacity: 0.6,
                   duration: 1.5,
@@ -2159,7 +2374,6 @@
                 });
               },
               onLeave: () => {
-                // 초기화
                 gsap.to(section11.querySelectorAll('.data-point'), {
                   opacity: 0,
                   scale: 0,
@@ -2175,7 +2389,6 @@
                 });
               },
               onEnterBack: () => {
-                // 다시 진입
                 gsap.to(section11.querySelectorAll('.data-point'), {
                   opacity: 1,
                   scale: 1,
@@ -2200,19 +2413,133 @@
           });
         }
       }
+
+      // 섹션20 지도 애니메이션 (추가)
+      const section20 = document.getElementById('section20');
+      if (section20) {
+        gsap.from(section20.querySelector('.map-container'), {
+          scale: 0.9,
+          opacity: 0,
+          duration: 1.2,
+          scrollTrigger: {
+            trigger: section20,
+            start: "top 80%"
+          }
+        });
+      }
     }
 
-    // 메인 애플리케이션
-    (function () {
-      // 로고 클릭 이벤트 핸들러
-      const logo = document.getElementById('logo');
-      if (logo) {
-        logo.addEventListener('click', goToFirstPage);
+    // ===== 지도 인터랙션 로직 (30개 주 데이터) =====
+    function initMapInteractions() {
+      const markers = document.querySelectorAll('.state-marker');
+      const infoCard = document.getElementById('dynamicInfoCard');
+      const cardState = document.getElementById('cardState');
+      const cardCriminal = document.getElementById('cardCriminal');
+      const cardJail = document.getElementById('cardJail');
+      const cardFine = document.getElementById('cardFine');
+      const cardRestitution = document.getElementById('cardRestitution');
+      const cardMax = document.getElementById('cardMax');
+      const cardLink = document.getElementById('cardLink');
+
+      // 30개 주요 주 법률/벌금 데이터
+      const penaltyDB = {
+        WA: { criminal: "Gross Misdemeanor", jail: "Up to 364 days", fine: "Up to $5,000", restitution: "Required", max: "Class C felony", link: "https://app.leg.wa.gov" },
+        OR: { criminal: "Class A Misdemeanor", jail: "Up to 364 days", fine: "Up to $6,250", restitution: "Mandatory", max: "Class C felony", link: "https://www.oregonlegislature.gov" },
+        CA: { criminal: "Misdemeanor/Felony", jail: "Up to 1 year", fine: "$1,000-$10,000", restitution: "Victim compensation", max: "Aggravated: Felony", link: "https://leginfo.legislature.ca.gov" },
+        NV: { criminal: "Misdemeanor", jail: "Up to 6 months", fine: "Up to $1,000", restitution: "Possible", max: "Category C felony", link: "https://www.leg.state.nv.us" },
+        AZ: { criminal: "Class 1 Misdemeanor", jail: "Up to 6 months", fine: "Up to $2,500", restitution: "Mandatory", max: "Class 6 felony", link: "https://www.azleg.gov" },
+        UT: { criminal: "Class B Misdemeanor", jail: "Up to 6 months", fine: "Up to $1,000", restitution: "Required", max: "Class A misdemeanor", link: "https://le.utah.gov" },
+        CO: { criminal: "Class 3 Misdemeanor", jail: "Up to 6 months", fine: "Up to $750", restitution: "Possible", max: "Class 2 for threats", link: "https://leg.colorado.gov" },
+        NM: { criminal: "Misdemeanor", jail: "Up to 364 days", fine: "Up to $1,000", restitution: "Mandatory", max: "4th degree felony", link: "https://www.nmlegis.gov" },
+        ND: { criminal: "Class B Misdemeanor", jail: "Up to 30 days", fine: "Up to $1,500", restitution: "Victim compensation", max: "Class A misdemeanor", link: "https://www.legis.nd.gov" },
+        SD: { criminal: "Class 1 Misdemeanor", jail: "Up to 1 year", fine: "Up to $2,000", restitution: "Required", max: "Class 6 felony", link: "https://sdlegislature.gov" },
+        NE: { criminal: "Class I Misdemeanor", jail: "Up to 1 year", fine: "Up to $1,000", restitution: "Possible", max: "Class IV felony", link: "https://nebraskalegislature.gov" },
+        KS: { criminal: "Class B Misdemeanor", jail: "Up to 6 months", fine: "Up to $1,000", restitution: "Mandatory", max: "Severity level 9", link: "http://www.kslegislature.org" },
+        OK: { criminal: "Misdemeanor", jail: "Up to 1 year", fine: "Up to $500", restitution: "Victim compensation", max: "Felony for stalking", link: "https://oklegislature.gov" },
+        TX: { criminal: "Class B Misdemeanor", jail: "Up to 180 days", fine: "Up to $2,000", restitution: "Required", max: "3rd degree felony", link: "https://statutes.capitol.texas.gov" },
+        MN: { criminal: "Misdemeanor", jail: "Up to 90 days", fine: "Up to $1,000", restitution: "Possible", max: "Gross misdemeanor", link: "https://www.revisor.mn.gov" },
+        IA: { criminal: "Simple Misdemeanor", jail: "Up to 30 days", fine: "Up to $855", restitution: "Mandatory", max: "Aggravated misdemeanor", link: "https://www.legis.iowa.gov" },
+        MO: { criminal: "Class A Misdemeanor", jail: "Up to 1 year", fine: "Up to $2,000", restitution: "Required", max: "Class E felony", link: "https://house.mo.gov" },
+        AR: { criminal: "Class A Misdemeanor", jail: "Up to 1 year", fine: "Up to $2,500", restitution: "Victim compensation", max: "Class D felony", link: "https://www.arkleg.state.ar.us" },
+        LA: { criminal: "Misdemeanor", jail: "Up to 6 months", fine: "Up to $500", restitution: "Possible", max: "Felony for stalking", link: "https://legis.la.gov" },
+        WI: { criminal: "Class A Misdemeanor", jail: "Up to 9 months", fine: "Up to $10,000", restitution: "Required", max: "Class I felony", link: "https://docs.legis.wisconsin.gov" },
+        IL: { criminal: "Class 4 Felony", jail: "1-3 years", fine: "Up to $25,000", restitution: "Full restitution", max: "Aggravated: Class 3", link: "https://www.ilga.gov" },
+        MI: { criminal: "Misdemeanor", jail: "Up to 93 days", fine: "Up to $500", restitution: "Full restitution", max: "Felony for stalking", link: "https://www.legislature.mi.gov" },
+        IN: { criminal: "Class B Misdemeanor", jail: "Up to 180 days", fine: "Up to $1,000", restitution: "Mandatory", max: "Level 6 felony", link: "https://iga.in.gov" },
+        OH: { criminal: "Minor Misdemeanor", jail: "No jail", fine: "Up to $150", restitution: "Up to $5,000", max: "M1 if minor", link: "https://codes.ohio.gov" },
+        KY: { criminal: "Class A Misdemeanor", jail: "Up to 1 year", fine: "Up to $500", restitution: "Possible", max: "Class D felony", link: "https://legislature.ky.gov" },
+        TN: { criminal: "Class A Misdemeanor", jail: "Up to 11 months", fine: "Up to $2,500", restitution: "Required", max: "Class E felony", link: "https://www.capitol.tn.gov" },
+        AL: { criminal: "Class A Misdemeanor", jail: "Up to 1 year", fine: "Up to $6,000", restitution: "Mandatory", max: "Class C felony", link: "https://legislature.al.gov" },
+        MS: { criminal: "Misdemeanor", jail: "Up to 6 months", fine: "Up to $500", restitution: "Victim compensation", max: "Felony for threats", link: "http://billstatus.ls.state.ms.us" },
+        GA: { criminal: "Misdemeanor", jail: "Up to 12 months", fine: "Up to $1,000", restitution: "Possible", max: "Felony for 2nd+", link: "https://www.legis.ga.gov" },
+        FL: { criminal: "1st Degree Misdemeanor", jail: "Up to 1 year", fine: "Up to $1,000", restitution: "Mandatory", max: "Felony for stalking", link: "https://www.flsenate.gov" },
+        PA: { criminal: "Summary Offense", jail: "Up to 90 days", fine: "Up to $300", restitution: "Possible", max: "3rd degree if minor", link: "https://www.legis.state.pa.us" },
+        NY: { criminal: "Aggravated Harassment", jail: "Up to 1 year", fine: "Up to $1,000", restitution: "Possible", max: "Class E felony", link: "https://www.nysenate.gov" },
+        MA: { criminal: "Misdemeanor", jail: "Up to 2.5 years", fine: "Up to $1,000", restitution: "Up to $5,000", max: "Felony for stalking", link: "https://malegislature.gov" },
+        NJ: { criminal: "4th Degree Crime", jail: "Up to 18 months", fine: "Up to $10,000", restitution: "Mandatory", max: "3rd degree crime", link: "https://www.njleg.state.nj.us" },
+        VA: { criminal: "Class 1 Misdemeanor", jail: "Up to 12 months", fine: "Up to $2,500", restitution: "Full restitution", max: "Class 6 felony", link: "https://law.lis.virginia.gov" },
+        NC: { criminal: "Class 2 Misdemeanor", jail: "Up to 60 days", fine: "Up to $1,000", restitution: "Victim compensation", max: "Class 1 for threats", link: "https://www.ncleg.gov" },
+        SC: { criminal: "Misdemeanor", jail: "Up to 1 year", fine: "Up to $1,000", restitution: "Possible", max: "Felony for stalking", link: "https://www.scstatehouse.gov" }
+      };
+
+      const stateNames = {
+        WA:"Washington", OR:"Oregon", CA:"California", NV:"Nevada", AZ:"Arizona", UT:"Utah", CO:"Colorado", NM:"New Mexico",
+        ND:"North Dakota", SD:"South Dakota", NE:"Nebraska", KS:"Kansas", OK:"Oklahoma", TX:"Texas", MN:"Minnesota", IA:"Iowa",
+        MO:"Missouri", AR:"Arkansas", LA:"Louisiana", WI:"Wisconsin", IL:"Illinois", MI:"Michigan", IN:"Indiana", OH:"Ohio",
+        KY:"Kentucky", TN:"Tennessee", AL:"Alabama", MS:"Mississippi", GA:"Georgia", FL:"Florida", PA:"Pennsylvania", NY:"New York",
+        MA:"Massachusetts", NJ:"New Jersey", VA:"Virginia", NC:"North Carolina", SC:"South Carolina"
+      };
+
+      let currentlySelectedMarker = null;
+
+      function hideCard() {
+        infoCard.classList.add('hidden');
       }
 
-      window.scrollTo(0, 0);
-      
-      // === 마우스 효과 코드 시작 ===
+      function showCardForMarker(marker) {
+        const stateCode = marker.dataset.state;
+        const data = penaltyDB[stateCode] || { criminal: "N/A", jail: "N/A", fine: "N/A", restitution: "N/A", max: "varies", link: "#" };
+        
+        cardState.innerText = `${stateCode} · ${stateNames[stateCode] || ''}`;
+        cardCriminal.innerText = data.criminal;
+        cardJail.innerText = data.jail;
+        cardFine.innerText = data.fine;
+        cardRestitution.innerText = data.restitution;
+        cardMax.innerText = data.max;
+        cardLink.href = data.link;
+
+        const mapBack = marker.closest('.map-background');
+        let left = marker.offsetLeft + (marker.offsetWidth / 2);
+        let top = marker.offsetTop - 25;
+        
+        infoCard.style.left = left + 'px';
+        infoCard.style.top = top + 'px';
+        infoCard.classList.remove('hidden');
+      }
+
+      function deselectAll() {
+        markers.forEach(m => m.classList.remove('selected'));
+      }
+
+      markers.forEach(marker => {
+        marker.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (currentlySelectedMarker === marker) {
+            deselectAll();
+            hideCard();
+            currentlySelectedMarker = null;
+          } else {
+            deselectAll();
+            marker.classList.add('selected');
+            showCardForMarker(marker);
+            currentlySelectedMarker = marker;
+          }
+        });
+      });
+    }
+
+    // 마우스 효과
+    (function() {
       const container = document.querySelector(".container");
       const circle = document.querySelector(".circle");
       
@@ -2242,8 +2569,17 @@
           }
         });
       }
-      // === 마우스 효과 코드 끝 ===
+    })();
 
+    // 메인 애플리케이션
+    (function () {
+      const logo = document.getElementById('logo');
+      if (logo) {
+        logo.addEventListener('click', goToFirstPage);
+      }
+
+      window.scrollTo(0, 0);
+      
       if (typeof gsap !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
         
@@ -2260,6 +2596,7 @@
           startSection0Animation();
           initScrollTriggers();
           setupNavigationButtons();
+          initMapInteractions();
 
           setTimeout(() => {
             ScrollTrigger.refresh();
