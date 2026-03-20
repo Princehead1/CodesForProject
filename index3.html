@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thread - Page 3</title>
+  <title>Thread - Page 3 (refined sections & mockup)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -36,50 +36,10 @@
       border-radius: 4px;
     }
 
-    /* 다음 페이지 이동 버튼 */
-    #next-page-btn {
+    /* 이전/다음 페이지 이동 버튼 */
+    #prev-page-btn, #next-page-btn {
       position: fixed;
       bottom: 30px;
-      right: 30px;
-      background: linear-gradient(135deg, #ff6b6b, #ff5252);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 16px 40px;
-      font-size: 1.3rem;
-      font-family: "Urbanist", Arial, sans-serif;
-      font-weight: 700;
-      cursor: pointer;
-      z-index: 100;
-      opacity: 0;
-      transform: translateY(30px) scale(0.9);
-      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
-      letter-spacing: 1px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-    }
-
-    #next-page-btn.show {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    #next-page-btn:hover {
-      background: linear-gradient(135deg, #ff5252, #ff3333);
-      transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
-      border-color: rgba(255, 255, 255, 0.4);
-    }
-
-    #next-page-btn:active {
-      transform: translateY(-2px) scale(1.02);
-    }
-
-    /* 이전 페이지 이동 버튼 */
-    #prev-page-btn {
-      position: fixed;
-      bottom: 30px;
-      left: 30px;
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(10px);
       color: white;
@@ -97,21 +57,18 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       letter-spacing: 1px;
     }
+    #prev-page-btn { left: 30px; }
 
-    #prev-page-btn.show {
+    #prev-page-btn.show, #next-page-btn.show {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
 
-    #prev-page-btn:hover {
+    #prev-page-btn:hover, #next-page-btn:hover {
       background: rgba(255, 255, 255, 0.25);
       border-color: rgba(255, 255, 255, 0.6);
       transform: translateY(-5px) scale(1.05);
       box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-    }
-
-    #prev-page-btn:active {
-      transform: translateY(-2px) scale(1.02);
     }
 
     /* 컨테이너 및 공통 요소 */
@@ -121,7 +78,7 @@
       opacity: 1;
     }
 
-    /* 배경 레이어 - 가장 아래 */
+    /* 배경 레이어 */
     .background-layer {
       position: fixed;
       top: 0;
@@ -141,7 +98,7 @@
       transform: none !important;
     }
 
-    /* 로고 스타일 - 가장 위에 */
+    /* 로고 레이어 */
     .logo-layer {
       position: fixed;
       top: 80px;
@@ -179,11 +136,11 @@
       padding-bottom: 150px;
     }
 
-    /* 모든 섹션에 일관된 간격 적용 */
+    /* ----- 모든 섹션 기본 스타일 (개별 재정의 전) ----- */
     .scroll-section {
       min-height: 100vh;
       display: flex;
-      opacity: 0;
+      opacity: 0;  /* GSAP로 제어 */
       transform: translateY(100px);
       will-change: opacity, transform;
       align-items: center;
@@ -199,200 +156,30 @@
       box-sizing: border-box;
     }
 
-    /* 섹션 15-18을 위한 새로운 레이아웃 클래스 */
-    .section-left .content-wrapper {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 30px;
-    }
-
-    .section-left .image-container {
-      width: 100%;
-      display: flex;
-      justify-content: flex-start;
-    }
-
-    .section-left .text-content {
-      width: 100%;
-      text-align: left;
-    }
-
-    .section-left .external-link-container {
-      width: 100%;
-      text-align: left;
-      margin-top: 10px;
-    }
-
-    .section-right .content-wrapper {
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 30px;
-    }
-
-    .section-right .image-container {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .section-right .text-content {
-      width: 100%;
-      text-align: right;
-    }
-
-    .section-right .external-link-container {
-      width: 100%;
-      text-align: right;
-      margin-top: 10px;
-    }
-
-    .section-center .content-wrapper {
-      flex-direction: column;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .section-center .image-container {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-
-    .section-center .text-content {
-      width: 100%;
-      text-align: center; /* 기본은 중앙 정렬 */
-    }
-
-    .section-center .external-link-container {
-      width: 100%;
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    /* 외부 링크 이미지 스타일 */
-    .external-image {
-      max-width: 200px;
-      max-height: 60px;
-      object-fit: contain;
-      cursor: pointer;
-      transition: transform 0.3s ease, filter 0.3s ease;
-      filter: brightness(0.9);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 8px 16px;
-    }
-
-    .external-image:hover {
-      transform: scale(1.05);
-      filter: brightness(1.1);
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* 반응형 */
-    @media (max-width: 768px) {
-      .section-left .content-wrapper,
-      .section-right .content-wrapper,
-      .section-center .content-wrapper {
-        align-items: center !important;
-      }
-      
-      .section-left .image-container,
-      .section-right .image-container,
-      .section-center .image-container {
-        justify-content: center !important;
-      }
-      
-      .section-left .text-content,
-      .section-right .text-content,
-      .section-center .text-content {
-        text-align: center !important;
-      }
-      
-      .section-left .external-link-container,
-      .section-right .external-link-container,
-      .section-center .external-link-container {
-        text-align: center !important;
-      }
-      
-      .external-image {
-        max-width: 150px;
-        max-height: 50px;
-      }
-    }
-
-    .text-content {
-      flex: 1;
-    }
-
-    .image-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-      position: relative;
-    }
-
-    .font-bold {
-      font-weight: 700;
-    }
-
-    /* 동영상 스크롤 애니메이션 */
-    .scroll-video {
+    /* 텍스트/비디오 애니메이션 */
+    .scroll-video, .scroll-image {
       max-width: 100%;
       max-height: 70vh;
       object-fit: contain;
       transform: translateY(20px) scale(1.1);
       opacity: 0;
-      will-change: transform, opacity, filter;
       filter: blur(2px);
       transition: all 0.6s ease-out;
     }
-
-    /* 이미지 스크롤 애니메이션 */
-    .scroll-image {
-      max-width: 100%;
-      max-height: 70vh;
-      object-fit: contain;
-      transform: translateY(20px) scale(1.1);
-      opacity: 0;
-      will-change: transform, opacity, filter;
-      filter: blur(2px);
-      transition: all 0.6s ease-out;
-    }
-
-    /* 텍스트 스크롤 애니메이션 */
     .scroll-text {
       font-size: clamp(1.3rem, 3.5vw, 2.0rem);
       line-height: 1.6;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
       transform: translateY(20px) scale(0.95);
       opacity: 0;
       color: rgb(255, 251, 240);
-      will-change: transform, opacity;
+      filter: blur(2px);
       transition: all 0.6s ease-out;
       font-family: "Urbanist", Arial, sans-serif;
-      filter: blur(2px);
     }
+    .font-bold { font-weight:700; }
 
-    .line-space {
-      display: block;
-      margin-top: 30px;
-      line-height: 1.8;
-    }
-
-    .scroll-title {
-      font-size: clamp(2rem, 5vw, 3rem);
-      margin-bottom: 1.5rem;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      transform: translateY(20px) scale(0.95);
-      opacity: 0;
-      color: rgb(255, 251, 240);
-      will-change: transform, opacity;
-      transition: all 0.6s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
-      filter: blur(2px);
-    }
-
+    /* scroll indicator */
     .scroll-indicator {
       position: fixed;
       bottom: 30px;
@@ -407,39 +194,34 @@
       pointer-events: none;
       transition: opacity 0.5s ease;
     }
-
-    .scroll-indicator.hidden {
-      opacity: 0;
+    .scroll-indicator.hidden { opacity:0; }
+    @keyframes bounce {
+      0%,20%,50%,80%,100% { transform: translateY(0) translateX(-50%); }
+      40% { transform: translateY(-10px) translateX(-50%); }
+      60% { transform: translateY(-5px) translateX(-50%); }
     }
 
+    /* circle 효과 */
     .circle {
       position: absolute;
       width: var(--lens-size);
       height: var(--lens-size);
       background: url("images3/BG_Image_03.png") center center no-repeat fixed;
       background-size: cover;
-      mask-image: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 10%, rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.15) 30%, rgba(0, 0, 0, 0) 50%);
+      mask-image: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 10%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.15) 30%, rgba(0,0,0,0) 50%);
       transition: 2.0s;
       z-index: 0;
       pointer-events: none;
     }
-
     .fadeOut {
       animation: fadeOut 1.5s forwards;
     }
-
     @keyframes fadeOut {
       0% { opacity: 1; }
       100% { opacity: 0; }
     }
 
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-      40% { transform: translateY(-10px) translateX(-50%); }
-      60% { transform: translateY(-5px) translateX(-50%); }
-    }
-
-    /* 섹션0 스타일 */
+    /* 섹션0 고정 스타일 */
     #section0 {
       position: fixed;
       top: 0;
@@ -454,36 +236,26 @@
       margin-bottom: 100px;
       pointer-events: none;
     }
-
     #section0 .content-wrapper {
       flex-direction: column;
       align-items: center;
       text-align: center;
       position: relative;
     }
-
-    #section0 .scroll-title {
-      display: none;
-    }
-
     #section0 .intro-text {
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: clamp(1.5rem, 4vw, 2.5rem);
       color: rgb(255, 251, 240);
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-      font-family: "Urbanist", Arial, sans-serif;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
-
     #section0 .text-part {
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.8s ease-out;
-      font-family: "Urbanist", Arial, sans-serif;
       filter: blur(2px);
     }
-
     #section0 .separator {
       width: 2px;
       height: 60px;
@@ -495,37 +267,332 @@
       transition: all 0.5s ease-out;
       box-shadow: 0 0 15px rgba(255,255,255,0.5);
     }
+    #section0 .bold-text { font-weight:700; color:#ff6b6b; text-shadow:0 0 15px rgba(255,107,107,0.5); }
 
-    #section0 .bold-text {
-      font-weight: 700;
-      font-size: 1.2em;
+    /* ===== 휴대폰 목업 스타일 (통일) ===== */
+    .phone-mockup {
+      width: 320px;
+      height: 620px;
+      background: #000;
+      border-radius: 40px;
+      border: 3px solid #333;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .phone-mockup:hover { transform: scale(1.02); }
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: var(--phone-bg-color);
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 20px 15px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      scrollbar-width: thin;
+      scrollbar-color: #555 #1e1e1e;
+    }
+    .phone-screen::-webkit-scrollbar { width: 4px; }
+    .phone-screen::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
+
+    /* 프로그램 카드 (간결하고 임팩트 있게) */
+    .program-card {
+      background: rgba(20,20,20,0.95);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 20px 16px;
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s ease, border-color 0.2s;
       font-family: "Urbanist", Arial, sans-serif;
-      color: #ff6b6b;
-      text-shadow: 0 0 15px rgba(255,107,107,0.5);
+    }
+    .program-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,0.2);
     }
 
-    /* 페이지 하단 안내 메시지 */
-    .page-end-message {
+    .program-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .program-logo {
+      width: 44px;
+      height: 44px;
+      background: white;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #000;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    }
+    .program-logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    .program-name {
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #fff, #ddd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .program-tagline {
+      font-size: 0.9rem;
+      line-height: 1.4;
+      margin: 12px 0 14px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 500;
+      border-left: 3px solid var(--accent, #0095F6);
+      padding-left: 12px;
+    }
+    .program-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.12);
+      padding: 8px 16px;
+      border-radius: 40px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: 0.2s;
+      backdrop-filter: blur(5px);
+    }
+    .program-link:hover {
+      background: rgba(255,255,255,0.25);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .external-icon {
+      width: 16px;
+      height: 16px;
+      filter: invert(1);
+    }
+
+    .double-tap-hint {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
       text-align: center;
-      color: rgba(255, 251, 240, 0.5);
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 10px;
+      pointer-events: none;
+      z-index: 50;
+      font-family: "Urbanist", Arial, sans-serif;
+    }
+
+    /* ===== 개별 섹션 상세 레이아웃 ===== */
+    
+    /* 섹션1 - 동영상 중앙 */
+    #section1 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 섹션2 - 왼쪽 정렬 (section-left 클래스 사용) */
+    #section2.section-left .content-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    /* 섹션3 - 텍스트 중앙 */
+    #section3 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* 섹션4 - 목업 중앙 (section-center) */
+    #section4.section-center .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    /* 섹션 오른쪽 정렬을 위한 스타일 */
+    .section-right .content-wrapper {
+      justify-content: flex-end !important;
+    }
+
+    /* 섹션5 오른쪽 정렬 */
+    #section5 .content-wrapper {
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    /* 섹션6 */
+    #section6 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+    }
+    #section6 .text-content {
+      text-align: center;
+      order: 1;
+    }
+    #section6 .scroll-text {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+    }
+
+    /* 섹션7 - 동영상 + 논문 링크 (아이콘 + 단어) */
+    #section7 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    /* 섹션8 - 동영상 + 논문 링크 (세로 배치) */
+    #section8 .content-wrapper {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    /* 섹션9 - 텍스트 중앙 */
+    #section9 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* 섹션10 - 목업 중앙 정렬 */
+    #section10.section-center .content-wrapper {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    /* 새로 추가: 논문 링크 컨테이너 */
+    .paper-link-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      margin-top: 20px;
+      opacity: 0; /* GSAP으로 페이드인 */
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    .paper-icon-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      border: 1.5px solid rgba(255, 215, 100, 0.3);
+      border-radius: 60px;
+      padding: 14px 28px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
       font-size: 1.2rem;
-      margin-top: 100px;
-      padding: 40px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      letter-spacing: 0.5px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+      transition: 0.25s ease;
+      cursor: pointer;
+    }
+    .paper-icon-link:hover {
+      background: rgba(255, 215, 100, 0.15);
+      border-color: #FFD764;
+      transform: scale(1.03);
+      box-shadow: 0 16px 32px rgba(255, 215, 100, 0.2);
+    }
+    /* 논문 아이콘 (SVG 직접 제작, 톤앤매너 맞춤 - 고급스러운 페이퍼 느낌) */
+    .paper-icon {
+      width: 28px;
+      height: 28px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+    .paper-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: #FFD764;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .paper-text {
+      background: linear-gradient(135deg, #FFE9A7, #FFD764);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+    .translate-badge {
+      font-size: 0.75rem;
+      background: rgba(255,255,255,0.1);
+      padding: 4px 10px;
+      border-radius: 30px;
+      color: #ccc;
+      border: 1px solid rgba(255,215,100,0.3);
+      margin-left: 6px;
+    }
+
+    /* 섹션8~15 유지 */
+    #section10 .content-wrapper,
+    #section11 .content-wrapper,
+    #section12 .content-wrapper,
+    #section13 .content-wrapper,
+    #section14 .content-wrapper,
+    #section15 .content-wrapper {
+      justify-content: center;
+      align-items: center;
+    }
+
+    .external-image {
+      max-width: 200px;
+      max-height: 60px;
+      object-fit: contain;
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: brightness(0.9);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 16px;
+    }
+    .external-image:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .phone-mockup { width: 280px; height: 560px; }
+      #section13 .text-content { width: 90%; }
     }
   </style>
 </head>
 <body>
-  <!-- 이전/다음 페이지 이동 버튼 -->
+  <!-- 이전/다음 페이지 이동 버튼 (다음 버튼은 숨김 처리) -->
   <button id="prev-page-btn">← Previous Page</button>
-  <button id="next-page-btn">Next Page →</button>
 
   <div class="container">
-    <!-- 배경 레이어 (가장 아래) -->
+    <!-- 배경 레이어 -->
     <div class="background-layer">
       <video class="video-background" autoplay muted loop>
         <source src="images3/BG_Banner_Vid_04.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
       </video>
     </div>
 
@@ -542,248 +609,302 @@
       <!-- 섹션0 -->
       <div class="scroll-section" id="section0">
         <div class="content-wrapper">
-          <h2 class="scroll-title">3</h2>
           <div class="intro-text">
             <span class="text-part"><span class="bold-text">CYBERBULLYING</span></span>
             <span class="separator"></span>
-            <span class="text-part">Prevention & Resources</span>
+            <span class="text-part">How can we stop it?</span>
           </div>
         </div>
       </div>
 
       <div class="scroll-content">
-        <!-- 섹션1 - 동영상만 있는 섹션 -->
+        <!-- 섹션1 - 동영상만 -->
         <div class="scroll-section" id="section1">
           <div class="content-wrapper">
             <div class="image-container">
               <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/35.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
+                <source src="images3/31.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
         </div>
 
-        <!-- 섹션2 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section2">
+        <!-- 섹션2 - 동영상만 (왼쪽 정렬) -->
+        <div class="scroll-section section-left" id="section2">
           <div class="content-wrapper">
             <div class="image-container">
               <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/36.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
+                <source src="images3/32.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
         </div>
 
-        <!-- 섹션3 - 동영상만 있는 섹션 -->
+        <!-- 섹션3 - 텍스트 (반드시 보이도록) -->
         <div class="scroll-section" id="section3">
           <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/37.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+            <div class="text-content">
+              <p class="scroll-text">Let's explore the<br><span class="font-bold">educational approaches first.</span></p>
             </div>
           </div>
         </div>
 
-        <!-- 섹션4 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section4">
+        <!-- 섹션4 - 휴대폰 목업 (4개 프로그램, 로고 포함, 독일 제외) -->
+        <div class="scroll-section section-center" id="section4">
+          <div class="content-wrapper">
+            <div class="image-container">
+              <div class="phone-mockup" id="global-programs-mockup">
+                <div class="phone-screen">
+                  <!-- 핀란드 KiVa -->
+                  <div class="program-card" style="--accent: #003580;">
+                    <div class="program-header">
+                      <div class="program-logo"><img src="images3/kiva.png" alt="KiVa" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2220%22%20fill%3D%22%23003580%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20font-size%3D%2214%22%20fill%3D%22white%22%20text-anchor%3D%22middle%22%3EK%3C%2Ftext%3E%3C%2Fsvg%3E';"></div>
+                      <span class="program-name">KiVa</span>
+                    </div>
+                    <div class="program-tagline">Change the role of bystanders. Proven school program from Finland.</div>
+                    <a class="program-link" href="https://www.kivaprogram.net/" target="_blank" rel="noopener noreferrer">
+                      <span>kivaprogram.net</span>
+                      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3Cpath d='M5 5v14h14v-7h-2v5H7V7h5V5H5z'/%3E%3C/svg%3E" class="external-icon" alt="↗">
+                    </a>
+                  </div>
+
+                  <!-- 호주 eSafety -->
+                  <div class="program-card" style="--accent: #FF8200;">
+                    <div class="program-header">
+                      <div class="program-logo"><img src="images3/eSafety.png" alt="eSafety" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2220%22%20fill%3D%22%23FF8200%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20font-size%3D%2214%22%20fill%3D%22white%22%20text-anchor%3D%22middle%22%3EE%3C%2Ftext%3E%3C%2Fsvg%3E';"></div>
+                      <span class="program-name">eSafety</span>
+                    </div>
+                    <div class="program-tagline">Australian government: tailored resources for students, teachers, parents.</div>
+                    <a class="program-link" href="https://www.esafety.gov.au/" target="_blank" rel="noopener noreferrer">
+                      <span>esafety.gov.au</span>
+                      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3Cpath d='M5 5v14h14v-7h-2v5H7V7h5V5H5z'/%3E%3C/svg%3E" class="external-icon" alt="↗">
+                    </a>
+                  </div>
+
+                  <!-- 영국 ABA -->
+                  <div class="program-card" style="--accent: #C8102E;">
+                    <div class="program-header">
+                      <div class="program-logo"><img src="images3/aba.png" alt="ABA" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2220%22%20fill%3D%22%23C8102E%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20font-size%3D%2214%22%20fill%3D%22white%22%20text-anchor%3D%22middle%22%3EA%3C%2Ftext%3E%3C%2Fsvg%3E';"></div>
+                      <span class="program-name">Anti-Bullying Alliance</span>
+                    </div>
+                    <div class="program-tagline">Anti-Bullying Week, training & resources for schools and communities.</div>
+                    <a class="program-link" href="https://anti-bullyingalliance.org.uk/" target="_blank" rel="noopener noreferrer">
+                      <span>anti-bullyingalliance.org.uk</span>
+                      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3Cpath d='M5 5v14h14v-7h-2v5H7V7h5V5H5z'/%3E%3C/svg%3E" class="external-icon" alt="↗">
+                    </a>
+                  </div>
+
+                  <!-- 캐나다 PrevNet -->
+                  <div class="program-card" style="--accent: #D80621;">
+                    <div class="program-header">
+                      <div class="program-logo"><img src="images3/PrevNet.webp" alt="PrevNet" onerror="this.src='data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%220%200%2040%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2220%22%20fill%3D%22%23D80621%22%2F%3E%3Ctext%20x%3D%2220%22%20y%3D%2225%22%20font-size%3D%2214%22%20fill%3D%22white%22%20text-anchor%3D%22middle%22%3EP%3C%2Ftext%3E%3C%2Fsvg%3E';"></div>
+                      <span class="program-name">PrevNet</span>
+                    </div>
+                    <div class="program-tagline">Canada's network for youth bullying prevention — research, workshops, policy.</div>
+                    <a class="program-link" href="https://www.prevnet.ca/" target="_blank" rel="noopener noreferrer">
+                      <span>prevnet.ca</span>
+                      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3Cpath d='M5 5v14h14v-7h-2v5H7V7h5V5H5z'/%3E%3C/svg%3E" class="external-icon" alt="↗">
+                    </a>
+                  </div>
+                </div> <!-- phone-screen -->
+              </div> <!-- phone-mockup -->
+            </div> <!-- image-container -->
+          </div> <!-- content-wrapper -->
+        </div> <!-- section4 -->
+
+        <!-- 섹션5 --->
+        <div class="scroll-section section-right" id="section5">
           <div class="content-wrapper">
             <div class="image-container">
               <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/38.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
+                <source src="images3/33.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
         </div>
 
-        <!-- 섹션5 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section5">
-          <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/39.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
-
-        <!-- 섹션6 - 동영상만 있는 섹션 -->
+        <!-- 섹션6 -->
         <div class="scroll-section" id="section6">
           <div class="content-wrapper">
             <div class="image-container">
               <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/40.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
+                <source src="images3/34.mp4" type="video/mp4" />
               </video>
             </div>
           </div>
         </div>
 
-        <!-- 섹션7 - 동영상만 있는 섹션 -->
+        <!-- 섹션7 - 동영상 + 논문 링크 (아이콘 + "PAPER" 텍스트, 자동 영어 번역) -->
         <div class="scroll-section" id="section7">
           <div class="content-wrapper">
             <div class="image-container">
               <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/41.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
+                <source src="images3/35.mp4" type="video/mp4" />
               </video>
+            </div>
+            <!-- 추가: 논문 링크 (아이콘 + PAPER, 클릭 시 영어 번역 링크) -->
+            <div class="paper-link-wrapper" id="paperLinkWrapper">
+              <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE02393340&utm" 
+                 class="paper-icon-link" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 id="paperLink"
+                 onclick="return translatePaperLink(event)">
+                <span class="paper-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 4h16v16H4V4z" stroke="currentColor" fill="none"/>
+                    <path d="M8 8h8v2H8zM8 12h8v2H8zM8 16h5v2H8z" stroke="currentColor" fill="none"/>
+                  </svg>
+                </span>
+                <span class="paper-text">PAPER</span>
+                <span class="translate-badge">🌐 EN</span>
+              </a>
             </div>
           </div>
         </div>
 
-        <!-- 섹션8 - 동영상만 있는 섹션 -->
+        <!-- 섹션8 - 동영상 + 논문 링크 (아이콘 + "PAPER" 텍스트, 자동 영어 번역) -->
         <div class="scroll-section" id="section8">
           <div class="content-wrapper">
             <div class="image-container">
               <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/42.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
+                <source src="images3/36.mp4" type="video/mp4" />
               </video>
+            </div>
+            <!-- 추가: 논문 링크 (아이콘 + PAPER, 클릭 시 영어 번역 링크) -->
+            <div class="paper-link-wrapper" id="paperLinkWrapper2">
+              <a href="https://link.springer.com/chapter/10.1007/978-3-540-69132-7_56" 
+                class="paper-icon-link" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                id="paperLink2"
+                onclick="return translatePaperLink2(event)">
+                <span class="paper-icon">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M4 4h16v16H4V4z" stroke="currentColor" fill="none"/>
+                    <path d="M8 8h8v2H8zM8 12h8v2H8zM8 16h5v2H8z" stroke="currentColor" fill="none"/>
+                  </svg>
+                </span>
+                <span class="paper-text">PAPER</span>
+                <span class="translate-badge">🌐 EN</span>
+              </a>
             </div>
           </div>
         </div>
 
-        <!-- 섹션9 - 동영상만 있는 섹션 -->
+        <!-- 섹션9 - 텍스트 -->
         <div class="scroll-section" id="section9">
           <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/43.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+            <div class="text-content">
+              <p class="scroll-text">Therefore, we must move beyond<br>basic awareness and actively adopt more impactful,<br><span class="font-bold">evidence-based strategies for digital safety.</span></p>
             </div>
           </div>
         </div>
 
-        <!-- 섹션10 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section10">
+        <!-- 섹션10 - 교육 프로그램 목업 -->
+        <div class="scroll-section section-center" id="section10">
           <div class="content-wrapper">
             <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/44.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
+              <div class="phone-mockup" id="educational-programs-mockup">
+                <div class="phone-screen">
+                  <!-- Common Sense Media: 디지털 시민의식 교육 -->
+                  <div class="program-card" style="--accent: #00A4EF;">
+                    <div class="program-header">
+                      <div class="program-logo" style="background: #00A4EF;">
+                        <span style="color: white;">CS</span>
+                      </div>
+                      <span class="program-name">Common Sense Media</span>
+                    </div>
+                    <div class="program-tagline">Digital Citizenship & Cyberbullying Prevention</div>
+                    <div style="font-size: 0.85rem; margin-bottom: 12px; color: rgba(255,255,255,0.9);">
+                      <span style="display: block; margin-bottom: 8px;"><strong>Method:</strong> Real teen stories + role-playing scenarios</span>
+                      <span style="display: block; margin-bottom: 8px;"><strong>Approach:</strong> "What would you do if you were Stacey?"</span>
+                      <span style="display: block;"><strong>Curriculum:</strong> Grade-specific lessons from K-12</span>
+                    </div>
+                    <a class="program-link" href="https://www.commonsensemedia.org/" target="_blank" rel="noopener noreferrer">
+                      <span>commonsensemedia.org</span>
+                      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3Cpath d='M5 5v14h14v-7h-2v5H7V7h5V5H5z'/%3E%3C/svg%3E" class="external-icon" alt="↗">
+                    </a>
+                  </div>
 
-        <!-- 섹션11 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section11">
-          <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/45.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
+                  <!-- BACPAC (Boston Children's Hospital) - 임상적 접근 -->
+                  <div class="program-card" style="--accent: #E31B23;">
+                    <div class="program-header">
+                      <div class="program-logo" style="background: #E31B23;">
+                        <span style="color: white;">BCH</span>
+                      </div>
+                      <span class="program-name">BACPAC</span>
+                    </div>
+                    <div class="program-tagline">Boston Children's Hospital</div>
+                    <div style="font-size: 0.85rem; margin-bottom: 12px; color: rgba(255,255,255,0.9);">
+                      <span style="display: block; margin-bottom: 8px;"><strong>Method:</strong> Evidence-based clinical intervention</span>
+                      <span style="display: block; margin-bottom: 8px;"><strong>Tools:</strong> School advocacy network + friendship building</span>
+                      <span style="display: block;"><strong>Expertise:</strong> Pediatric neurologists + social workers + educators</span>
+                      <span style="display: block; margin-top: 6px; font-style: italic; color: #FFD764;">"First clinic of its kind nationwide"</span>
+                    </div>
+                    <a class="program-link" href="https://www.childrenshospital.org/services/bullying-cyberbullying-prevention-bacpac" target="_blank" rel="noopener noreferrer">
+                      <span>childrenshospital.org/bacpac</span>
+                      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3Cpath d='M5 5v14h14v-7h-2v5H7V7h5V5H5z'/%3E%3C/svg%3E" class="external-icon" alt="↗">
+                    </a>
+                  </div>
 
-        <!-- 섹션12 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section12">
-          <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/46.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
+                  <!-- Cyberguard (Syracuse University) - 데이터 기반 모델 -->
+                  <div class="program-card" style="--accent: #F76900;">
+                    <div class="program-header">
+                      <div class="program-logo" style="background: #F76900;">
+                        <span style="color: white;">SU</span>
+                      </div>
+                      <span class="program-name">Cyberguard</span>
+                    </div>
+                    <div class="program-tagline">Syracuse University</div>
+                    <div style="font-size: 0.85rem; margin-bottom: 12px; color: rgba(255,255,255,0.9);">
+                      <span style="display: block; margin-bottom: 8px;"><strong>Method:</strong> Data-driven + AI monitoring systems</span>
+                      <span style="display: block; margin-bottom: 8px;"><strong>Approach:</strong> Positive feedback loop: awareness → identification → prevention</span>
+                      <span style="display: block;"><strong>Innovation:</strong> Quarterly evaluations + reporting culture</span>
+                      <span style="display: block; margin-top: 6px;"><strong>Target:</strong> 46% of US teens affected (Pew Research 2022)</span>
+                    </div>
+                    <a class="program-link" href="https://soe.syr.edu/guarding-against-cyberbullies/" target="_blank" rel="noopener noreferrer">
+                      <span>soe.syr.edu/cyberguard</span>
+                      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3Cpath d='M5 5v14h14v-7h-2v5H7V7h5V5H5z'/%3E%3C/svg%3E" class="external-icon" alt="↗">
+                    </a>
+                  </div>
+                </div> <!-- phone-screen -->
+              </div> <!-- phone-mockup -->
+            </div> <!-- image-container -->
+          </div> <!-- content-wrapper -->
+        </div> <!-- section10 -->
 
-        <!-- 섹션13 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section13">
-          <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/47.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
 
-        <!-- 섹션14 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section14">
-          <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/48.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
+        <!-- 섹션8~15 (유지, 예시로 간단히 표시) -->
+        <div class="scroll-section" id="section11"><div class="content-wrapper"><div class="image-container"><video class="scroll-video" autoplay muted loop playsinline><source src="images3/45.mp4" type="video/mp4" /></video></div></div></div>
+        <div class="scroll-section" id="section12"><div class="content-wrapper"><div class="image-container"><video class="scroll-video" autoplay muted loop playsinline><source src="images3/46.mp4" type="video/mp4" /></video></div></div></div>
+        <div class="scroll-section" id="section13"><div class="content-wrapper"><div class="image-container"><video class="scroll-video" autoplay muted loop playsinline><source src="images3/47.mp4" type="video/mp4" /></video></div></div></div>
+        <div class="scroll-section" id="section14"><div class="content-wrapper"><div class="image-container"><video class="scroll-video" autoplay muted loop playsinline><source src="images3/48.mp4" type="video/mp4" /></video></div></div></div>
+        <div class="scroll-section" id="section15"><div class="content-wrapper"><div class="image-container"><video class="scroll-video" autoplay muted loop playsinline><source src="images3/49.mp4" type="video/mp4" /></video></div></div></div>
 
-        <!-- 섹션15 - 동영상만 있는 섹션 -->
-        <div class="scroll-section" id="section15">
-          <div class="content-wrapper">
-            <div class="image-container">
-              <video class="scroll-video" autoplay muted loop playsinline>
-                <source src="images3/49.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
-        </div>
-
-        <!-- 페이지 하단 안내 메시지 -->
-        <div class="page-end-message">Thank you for watching · End of series</div>
-      </div>
-    </div>
+      </div> <!-- scroll-content -->
+    </div> <!-- content-layer -->
 
     <div class="scroll-indicator">Scroll Down</div>
-  </div>
+  </div> <!-- container -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/ScrollTrigger.min.js"></script>
 
   <script>
     // 페이지 이동 함수
-    function goToNextPage() {
-      window.location.href = "index4.html";
-    }
+    function goToPrevPage() { window.location.href = "index2.html"; }
+    function goToFirstPage() { window.location.href = "index.html"; }
 
-    function goToPrevPage() {
-      window.location.href = "index.html";
-    }
-
-    function goToFirstPage() {
-      window.location.href = "index.html";
-    }
-
-    // 다음/이전 페이지 버튼 설정
+    // 네비게이션 버튼 표시 (다음 버튼은 없지만 prev 유지)
     function setupNavigationButtons() {
-      const nextPageBtn = document.getElementById('next-page-btn');
       const prevPageBtn = document.getElementById('prev-page-btn');
       const scrollIndicator = document.querySelector('.scroll-indicator');
-
       window.addEventListener('scroll', function() {
         const scrollPosition = window.scrollY;
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
-
-        if (documentHeight - (scrollPosition + windowHeight) < 200) {
-          nextPageBtn.classList.add('show');
-          if (scrollIndicator) scrollIndicator.classList.add('hidden');
-        } else {
-          nextPageBtn.classList.remove('show');
-          if (scrollIndicator) scrollIndicator.classList.remove('hidden');
-        }
-
-        if (scrollPosition > 100) {
-          prevPageBtn.classList.add('show');
-        } else {
-          prevPageBtn.classList.remove('show');
-        }
+        if (scrollPosition > 100) prevPageBtn.classList.add('show');
+        else prevPageBtn.classList.remove('show');
       });
-
-      nextPageBtn.addEventListener('click', goToNextPage);
       prevPageBtn.addEventListener('click', goToPrevPage);
     }
 
@@ -791,63 +912,30 @@
     function startSection0Animation() {
       const separator = document.querySelector('#section0 .separator');
       const textParts = document.querySelectorAll('#section0 .text-part');
-
       if (separator) {
-        gsap.to(separator, {
-          opacity: 1,
-          scaleY: 1,
-          duration: 0.8,
-          delay: 0.5,
-          ease: "power2.out"
-        });
+        gsap.to(separator, { opacity:1, scaleY:1, duration:0.8, delay:0.5, ease:"power2.out" });
       }
-
       if (textParts.length > 0) {
-        gsap.to(textParts[0], {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0)",
-          duration: 1,
-          delay: 0.8,
-          ease: "power2.out"
-        });
-
+        gsap.to(textParts[0], { opacity:1, y:0, filter:"blur(0)", duration:1, delay:0.8, ease:"power2.out" });
         if (textParts.length > 1) {
-          gsap.to(textParts[1], {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0)",
-            duration: 1,
-            delay: 1.2,
-            ease: "power2.out"
-          });
+          gsap.to(textParts[1], { opacity:1, y:0, filter:"blur(0)", duration:1, delay:1.2, ease:"power2.out" });
         }
       }
     }
 
-    // ScrollTrigger 초기화
+    // ScrollTrigger 초기화 (섹션3 포함 + 논문 링크 wrapper)
     function initScrollTriggers() {
-      // 섹션0 페이드 아웃
       gsap.to("#section0", {
-        opacity: 0,
-        duration: 1.5,
-        scrollTrigger: {
-          trigger: "#section1",
-          start: "top 80%",
-          end: "top 20%",
-          toggleActions: "play none none reverse",
-          scrub: 0.8
-        }
+        opacity:0, duration:1.5,
+        scrollTrigger: { trigger:"#section1", start:"top 80%", end:"top 20%", toggleActions:"play none none reverse", scrub:0.8 }
       });
 
-      // 모든 섹션 페이드 인
       gsap.utils.toArray(".scroll-section").forEach(section => {
         if (section.id === "section0") return;
 
+        // 섹션 자체 페이드 인
         gsap.to(section, {
-          opacity: 1,
-          y: 0,
-          duration: 1.5,
+          opacity:1, y:0, duration:1.5,
           scrollTrigger: {
             trigger: section,
             start: "top bottom",
@@ -857,24 +945,59 @@
           }
         });
 
-        // 비디오 애니메이션
+        // 내부 비디오/텍스트 애니메이션
         const video = section.querySelector(".scroll-video");
         if (video) {
           gsap.to(video, {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            filter: "blur(0)",
-            duration: 1.8,
-            delay: 0.7,
-            scrollTrigger: {
-              trigger: section,
-              start: "top 75%",
-              end: "top 40%",
-              scrub: 0.6
-            }
+            y:0, opacity:1, scale:1, filter:"blur(0)", duration:1.8, delay:0.7,
+            scrollTrigger: { trigger:section, start:"top 75%", end:"top 40%", scrub:0.6 }
           });
         }
+        const text = section.querySelector(".scroll-text");
+        if (text) {
+          gsap.to(text, {
+            y:0, opacity:1, scale:1, filter:"blur(0)", duration:1.5, delay:0.5,
+            scrollTrigger: { trigger:section, start:"top 80%", end:"top 40%", scrub:0.5 }
+          });
+        }
+      });
+
+      // 논문 링크 wrapper 별도 애니메이션 (섹션7 내부)
+      const paperWrapper = document.getElementById('paperLinkWrapper');
+      if (paperWrapper) {
+        gsap.to(paperWrapper, {
+          y:0, opacity:1, duration:1.2, delay:0.9,
+          scrollTrigger: { trigger:"#section7", start:"top 70%", end:"top 40%", scrub:0.6 }
+        });
+      }
+    }
+
+    // 논문 링크 영어 번역 (구글 번경)
+    function translatePaperLink(event) {
+      event.preventDefault(); // 기본 링크 차단
+      const originalUrl = "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE02393340&utm";
+      // 구글 번역: en -> 영어 (자동 감지 후 영어로)
+      const translateUrl = "https://translate.google.com/translate?sl=auto&tl=en&u=" + encodeURIComponent(originalUrl);
+      window.open(translateUrl, '_blank', 'noopener,noreferrer');
+      return false;
+    }
+
+    // 두 번째 논문 링크 영어 번역 (구글 번역)
+    function translatePaperLink2(event) {
+      event.preventDefault(); // 기본 링크 차단
+      const originalUrl = "https://link.springer.com/chapter/10.1007/978-3-540-69132-7_56";
+      // 구글 번역: en -> 영어 (자동 감지 후 영어로)
+      const translateUrl = "https://translate.google.com/translate?sl=auto&tl=en&u=" + encodeURIComponent(originalUrl);
+      window.open(translateUrl, '_blank', 'noopener,noreferrer');
+      return false;
+    }
+
+    // 두 번째 논문 링크 wrapper 별도 애니메이션 (섹션8 내부)
+    const paperWrapper2 = document.getElementById('paperLinkWrapper2');
+    if (paperWrapper2) {
+      gsap.to(paperWrapper2, {
+        y:0, opacity:1, duration:1.2, delay:0.9,
+        scrollTrigger: { trigger:"#section8", start:"top 70%", end:"top 40%", scrub:0.6 }
       });
     }
 
@@ -882,14 +1005,11 @@
     (function() {
       const container = document.querySelector(".container");
       const circle = document.querySelector(".circle");
-      
       if (circle) {
         let circleHalf = circle.offsetWidth / 2;
-
         document.addEventListener("mousemove", function (e) {
           const randomSize = 100 + Math.random() * 400;
           const randomCircleHalf = randomSize / 3;
-
           let c = circle.cloneNode(true);
           c.style.width = randomSize + "px";
           c.style.height = randomSize + "px";
@@ -901,40 +1021,26 @@
           c.addEventListener("animationend", e => e.target.remove());
           container.appendChild(c);
         });
-
         window.addEventListener("resize", () => {
           circleHalf = circle.offsetWidth / 2;
-          if (ScrollTrigger.getAll) {
-            ScrollTrigger.refresh();
-          }
+          if (ScrollTrigger.getAll) ScrollTrigger.refresh();
         });
       }
     })();
 
-    // 메인 실행
-    (function () {
+    // 실행
+    (function() {
       const logo = document.getElementById('logo');
-      if (logo) {
-        logo.addEventListener('click', goToFirstPage);
-      }
-
-      window.scrollTo(0, 0);
-      
+      if (logo) logo.addEventListener('click', goToFirstPage);
+      window.scrollTo(0,0);
       if (typeof gsap !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
-        
         window.addEventListener("load", () => {
-          if (ScrollTrigger.getAll) {
-            ScrollTrigger.refresh();
-          }
-          
+          if (ScrollTrigger.getAll) ScrollTrigger.refresh();
           startSection0Animation();
           initScrollTriggers();
           setupNavigationButtons();
-
-          setTimeout(() => {
-            ScrollTrigger.refresh();
-          }, 500);
+          setTimeout(() => { ScrollTrigger.refresh(); }, 500);
         });
       }
     })();
