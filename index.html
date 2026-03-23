@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
   <title>StoryofEmily</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +17,10 @@
       --phone-bg-color: linear-gradient(135deg, #121212, #1E1E1E, #262626);
     }
 
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
     html, body {
       margin: 0;
       padding: 0;
@@ -24,6 +28,7 @@
       scroll-behavior: smooth;
       background-color: black;
       font-family: "Urbanist", Arial, sans-serif;
+      -webkit-text-size-adjust: 100%;
     }
 
     body::-webkit-scrollbar {
@@ -224,17 +229,12 @@
       min-width: 240px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
       white-space: nowrap;
+      touch-action: manipulation;
     }
 
     .continue-btn {
       background: linear-gradient(135deg, #ff4d4d, #ff3333);
       color: white;
-    }
-
-    .continue-btn:hover {
-      background: linear-gradient(135deg, #ff3333, #ff1a1a);
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(255, 77, 77, 0.5);
     }
 
     .continue-btn:active {
@@ -248,27 +248,14 @@
       backdrop-filter: blur(10px);
     }
 
-    .exit-btn:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-      border-color: white;
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25);
-    }
-
     .exit-btn:active {
       transform: translateY(-1px);
     }
 
     @keyframes pulse {
-      0% {
-        text-shadow: 0 5px 25px rgba(255, 77, 77, 0.7);
-      }
-      50% {
-        text-shadow: 0 5px 35px rgba(255, 77, 77, 0.9);
-      }
-      100% {
-        text-shadow: 0 5px 25px rgba(255, 77, 77, 0.7);
-      }
+      0% { text-shadow: 0 5px 25px rgba(255, 77, 77, 0.7); }
+      50% { text-shadow: 0 5px 35px rgba(255, 77, 77, 0.9); }
+      100% { text-shadow: 0 5px 25px rgba(255, 77, 77, 0.7); }
     }
 
     .pulse-effect {
@@ -367,6 +354,7 @@
       transform: translateY(20px);
       transition: all 0.5s ease;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      touch-action: manipulation;
     }
 
     #next-page-btn.show {
@@ -374,8 +362,7 @@
       transform: translateY(0);
     }
 
-    #next-page-btn:hover {
-      background-color: #ff5252;
+    #next-page-btn:active {
       transform: translateY(-2px);
     }
 
@@ -446,10 +433,13 @@
       margin: 0 auto;
       padding: 20px;
       box-sizing: border-box;
+      gap: 40px;
+      flex-wrap: wrap;
     }
 
     .text-content {
       flex: 1;
+      min-width: 250px;
     }
 
     .image-container {
@@ -458,6 +448,7 @@
       align-items: center;
       flex: 1;
       position: relative;
+      min-width: 250px;
     }
 
     .font-bold {
@@ -546,10 +537,11 @@
       height: auto;
       cursor: pointer;
       transition: transform 0.3s;
+      touch-action: manipulation;
     }
 
-    .logo:hover {
-      transform: scale(1.05);
+    .logo:active {
+      transform: scale(0.98);
     }
 
     #section0 {
@@ -585,6 +577,7 @@
       color: rgb(255, 251, 240);
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
       font-family: "Urbanist", Arial, sans-serif;
+      flex-wrap: wrap;
     }
 
     #section0 .text-part {
@@ -621,6 +614,132 @@
         width: 60px;
         height: 2px;
         margin: 10px 0;
+      }
+    }
+
+    /* 모바일 최적화 */
+    @media (max-width: 768px) {
+      .content-wrapper {
+        flex-direction: column !important;
+        text-align: center;
+        gap: 30px;
+      }
+
+      .text-content, .image-container {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .logo {
+        width: 90px;
+        top: 20px;
+        left: 20px;
+      }
+
+      .phone-mockup {
+        width: 280px;
+        height: 560px;
+        margin: 0 auto;
+      }
+
+      .phone-mode-instruction {
+        font-size: 1.2rem;
+        padding: 0 20px;
+      }
+
+      .default-message {
+        font-size: 16px;
+        padding: 40px 20px;
+      }
+
+      .message-notification {
+        width: 250px;
+        right: 10px;
+        bottom: 10px;
+      }
+
+      .rate-btn {
+        width: 80px;
+        height: 80px;
+        font-size: 35px;
+      }
+
+      .rating-buttons-overlay {
+        gap: 40px;
+        bottom: 70px;
+      }
+
+      .reaction {
+        font-size: 90px;
+      }
+
+      #next-page-btn {
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 24px;
+        font-size: 1rem;
+      }
+
+      .hot-or-not-title {
+        font-size: 20px;
+      }
+
+      .title-background {
+        top: 30px;
+        padding: 12px 25px;
+        min-width: 240px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .rate-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+      }
+
+      .rating-buttons-overlay {
+        gap: 35px;
+        bottom: 60px;
+      }
+
+      .reaction {
+        font-size: 70px;
+      }
+
+      .title-background {
+        padding: 10px 20px;
+        min-width: 200px;
+      }
+
+      .hot-or-not-title {
+        font-size: 18px;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .content-wrapper {
+        gap: 30px;
+      }
+      
+      .phone-mockup {
+        width: 320px;
+        height: 640px;
+      }
+      
+      .scroll-text {
+        font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+      }
+    }
+
+    @media (min-width: 1025px) {
+      .content-wrapper {
+        gap: 60px;
+      }
+      
+      .phone-mockup {
+        width: 380px;
+        height: 760px;
       }
     }
 
@@ -716,10 +835,11 @@
       transition: transform 0.3s ease;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
-    .phone-mockup:hover {
-      transform: scale(1.02);
+    .phone-mockup:active {
+      transform: scale(0.98);
     }
 
     .phone-screen {
@@ -924,6 +1044,7 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       -webkit-appearance: none;
       appearance: none;
+      touch-action: manipulation;
     }
 
     .form-input::placeholder {
@@ -953,12 +1074,7 @@
       box-shadow: 0 4px 10px rgba(0, 149, 246, 0.3);
       -webkit-appearance: none;
       appearance: none;
-    }
-
-    .login-button:hover {
-      background: linear-gradient(135deg, var(--phone-secondary), var(--phone-primary));
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 149, 246, 0.4);
+      touch-action: manipulation;
     }
 
     .login-button:active {
@@ -975,10 +1091,7 @@
     .forgot-password a {
       color: rgba(255, 255, 255, 0.9);
       text-decoration: none;
-    }
-
-    .forgot-password a:hover {
-      text-decoration: underline;
+      touch-action: manipulation;
     }
 
     .default-message {
@@ -1074,11 +1187,7 @@
       -webkit-appearance: none;
       appearance: none;
       -webkit-tap-highlight-color: transparent;
-    }
-
-    .rate-btn:hover {
-      transform: scale(1.15);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+      touch-action: manipulation;
     }
 
     .rate-btn:active {
@@ -1242,6 +1351,7 @@
       font-size: 16px;
       cursor: pointer;
       color: #888;
+      touch-action: manipulation;
     }
 
     .cyberbullying-phone-overlay {
@@ -1326,13 +1436,6 @@
       margin-left: auto;
       border-bottom-right-radius: 5px;
       color: white;
-    }
-
-    .message-time {
-      font-size: 10px;
-      color: #666;
-      margin-top: 5px;
-      text-align: right;
     }
 
     .phone-shake {
@@ -1621,72 +1724,8 @@
     }
 
     @media (max-width: 768px) {
-      .text-content,
-      .image-container {
-        max-width: 100%;
-      }
-
-      .logo {
-        width: 90px;
-        top: 20px;
-        left: 20px;
-      }
-
-      #model-container {
-        height: 40vh;
-      }
-
-      .phone-mockup {
-        width: 250px;
-        height: 500px;
-      }
-
-      .phone-mode-instruction {
-        font-size: 1.2rem;
-        padding: 0 20px;
-      }
-
-      .default-message {
-        font-size: 16px;
-        padding: 40px 20px;
-      }
-
-      .message-notification {
-        width: 250px;
-        right: 10px;
-        bottom: 10px;
-      }
-
-      .rate-btn {
-        width: 80px;
-        height: 80px;
-        font-size: 35px;
-      }
-
-      .rating-buttons-overlay {
-        gap: 40px;
-        bottom: 70px;
-      }
-
-      .reaction {
-        font-size: 90px;
-      }
-
-      #next-page-btn {
-        bottom: 20px;
-        right: 20px;
-        padding: 12px 24px;
-        font-size: 1rem;
-      }
-
-      .hot-or-not-title {
-        font-size: 20px;
-      }
-
-      .title-background {
-        top: 30px;
-        padding: 12px 25px;
-        min-width: 240px;
+      #section12 .text-content {
+        width: 90%;
       }
 
       #section3 .content-wrapper,
@@ -1769,34 +1808,6 @@
     }
 
     @media (max-width: 480px) {
-      .rate-btn {
-        width: 70px;
-        height: 70px;
-        font-size: 30px;
-      }
-
-      .rating-buttons-overlay {
-        gap: 35px;
-        bottom: 60px;
-      }
-
-      .reaction {
-        font-size: 70px;
-      }
-
-      .title-background {
-        padding: 10px 20px;
-        min-width: 200px;
-      }
-
-      .hot-or-not-title {
-        font-size: 18px;
-      }
-
-      #section21 {
-        margin-top: -60px;
-      }
-
       .app-icon {
         width: 60px;
         height: 60px;
@@ -1843,7 +1854,7 @@
 </head>
 <body>
   <div id="loading-screen">
-    <video id="loading-video" autoplay muted>
+    <video id="loading-video" autoplay muted playsinline>
       <source src="images/Opening_load_screen.mp4" type="video/mp4" />
     </video>
     <div id="loading-overlay">
@@ -1909,18 +1920,18 @@
           
           <form class="login-form" id="login-form">
             <div class="form-group">
-              <input type="text" id="username" class="form-input" placeholder="Username, email or phone" required>
+              <input type="text" id="username" class="form-input" placeholder="Username, email or phone" required autocomplete="username" inputmode="text" autocapitalize="none">
             </div>
             
             <div class="form-group">
-              <input type="password" id="password" class="form-input" placeholder="Password" required>
+              <input type="password" id="password" class="form-input" placeholder="Password" required autocomplete="current-password" inputmode="text">
             </div>
             
             <button type="submit" class="login-button">Log In</button>
           </form>
           
           <div class="forgot-password">
-            <a href="#" onclick="forgotPassword()">Forgot password?</a>
+            <a href="#" id="forgot-password-link">Forgot password?</a>
           </div>
         </div>
       </div>
@@ -1943,8 +1954,8 @@
             </video>
           </div>
           <div class="rating-buttons-overlay">
-            <button class="rate-btn hot-btn" onclick="event.stopPropagation(); rateProfileInOverlay('hot')">❤️</button>
-            <button class="rate-btn not-btn" onclick="event.stopPropagation(); rateProfileInOverlay('not')">👎</button>
+            <button class="rate-btn hot-btn" data-rating="hot">❤️</button>
+            <button class="rate-btn not-btn" data-rating="not">👎</button>
           </div>
         </div>
       </div>
@@ -1966,7 +1977,7 @@
   </div>
 
   <div class="message-notification" id="message-notification">
-    <button class="message-close" onclick="closeMessage()">×</button>
+    <button class="message-close" id="close-message-btn">×</button>
     <div class="message-header">
       <div class="message-avatar">A</div>
       <div class="message-sender">Alex</div>
@@ -1978,10 +1989,10 @@
   </div>
 
   <div class="container">
-    <img src="images/Logo.png" class="logo" alt="Logo" onclick="goToFirstPage()" />
+    <img src="images/Logo.png" class="logo" alt="Logo" />
 
     <div class="webgl-background">
-      <video class="video-background" autoplay muted loop>
+      <video class="video-background" autoplay muted loop playsinline>
         <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
       </video>
       <div class="circle"></div>
@@ -2043,7 +2054,7 @@
           <div class="phone-mockup" id="phone-mode-trigger">
             <div class="phone-screen">
               <div class="default-message">
-                <p>Press "A" to open<br>social media login<br>[Mobile "Tab"]</p>
+                <p>Tap to open (A)<br>social media login</p>
               </div>
             </div>
           </div>
@@ -2074,7 +2085,7 @@
             <div class="phone-screen">
               <div class="hot-or-not-container">
                 <div class="title-background">
-                  <div class="hot-or-not-title">Press "S" to open<br>[Mobile "Tab"]</div>
+                  <div class="hot-or-not-title">Tap to open (S)</div>
                 </div>
                 <div class="fullscreen-video-container">
                   <video class="fullscreen-video" autoplay muted loop playsinline>
@@ -2082,8 +2093,8 @@
                   </video>
                 </div>
                 <div class="rating-buttons-overlay">
-                  <button class="rate-btn hot-btn" onclick="event.stopPropagation(); rateProfile('hot', 'section8')">❤️</button>
-                  <button class="rate-btn not-btn" onclick="event.stopPropagation(); rateProfile('not', 'section8')">👎</button>
+                  <button class="rate-btn hot-btn" data-rating="hot">❤️</button>
+                  <button class="rate-btn not-btn" data-rating="not">👎</button>
                 </div>
               </div>
             </div>
@@ -2168,7 +2179,7 @@
           <div class="phone-mockup" id="cyberbullying-trigger">
             <div class="phone-screen">
               <div class="default-message">
-                <p>Press "D" to open<br>[Mobile "Tab"]</p>
+                <p>Tap to open (D)</p>
               </div>
             </div>
           </div>
@@ -2404,6 +2415,10 @@
       });
 
       nextPageBtn.addEventListener('click', goToNextPage);
+      nextPageBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        goToNextPage();
+      });
     }
 
     function showIntroAnimation() {
@@ -2442,11 +2457,8 @@
       }, 2000);
     }
 
-    function rateProfile(rating, containerId = 'section8') {
-      const container = document.getElementById(containerId);
-      const hotOrNotContainer = container ? 
-        container.querySelector('.hot-or-not-container') : 
-        document.querySelector('.hot-or-not-overlay .hot-or-not-container');
+    function rateProfile(rating, containerElement) {
+      const hotOrNotContainer = containerElement || document.getElementById('hot-or-not-container');
       
       const reaction = document.createElement('div');
       reaction.classList.add('reaction');
@@ -2468,32 +2480,6 @@
           reaction.remove();
         }
       }, 2500);
-    }
-
-    function rateProfileInOverlay(rating) {
-      const container = document.getElementById('hot-or-not-container');
-      const reaction = document.createElement('div');
-      reaction.classList.add('reaction');
-
-      if (rating === 'hot') {
-        reaction.innerHTML = '❤️';
-        reaction.classList.add('heart');
-        reaction.style.animation = 'heartReaction 2.5s ease-out forwards';
-      } else {
-        reaction.innerHTML = '👎';
-        reaction.classList.add('thumbs-down');
-        reaction.style.animation = 'thumbsDownReaction 2.5s ease-out forwards';
-      }
-
-      container.appendChild(reaction);
-
-      setTimeout(() => {
-        if (reaction.parentNode) {
-          reaction.remove();
-        }
-      }, 2500);
-
-      event.stopPropagation();
     }
 
     function showRandomMessage() {
@@ -2552,7 +2538,10 @@
       showIntroAnimation();
 
       setTimeout(() => {
-        document.getElementById('username').focus();
+        const usernameInput = document.getElementById('username');
+        if (usernameInput) {
+          usernameInput.focus();
+        }
       }, 3800);
     }
 
@@ -2727,6 +2716,8 @@
 
         shakeCount++;
       }, 2000);
+      
+      window.messageStreamInterval = shakeInterval;
     }
 
     function addMessage(text, type, senderName) {
@@ -2748,6 +2739,7 @@
       `;
 
       messageContainer.appendChild(messageDiv);
+      messageContainer.scrollTop = messageContainer.scrollHeight;
     }
 
     function forgotPassword() {
@@ -2758,6 +2750,8 @@
         setTimeout(() => {
           usernameInput.style.borderColor = 'rgba(255, 255, 255, 0.2)';
         }, 1000);
+      } else {
+        alert('Password reset link would be sent to: ' + usernameInput.value);
       }
     }
 
@@ -2765,6 +2759,11 @@
       const phoneTrigger = document.getElementById('phone-mode-trigger');
       if (phoneTrigger) {
         phoneTrigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          activatePhoneMode();
+        });
+        phoneTrigger.addEventListener('touchstart', function(e) {
+          e.preventDefault();
           e.stopPropagation();
           activatePhoneMode();
         });
@@ -2776,11 +2775,21 @@
           e.stopPropagation();
           activateHotOrNotMode();
         });
+        hotOrNotTrigger.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          activateHotOrNotMode();
+        });
       }
 
       const cyberbullyingTrigger = document.getElementById('cyberbullying-trigger');
       if (cyberbullyingTrigger) {
         cyberbullyingTrigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          activateCyberbullyingMode();
+        });
+        cyberbullyingTrigger.addEventListener('touchstart', function(e) {
+          e.preventDefault();
           e.stopPropagation();
           activateCyberbullyingMode();
         });
@@ -2797,10 +2806,22 @@
           }
           handleDoubleTap(e, 'phone');
         });
+        phoneOverlay.addEventListener('touchstart', function(e) {
+          if (e.target.closest('.login-button') || e.target.closest('.form-input') || e.target.closest('.forgot-password a')) {
+            return;
+          }
+          handleDoubleTap(e, 'phone');
+        });
       }
 
       if (hotOrNotOverlay) {
         hotOrNotOverlay.addEventListener('click', function(e) {
+          if (e.target.closest('.rate-btn')) {
+            return;
+          }
+          handleDoubleTap(e, 'hotornot');
+        });
+        hotOrNotOverlay.addEventListener('touchstart', function(e) {
           if (e.target.closest('.rate-btn')) {
             return;
           }
@@ -2811,6 +2832,58 @@
       if (cyberbullyingOverlay) {
         cyberbullyingOverlay.addEventListener('click', function(e) {
           handleDoubleTap(e, 'cyberbullying');
+        });
+        cyberbullyingOverlay.addEventListener('touchstart', function(e) {
+          handleDoubleTap(e, 'cyberbullying');
+        });
+      }
+
+      const rateButtons = document.querySelectorAll('.rate-btn');
+      rateButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const rating = this.getAttribute('data-rating');
+          const isInOverlay = this.closest('#hot-or-not-overlay');
+          const container = isInOverlay ? document.getElementById('hot-or-not-container') : this.closest('.hot-or-not-container');
+          rateProfile(rating, container);
+        });
+        btn.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const rating = this.getAttribute('data-rating');
+          const isInOverlay = this.closest('#hot-or-not-overlay');
+          const container = isInOverlay ? document.getElementById('hot-or-not-container') : this.closest('.hot-or-not-container');
+          rateProfile(rating, container);
+        });
+      });
+
+      const closeMsgBtn = document.getElementById('close-message-btn');
+      if (closeMsgBtn) {
+        closeMsgBtn.addEventListener('click', closeMessage);
+        closeMsgBtn.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          closeMessage();
+        });
+      }
+
+      const forgotLink = document.getElementById('forgot-password-link');
+      if (forgotLink) {
+        forgotLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          forgotPassword();
+        });
+        forgotLink.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          forgotPassword();
+        });
+      }
+
+      const logo = document.querySelector('.logo');
+      if (logo) {
+        logo.addEventListener('click', goToFirstPage);
+        logo.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          goToFirstPage();
         });
       }
     }
@@ -2982,19 +3055,21 @@
 
         if (section.id === 'section-phone') {
           const modelContainer = section.querySelector('#model-container');
-          gsap.to(modelContainer, {
-            y: 0,
-            opacity: 1,
-            duration: 1.5,
-            delay: 0.7,
-            scrollTrigger: {
-              trigger: section,
-              start: "top 75%",
-              end: "top 40%",
-              toggleActions: "play none none reverse",
-              scrub: 0.5
-            }
-          });
+          if (modelContainer) {
+            gsap.to(modelContainer, {
+              y: 0,
+              opacity: 1,
+              duration: 1.5,
+              delay: 0.7,
+              scrollTrigger: {
+                trigger: section,
+                start: "top 75%",
+                end: "top 40%",
+                toggleActions: "play none none reverse",
+                scrub: 0.5
+              }
+            });
+          }
         }
       });
     }
@@ -3113,7 +3188,10 @@
                 setTimeout(() => {
                   document.getElementById('username').value = '';
                   document.getElementById('password').value = '';
-                  document.getElementById('username').focus();
+                  const usernameInput = document.getElementById('username');
+                  if (usernameInput && !isPhoneModeActive) {
+                    usernameInput.focus();
+                  }
                 }, 500);
               }, 1500);
             }, 1500);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
   <title>StoryofEmily(2)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2124,7 +2124,10 @@
       });
 
       nextPageBtn.addEventListener('click', goToNextPage);
+      nextPageBtn.addEventListener('touchstart', function(e) { e.preventDefault(); goToNextPage(); });
+      
       prevPageBtn.addEventListener('click', goToPrevPage);
+      prevPageBtn.addEventListener('touchstart', function(e) { e.preventDefault(); goToPrevPage(); });
     }
 
     // 섹션0 애니메이션 시작 함수
@@ -2521,20 +2524,35 @@
         markers.forEach(m => m.classList.remove('selected'));
       }
 
+      function handleMarkerClick(marker, e) {
+        e.stopPropagation();
+        if (currentlySelectedMarker === marker) {
+          deselectAll();
+          hideCard();
+          currentlySelectedMarker = null;
+        } else {
+          deselectAll();
+          marker.classList.add('selected');
+          showCardForMarker(marker);
+          currentlySelectedMarker = marker;
+        }
+      }
+
       markers.forEach(marker => {
-        marker.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (currentlySelectedMarker === marker) {
-            deselectAll();
-            hideCard();
-            currentlySelectedMarker = null;
-          } else {
-            deselectAll();
-            marker.classList.add('selected');
-            showCardForMarker(marker);
-            currentlySelectedMarker = marker;
-          }
+        marker.addEventListener('click', (e) => handleMarkerClick(marker, e));
+        marker.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          handleMarkerClick(marker, e);
         });
+      });
+
+      // 외부 클릭 시 카드 닫기
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.state-marker') && !e.target.closest('.info-card')) {
+          deselectAll();
+          hideCard();
+          currentlySelectedMarker = null;
+        }
       });
     }
 
@@ -2576,7 +2594,34 @@
       const logo = document.getElementById('logo');
       if (logo) {
         logo.addEventListener('click', goToFirstPage);
+        logo.addEventListener('touchstart', function(e) { e.preventDefault(); goToFirstPage(); });
       }
+
+      // 모든 외부 링크에 터치 이벤트 추가
+      const allLinks = document.querySelectorAll('a');
+      allLinks.forEach(link => {
+        link.addEventListener('touchstart', function(e) {
+          // 이미 클릭 이벤트가 있으므로 중복 방지용 (아무것도 안함)
+        });
+      });
+
+      // 차트 데이터 포인트 터치 이벤트
+      const dataPoints = document.querySelectorAll('.data-point');
+      dataPoints.forEach(point => {
+        point.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          // 터치 시에도 호버 효과처럼 값 표시
+          const valueSpan = this.querySelector('.point-value');
+          if (valueSpan) {
+            valueSpan.style.opacity = '1';
+            valueSpan.style.visibility = 'visible';
+            setTimeout(() => {
+              valueSpan.style.opacity = '0';
+              valueSpan.style.visibility = 'hidden';
+            }, 1000);
+          }
+        });
+      });
 
       window.scrollTo(0, 0);
       
