@@ -241,6 +241,7 @@
       transform: translateY(-1px);
     }
 
+    /* EXIT 버튼 스타일은 제거되었으나, 만약 다른 곳에서 사용될 경우를 대비해 유지 */
     .exit-btn {
       background-color: transparent;
       color: white;
@@ -1884,7 +1885,7 @@
       <div class="warning-footer">
         <div class="warning-buttons">
           <button class="warning-btn continue-btn" id="continue-btn">PROCEED</button>
-          <button class="warning-btn exit-btn" id="exit-btn">EXIT</button>
+          <!-- EXIT 버튼이 제거되었습니다 -->
         </div>
       </div>
     </div>
@@ -1991,12 +1992,11 @@
   <div class="container">
     <img src="images/Logo.png" class="logo" alt="Logo" />
 
-    <div class="webgl-background">
-      <video class="video-background" autoplay muted loop playsinline>
-        <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
-      </video>
-      <div class="circle"></div>
-    </div>
+    <!-- Fixed the div nesting: removed extra .webgl-background div that was breaking layout -->
+    <video class="video-background" autoplay muted loop playsinline>
+      <source src="images/BG_Banner_Vid_03.mp4" type="video/mp4" />
+    </video>
+    <div class="circle"></div>
 
     <div class="scroll-section" id="section0">
       <div class="content-wrapper">
@@ -2380,15 +2380,9 @@
     }
 
     function exitSite() {
-      const triggerWarning = document.getElementById('trigger-warning');
-      gsap.to(triggerWarning, {
-        opacity: 0,
-        duration: 0.8,
-        ease: "power2.in",
-        onComplete: () => {
-          window.location.href = "https://www.google.com";
-        }
-      });
+      // EXIT 버튼이 제거되었으므로 이 함수는 더 이상 호출되지 않음.
+      // 하지만 만약 다른 곳에서 호출될 경우를 대비해 유지.
+      window.location.href = "https://www.google.com";
     }
 
     function goToNextPage() {
@@ -3084,8 +3078,8 @@
       const container = document.querySelector(".container");
       const logo = document.querySelector('.logo');
 
+      // continue 버튼만 존재함 (exit 버튼은 제거됨)
       document.getElementById('continue-btn').addEventListener('click', hideTriggerWarning);
-      document.getElementById('exit-btn').addEventListener('click', exitSite);
 
       logo.addEventListener('click', goToFirstPage);
 
