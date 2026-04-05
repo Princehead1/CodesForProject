@@ -2649,6 +2649,20 @@
         });
       }
     })();
+
+    // 페이지 2,3 - 즉시 타이머 시작
+    (function() {
+      let inactivityTimer;
+      const INACTIVE_LIMIT = 3 * 60 * 1000;
+
+      function reset() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(() => { location.href = "index.html"; }, INACTIVE_LIMIT);
+      }
+      ['mousemove','click','keydown','touchstart','scroll'].forEach(e => window.addEventListener(e, reset));
+      reset();
+    })();
+
   </script>
 </body>
 </html>
