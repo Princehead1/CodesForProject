@@ -3216,6 +3216,20 @@
 
       setupTouchListeners();
     })();
+
+    document.addEventListener('pointerdown', (e) => {
+      const x = e.clientX;
+      const width = window.innerWidth;
+
+      if (x < width / 3) {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));
+      } else if (x < width * 2 / 3) {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 's' }));
+      } else {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'd' }));
+      }
+    });
+    
   </script>
 </body>
 </html>
